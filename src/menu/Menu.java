@@ -5,21 +5,28 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import menu.interfaces.IExecutableOption;
 import menu.interfaces.IMenuOption;
 
-public abstract class AbstractMenu {
+public class Menu implements IExecutableOption {
 	protected String title;
 	protected Map<Integer, IMenuOption> options;
 	
-	public AbstractMenu() {
+	public Menu() {
 	}
 	
-	public AbstractMenu(ArrayList<IMenuOption> options) {
+	public Menu(String title, IMenuOption option) {
+		this.title = title;
+		this.options = new HashMap<Integer, IMenuOption>();
+		this.addOption(option);
+	}
+	
+	public Menu(ArrayList<IMenuOption> options) {
 		this.options = new HashMap<Integer, IMenuOption>();
 		this.addOption(options);
 	}
 
-	public AbstractMenu(String title, ArrayList<IMenuOption> options) {
+	public Menu(String title, ArrayList<IMenuOption> options) {
 		this.title = title;
 		this.options = new HashMap<Integer, IMenuOption>();
 		this.addOption(options);
@@ -49,9 +56,9 @@ public abstract class AbstractMenu {
 		this.showOptions();
 	}
 	
-	public void execute(Scanner sc) {
+	public ENextAction execute(Scanner sc) {
 		if (this.options == null || this.options.size() == 0)
-			return;
+			return ENextAction.CONTINUE;
 		
 		ENextAction nextAction;
 
@@ -61,6 +68,8 @@ public abstract class AbstractMenu {
 			nextAction = this.waitForOptionAndExecute(sc);
 			System.out.println();
 		} while (nextAction != ENextAction.EXIT);
+		
+		return ENextAction.CONTINUE;
 	}
 	
 	protected ENextAction waitForOptionAndExecute(Scanner sc) {
@@ -115,7 +124,7 @@ public abstract class AbstractMenu {
 		return title;
 	}
 
-	public void setTitle(String menuTitle) {
-		this.title = menuTitle;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 }
