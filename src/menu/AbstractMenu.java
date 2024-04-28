@@ -49,37 +49,38 @@ public abstract class AbstractMenu {
 		this.showOptions();
 	}
 	
-	public void execute() {
+	public void execute(Scanner sc) {
 		if (this.options == null || this.options.size() == 0)
-			this.constructMenu();
+			return;
 		
 		ENextAction nextAction;
 
 		do {
+			this.constructMenu();
 			System.out.println();
-			nextAction = this.waitForOptionAndExecute();
+			nextAction = this.waitForOptionAndExecute(sc);
+			System.out.println();
 		} while (nextAction != ENextAction.EXIT);
 	}
 	
-	public ENextAction waitForOptionAndExecute() {
-		Scanner sc = new Scanner(System.in);
+	protected ENextAction waitForOptionAndExecute(Scanner sc) {
 		Integer option = 0;
 		
 		try {
+			System.out.print("Selecione a opção: ");
 			option = sc.nextInt();
+			sc.nextLine();
 		}
 		catch (Exception ex) {
+			sc.next();
 			return ENextAction.CONTINUE;
-		}
-		finally {
-			sc.close();
 		}
 		
 		IMenuOption selectedOption = this.options.get(option);
 		if (selectedOption == null)
 			return ENextAction.CONTINUE;
 		
-		return selectedOption.execute();
+		return selectedOption.execute(sc);
 	}
 	
 	public void drawLine(int size) {

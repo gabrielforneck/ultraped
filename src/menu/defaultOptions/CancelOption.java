@@ -1,5 +1,7 @@
 package menu.defaultOptions;
 
+import java.util.Scanner;
+
 import menu.ENextAction;
 import menu.interfaces.IMenuOption;
 
@@ -11,7 +13,7 @@ public class CancelOption implements IMenuOption{
 	}
 	
 	@Override
-	public ENextAction execute() {
+	public ENextAction execute(Scanner sc) {
 		return ENextAction.EXIT;
 	}
 
