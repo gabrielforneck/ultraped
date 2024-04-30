@@ -13,6 +13,7 @@ public class Menu implements IExecutableOption {
 	protected Map<Integer, IMenuOption> options;
 	
 	public Menu() {
+		this.options = new HashMap<Integer, IMenuOption>();
 	}
 	
 	public Menu(String title, IMenuOption option) {
@@ -73,11 +74,11 @@ public class Menu implements IExecutableOption {
 	}
 	
 	protected ENextAction waitForOptionAndExecute(Scanner sc) {
-		Integer option = 0;
+		Integer optionIndex = 0;
 		
 		try {
 			System.out.print("Selecione a opção: ");
-			option = sc.nextInt();
+			optionIndex = sc.nextInt();
 			sc.nextLine();
 		}
 		catch (Exception ex) {
@@ -85,7 +86,7 @@ public class Menu implements IExecutableOption {
 			return ENextAction.CONTINUE;
 		}
 		
-		IMenuOption selectedOption = this.options.get(option);
+		IMenuOption selectedOption = this.options.get(optionIndex);
 		if (selectedOption == null)
 			return ENextAction.CONTINUE;
 		

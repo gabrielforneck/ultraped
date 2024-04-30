@@ -9,10 +9,10 @@ public abstract class AbstractMenuOption implements IMenuOption {
 	protected String description;
 	protected IExecutableOption option;
 	
-	public AbstractMenuOption() {
+	protected AbstractMenuOption() {
 	}
 	
-	public AbstractMenuOption(String description, IExecutableOption option) {
+	protected AbstractMenuOption(String description, IExecutableOption option) {
 		this.description = description;
 		this.option = option;
 	}
