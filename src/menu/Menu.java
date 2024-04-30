@@ -99,8 +99,12 @@ public class Menu implements IExecutableOption {
 		System.out.println();
 	}
 	
-	public Map<Integer, IMenuOption> getOptions() {
-		return options;
+	public int getOptionsQuantity(Integer optionIndex) {
+		return this.options.size();
+	}
+
+	public IMenuOption getOption(Integer optionIndex) {
+		return this.options.get(optionIndex);
 	}
 
 	public void addOption(IMenuOption option) {
