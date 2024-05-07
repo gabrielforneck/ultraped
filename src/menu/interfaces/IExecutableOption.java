@@ -2,8 +2,8 @@ package menu.interfaces;
 
 import java.util.Scanner;
 
-import menu.ENextAction;
+import nextaction.NextAction;
 
 public interface IExecutableOption {
-	public ENextAction execute(Scanner sc);
+	public NextAction execute(Scanner sc);
 }

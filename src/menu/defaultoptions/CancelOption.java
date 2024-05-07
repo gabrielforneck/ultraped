@@ -3,8 +3,9 @@ package menu.defaultoptions;
 import java.util.Scanner;
 
 import menu.AbstractMenuOption;
-import menu.ENextAction;
 import menu.interfaces.IMenuOption;
+import nextaction.ENextAction;
+import nextaction.NextAction;
 
 public class CancelOption extends AbstractMenuOption implements IMenuOption{
 
@@ -13,7 +14,7 @@ public class CancelOption extends AbstractMenuOption implements IMenuOption{
 	}
 	
 	@Override
-	public ENextAction execute(Scanner sc) {
-		return ENextAction.EXIT;
+	public NextAction execute(Scanner sc) {
+		return new NextAction(ENextAction.EXIT);
 	}
 }

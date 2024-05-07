@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import exceptions.NoOptionsDefinedException;
 import menu.interfaces.IExecutableOption;
 import menu.interfaces.IMenuOption;
+import nextaction.ENextAction;
+import nextaction.NextAction;
 
 public class Menu implements IExecutableOption {
 	protected String title;
@@ -57,23 +60,27 @@ public class Menu implements IExecutableOption {
 		this.showOptions();
 	}
 	
-	public ENextAction execute(Scanner sc) {
+	public NextAction execute(Scanner sc) throws NoOptionsDefinedException {
 		if (this.options == null || this.options.size() == 0)
-			return ENextAction.CONTINUE;
+			throw new NoOptionsDefinedException();
 		
-		ENextAction nextAction;
+		NextAction nextAction = null;
 
 		do {
 			this.constructMenu();
 			System.out.println();
+			
+			if (nextAction != null && nextAction.getDescription() != null)
+				System.out.println(nextAction.getDescription());
+
 			nextAction = this.waitForOptionAndExecute(sc);
 			System.out.println();
-		} while (nextAction != ENextAction.EXIT);
+		} while (nextAction.getNextAction() != ENextAction.EXIT);
 		
-		return ENextAction.CONTINUE;
+		return new NextAction(ENextAction.CONTINUE);
 	}
 	
-	protected ENextAction waitForOptionAndExecute(Scanner sc) {
+	protected NextAction waitForOptionAndExecute(Scanner sc) {
 		Integer optionIndex = 0;
 		
 		try {
@@ -83,13 +90,14 @@ public class Menu implements IExecutableOption {
 		}
 		catch (Exception ex) {
 			sc.next();
-			return ENextAction.CONTINUE;
+			return new NextAction("Entrada inválida.", ENextAction.CONTINUE);
 		}
 		
 		IMenuOption selectedOption = this.options.get(optionIndex);
 		if (selectedOption == null)
-			return ENextAction.CONTINUE;
+			return new NextAction("Opção não encontrada.", ENextAction.CONTINUE);
 		
+		System.out.println();
 		return selectedOption.execute(sc);
 	}
 	

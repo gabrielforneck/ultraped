@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import menu.interfaces.IExecutableOption;
 import menu.interfaces.IMenuOption;
+import nextaction.NextAction;
 
 public abstract class AbstractMenuOption implements IMenuOption {
 	protected String description;
@@ -17,7 +18,7 @@ public abstract class AbstractMenuOption implements IMenuOption {
 		this.option = option;
 	}
 	
-	public ENextAction execute(Scanner sc) {
+	public NextAction execute(Scanner sc) {
 		return this.option.execute(sc);
 	}
 
