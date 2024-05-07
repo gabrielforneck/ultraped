@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 import menu.AbstractMenuOption;
 import menu.interfaces.IMenuOption;
-import nextaction.ENextAction;
-import nextaction.NextAction;
+import menu.nextaction.ENextAction;
+import menu.nextaction.NextAction;
 
 public class CancelOption extends AbstractMenuOption implements IMenuOption{
 

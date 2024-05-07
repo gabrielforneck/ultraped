@@ -1,4 +1,4 @@
-package nextaction;
+package menu.nextaction;
 
 public enum ENextAction {
 	EXIT,

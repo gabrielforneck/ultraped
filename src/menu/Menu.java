@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import exceptions.NoOptionsDefinedException;
+import menu.exceptions.NoOptionsDefinedException;
 import menu.interfaces.IExecutableOption;
 import menu.interfaces.IMenuOption;
-import nextaction.ENextAction;
-import nextaction.NextAction;
+import menu.nextaction.ENextAction;
+import menu.nextaction.NextAction;
 
 public class Menu implements IExecutableOption {
 	protected String title;

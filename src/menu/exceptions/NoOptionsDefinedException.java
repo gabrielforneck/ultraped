@@ -1,4 +1,4 @@
-package exceptions;
+package menu.exceptions;
 
 @SuppressWarnings("serial") //TODO: Verificar como tratar isso
 public class NoOptionsDefinedException extends RuntimeException {
