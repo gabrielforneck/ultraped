@@ -63,13 +63,13 @@ public class Menu extends ConsoleInterface {
 
 			nextAction = this.waitForOptionAndExecute(sc);
 			System.out.println();
-		} while (nextAction.nextActionIsExit());
+		} while (!nextAction.nextActionIsExit());
 		
 		return NextAction.Continue();
 	}
 	
 	protected NextAction waitForOptionAndExecute(Scanner sc) {
-		Integer optionIndex = 0;
+		int optionIndex = 0;
 		
 		try {
 			System.out.print("Selecione a opção: ");
@@ -81,9 +81,10 @@ public class Menu extends ConsoleInterface {
 			return NextAction.Continue("Entrada inválida.");
 		}
 		
-		IMenuOption selectedOption = this.options.get(optionIndex);
-		if (selectedOption == null)
+		if (optionIndex < 0 || optionIndex >= options.size())
 			return NextAction.Continue("Opção não encontrada.");
+		
+		IMenuOption selectedOption = this.options.get(optionIndex);
 		
 		System.out.println();
 		return selectedOption.execute(sc);
