@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import menu.AbstractMenuOption;
 import menu.interfaces.IMenuOption;
-import menu.nextaction.ENextAction;
 import menu.nextaction.NextAction;
 
 public class BackOption extends AbstractMenuOption implements IMenuOption {
@@ -15,6 +14,6 @@ public class BackOption extends AbstractMenuOption implements IMenuOption {
 	
 	@Override
 	public NextAction execute(Scanner sc) {
-		return new NextAction(ENextAction.EXIT);
+		return NextAction.Exit();
 	}
 }

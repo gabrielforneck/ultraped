@@ -4,16 +4,32 @@ public class NextAction {
 
 	private String description;
 	private ENextAction nextAction;
-	
-	public NextAction(ENextAction nextAction) {
+
+	private NextAction(ENextAction nextAction) {
 		super();
 		this.nextAction = nextAction;
 	}
 
-	public NextAction(String description, ENextAction nextAction) {
+	private NextAction(String description, ENextAction nextAction) {
 		super();
 		this.description = description;
 		this.nextAction = nextAction;
+	}
+
+	public static NextAction Continue() {
+		return new NextAction(ENextAction.CONTINUE);
+	}
+
+	public static NextAction Continue(String description) {
+		return new NextAction(description, ENextAction.CONTINUE);
+	}
+
+	public static NextAction Exit() {
+		return new NextAction(ENextAction.EXIT);
+	}
+
+	public boolean nextActionIsExit() {
+		return nextAction == ENextAction.EXIT;
 	}
 
 	public String getDescription() {

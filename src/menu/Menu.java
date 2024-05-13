@@ -1,57 +1,45 @@
 package menu;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
+import consoleinterface.ConsoleInterface;
+import menu.defaultoptions.BackOption;
+import menu.defaultoptions.CancelOption;
 import menu.exceptions.NoOptionsDefinedException;
-import menu.interfaces.IExecutableOption;
 import menu.interfaces.IMenuOption;
-import menu.nextaction.ENextAction;
 import menu.nextaction.NextAction;
 
-public class Menu implements IExecutableOption {
-	protected String title;
-	protected Map<Integer, IMenuOption> options;
+public class Menu extends ConsoleInterface {
+	protected ArrayList<IMenuOption> options;
 	
 	public Menu() {
-		this.options = new HashMap<Integer, IMenuOption>();
+		this.options = new ArrayList<IMenuOption>();
 	}
 	
 	public Menu(String title, IMenuOption option) {
-		this.title = title;
-		this.options = new HashMap<Integer, IMenuOption>();
-		this.addOption(option);
+		super(title);
+		this.options = new ArrayList<IMenuOption>();
+		this.addOptions(option);
 	}
 	
 	public Menu(ArrayList<IMenuOption> options) {
-		this.options = new HashMap<Integer, IMenuOption>();
-		this.addOption(options);
+		this.options = new ArrayList<IMenuOption>();
+		this.addOptions(options);
 	}
 
 	public Menu(String title, ArrayList<IMenuOption> options) {
-		this.title = title;
-		this.options = new HashMap<Integer, IMenuOption>();
-		this.addOption(options);
-	}
-	
-	public void showTitle() {
-		if (this.title == null || this.title.length() == 0)
-			return;
-		
-		int size = this.title.length();
-		this.drawLine(size);
-		System.out.println(this.title);
-		this.drawLine(size);
+		super(title);
+		this.options = new ArrayList<IMenuOption>();
+		this.addOptions(options);
 	}
 	
 	public void showOptions() {
 		if (this.options == null)
 			return;
 		
-		for (Map.Entry<Integer, IMenuOption> option : this.options.entrySet())
-			System.out.println(option.getKey() + " - " + option.getValue().getDescription());
+		for (int i = 0; i<options.size(); i++)
+			System.out.println(i + " - " + options.get(i).getDescription());
 	}
 	
 	public void constructMenu() {
@@ -75,9 +63,9 @@ public class Menu implements IExecutableOption {
 
 			nextAction = this.waitForOptionAndExecute(sc);
 			System.out.println();
-		} while (nextAction.getNextAction() != ENextAction.EXIT);
+		} while (nextAction.nextActionIsExit());
 		
-		return new NextAction(ENextAction.CONTINUE);
+		return NextAction.Continue();
 	}
 	
 	protected NextAction waitForOptionAndExecute(Scanner sc) {
@@ -90,22 +78,25 @@ public class Menu implements IExecutableOption {
 		}
 		catch (Exception ex) {
 			sc.next();
-			return new NextAction("Entrada inválida.", ENextAction.CONTINUE);
+			return NextAction.Continue("Entrada inválida.");
 		}
 		
 		IMenuOption selectedOption = this.options.get(optionIndex);
 		if (selectedOption == null)
-			return new NextAction("Opção não encontrada.", ENextAction.CONTINUE);
+			return NextAction.Continue("Opção não encontrada.");
 		
 		System.out.println();
 		return selectedOption.execute(sc);
 	}
 	
-	public void drawLine(int size) {
-		for (int i=0; i<size; i++)
-			System.out.print("=");
-		
-		System.out.println();
+	public Menu ShowCancelOption() {
+		addOptions(new CancelOption());
+		return this;
+	}
+
+	public Menu ShowBackOption() {
+		addOptions(new BackOption());
+		return this;
 	}
 	
 	public int getOptionsQuantity(Integer optionIndex) {
@@ -116,28 +107,24 @@ public class Menu implements IExecutableOption {
 		return this.options.get(optionIndex);
 	}
 
-	public void addOption(IMenuOption option) {
-		this.options.put(this.options.size()+1, option);
+	public Menu addOptions(IMenuOption option) {
+		this.options.add(option);
+		return this;
 	}
 	
-	public void addOption(ArrayList<IMenuOption> options) {
-		for (IMenuOption option : options)
-			this.addOption(option);
+	public Menu addOptions(ArrayList<IMenuOption> options) {
+		this.options.addAll(options);
+		return this;
 	}
 
-	public void remOption(Integer optionIndex) {
+	public Menu remOption(int optionIndex) {
 		this.options.remove(optionIndex);
+		return this;
 	}
 	
-	public void clearOptions() {
+	public Menu clearOptions() {
 		this.options.clear();
-	}
 
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
+		return this;
 	}
 }
