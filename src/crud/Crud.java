@@ -1,13 +1,14 @@
 package crud;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import consoleinterface.ConsoleInterface;
 
 public abstract class Crud extends ConsoleInterface {
 
 	protected String title;
-	protected ArrayList<CrudOption> options;
+	protected List<CrudOption> options;
 	
 	protected Crud() {
 	}
@@ -16,12 +17,12 @@ public abstract class Crud extends ConsoleInterface {
 		super(title);
 	}
 	
-	protected Crud(ArrayList<CrudOption> options) {
+	protected Crud(List<CrudOption> options) {
 		super();
 		this.options = options;
 	}
 	
-	protected Crud(String title, ArrayList<CrudOption> options) {
+	protected Crud(String title, List<CrudOption> options) {
 		super(title);
 		this.options = options;
 	}
@@ -44,8 +45,8 @@ public abstract class Crud extends ConsoleInterface {
 			System.out.println(i + " - " + options.get(i).getDescription());
 	}
 
-	public static ArrayList<CrudOption> getDefaultCrudOptions() {
-		ArrayList<CrudOption> options = new ArrayList<CrudOption>();
+	public static List<CrudOption> getDefaultCrudOptions() {
+		List<CrudOption> options = new ArrayList<>();
 		
 		options.add(new CrudOption("Criar", ECrudNextAction.CREATE));
 		options.add(new CrudOption("Alterar", ECrudNextAction.UPDATE));
@@ -58,11 +59,11 @@ public abstract class Crud extends ConsoleInterface {
 		options.addAll(getDefaultCrudOptions());
 	}
 
-	public ArrayList<CrudOption> getOptions() {
+	public List<CrudOption> getOptions() {
 		return options;
 	}
 
-	public void setOptions(ArrayList<CrudOption> options) {
+	public void setOptions(List<CrudOption> options) {
 		this.options = options;
 	}
 	

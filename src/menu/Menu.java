@@ -1,6 +1,7 @@
 package menu;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import consoleinterface.ConsoleInterface;
@@ -12,26 +13,26 @@ import menu.interfaces.IMenuOption;
 import menu.nextaction.NextAction;
 
 public class Menu extends ConsoleInterface implements IExecutableOption {
-	protected ArrayList<IMenuOption> options;
+	protected List<IMenuOption> options;
 	
 	public Menu() {
-		this.options = new ArrayList<IMenuOption>();
+		this.options = new ArrayList<>();
 	}
 	
 	public Menu(String title, IMenuOption option) {
 		super(title);
-		this.options = new ArrayList<IMenuOption>();
+		this.options = new ArrayList<>();
 		this.addOptions(option);
 	}
 	
-	public Menu(ArrayList<IMenuOption> options) {
-		this.options = new ArrayList<IMenuOption>();
+	public Menu(List<IMenuOption> options) {
+		this.options = new ArrayList<>();
 		this.addOptions(options);
 	}
 
-	public Menu(String title, ArrayList<IMenuOption> options) {
+	public Menu(String title, List<IMenuOption> options) {
 		super(title);
-		this.options = new ArrayList<IMenuOption>();
+		this.options = new ArrayList<>();
 		this.addOptions(options);
 	}
 	
@@ -114,7 +115,7 @@ public class Menu extends ConsoleInterface implements IExecutableOption {
 		return this;
 	}
 	
-	public Menu addOptions(ArrayList<IMenuOption> options) {
+	public Menu addOptions(List<IMenuOption> options) {
 		this.options.addAll(options);
 		return this;
 	}
