@@ -7,10 +7,11 @@ import consoleinterface.ConsoleInterface;
 import menu.defaultoptions.BackOption;
 import menu.defaultoptions.CancelOption;
 import menu.exceptions.NoOptionsDefinedException;
+import menu.interfaces.IExecutableOption;
 import menu.interfaces.IMenuOption;
 import menu.nextaction.NextAction;
 
-public class Menu extends ConsoleInterface {
+public class Menu extends ConsoleInterface implements IExecutableOption {
 	protected ArrayList<IMenuOption> options;
 	
 	public Menu() {

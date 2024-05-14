@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import crud.Crud;
+import menu.interfaces.IExecutableOption;
 import menu.nextaction.NextAction;
 import supplier.Supplier;
 
-public class SupplierCrud extends Crud {
+public class SupplierCrud extends Crud implements IExecutableOption {
 
 	public static final ArrayList<Supplier> SUPPLIERS = new ArrayList<Supplier>();
 	

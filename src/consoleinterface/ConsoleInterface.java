@@ -1,8 +1,6 @@
 package consoleinterface;
 
-import menu.interfaces.IExecutableOption;
-
-public abstract class ConsoleInterface implements IExecutableOption {
+public abstract class ConsoleInterface {
 
 	protected String title;
 	
@@ -13,19 +11,18 @@ public abstract class ConsoleInterface implements IExecutableOption {
 		this.title = title;
 	}
 	
-	protected void showTable() {
-		//TODO: Avaliar como implementar
+	protected void drawLineln(int size) {
+		drawLineln(size, '=');
 	}
 	
-	protected void drawLine(int size) {
-		drawLine(size, '=');
+	protected void drawLineln(int size, char ch) {
+		drawLine(size, ch);
+		System.out.println();
 	}
 	
 	protected void drawLine(int size, char ch) {
 		for (int i=0; i<size; i++)
 			System.out.print(ch);
-		
-		System.out.println();
 	}
 	
 	protected void showTitle() {
@@ -33,9 +30,9 @@ public abstract class ConsoleInterface implements IExecutableOption {
 			return;
 		
 		int size = this.title.length();
-		drawLine(size);
+		drawLineln(size);
 		System.out.println(this.title);
-		drawLine(size);
+		drawLineln(size);
 	}
 	
 	public String getTitle() {
