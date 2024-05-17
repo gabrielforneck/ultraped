@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Scanner;
 
 import consoleinterface.ConsoleInterface;
+import consoleinterface.nextaction.NextAction;
 import menu.defaultoptions.BackOption;
 import menu.defaultoptions.CancelOption;
 import menu.exceptions.NoOptionsDefinedException;
 import menu.interfaces.IExecutableOption;
 import menu.interfaces.IMenuOption;
-import menu.nextaction.NextAction;
 
 public class Menu extends ConsoleInterface implements IExecutableOption {
 	protected List<IMenuOption> options;

@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import consoleinterface.nextaction.NextAction;
 import consoleinterface.table.ConsoleTable;
 import consoleinterface.table.ConsoleTableColumn;
 import crud.Crud;
 import menu.interfaces.IExecutableOption;
-import menu.nextaction.NextAction;
 import supplier.Supplier;
 
 public class SupplierCrud extends Crud implements IExecutableOption {

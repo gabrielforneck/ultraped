@@ -2,9 +2,9 @@ package menu;
 
 import java.util.Scanner;
 
+import consoleinterface.nextaction.NextAction;
 import menu.interfaces.IExecutableOption;
 import menu.interfaces.IMenuOption;
-import menu.nextaction.NextAction;
 
 public abstract class AbstractMenuOption implements IMenuOption {
 	protected String description;

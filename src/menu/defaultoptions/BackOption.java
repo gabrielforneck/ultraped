@@ -2,9 +2,9 @@ package menu.defaultoptions;
 
 import java.util.Scanner;
 
+import consoleinterface.nextaction.NextAction;
 import menu.AbstractMenuOption;
 import menu.interfaces.IMenuOption;
-import menu.nextaction.NextAction;
 
 public class BackOption extends AbstractMenuOption implements IMenuOption {
 	

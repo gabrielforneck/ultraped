@@ -1,4 +1,4 @@
-package menu.nextaction;
+package consoleinterface.nextaction;
 
 public class NextAction {
 
