@@ -3,16 +3,26 @@ package supplier;
 import exceptions.data.EmptyDataException;
 
 public class Supplier {
+	private int id;
 	private String name;
 	private String description;
 	private String phone;
 	private String email;
 
-	public Supplier(String name, String description, String phone, String email) {
+	public Supplier(int id, String name, String description, String phone, String email) {
+		this.id = id;
 		this.setName(name);
 		this.setDescription(description);
 		this.setPhone(phone);
-		this.email = email;
+		this.setEmail(email);
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {

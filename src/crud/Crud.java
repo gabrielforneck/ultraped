@@ -11,19 +11,23 @@ public abstract class Crud extends ConsoleInterface {
 	protected List<CrudOption> options;
 	
 	protected Crud() {
+		options = new ArrayList<>();
 	}
 	
 	protected Crud(String title) {
 		super(title);
+		options = new ArrayList<>();
 	}
 	
 	protected Crud(List<CrudOption> options) {
 		super();
+		options = new ArrayList<>();
 		this.options = options;
 	}
 	
 	protected Crud(String title, List<CrudOption> options) {
 		super(title);
+		options = new ArrayList<>();
 		this.options = options;
 	}
 	

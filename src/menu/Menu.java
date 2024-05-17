@@ -36,6 +36,11 @@ public class Menu extends ConsoleInterface implements IExecutableOption {
 		this.addOptions(options);
 	}
 	
+	public Menu(String title) {
+		super(title);
+		this.options = new ArrayList<>();
+	}
+	
 	public void showOptions() {
 		if (this.options == null)
 			return;

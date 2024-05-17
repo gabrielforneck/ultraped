@@ -1,8 +1,11 @@
 package supplier.crud;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+import consoleinterface.table.ConsoleTable;
+import consoleinterface.table.ConsoleTableColumn;
 import crud.Crud;
 import menu.interfaces.IExecutableOption;
 import menu.nextaction.NextAction;
@@ -19,13 +22,21 @@ public class SupplierCrud extends Crud implements IExecutableOption {
 
 	public NextAction execute(Scanner sc) {
 		
+		constructCrud();
 		
 		return NextAction.Continue();
 	}
 
 	@Override
 	protected void showDataAsTable() {
-		//TODO: Avaliar como fazer algo genérico em ConsoleInterface para mostrar tabelas
+		List<ConsoleTableColumn<Supplier>> columns = new ArrayList<>();
+		
+		columns.add(new ConsoleTableColumn<Supplier>(5, "ID", (s) -> s.getId()));
+		columns.add(new ConsoleTableColumn<Supplier>(30, "Nome", (s) -> s.getName()));
+		columns.add(new ConsoleTableColumn<Supplier>(20, "Telefone", (s) -> s.getPhone()));
+		columns.add(new ConsoleTableColumn<Supplier>(50, "E-mail", (s) -> s.getId()));
+		
+		new ConsoleTable<Supplier>(SUPPLIERS, columns).build();
 	}
 
 }
