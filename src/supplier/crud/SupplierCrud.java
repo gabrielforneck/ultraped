@@ -22,7 +22,12 @@ public class SupplierCrud extends Crud implements IExecutableOption {
 
 	public NextAction execute(Scanner sc) {
 		
-		constructCrud();
+		NextAction nextAction;
+		do {
+			constructCrud();
+			System.out.println();
+			nextAction = waitForOptionAndExecute(sc);
+		} while (!nextAction.nextActionIsExit());
 		
 		return NextAction.Continue();
 	}
@@ -37,6 +42,24 @@ public class SupplierCrud extends Crud implements IExecutableOption {
 		columns.add(new ConsoleTableColumn<Supplier>(50, "E-mail", (s) -> s.getId()));
 		
 		new ConsoleTable<Supplier>(SUPPLIERS, columns).build();
+	}
+
+	@Override
+	protected NextAction create(Scanner sc) {
+		sc.nextLine();
+		return NextAction.Continue();
+	}
+
+	@Override
+	protected NextAction update(Scanner sc) {
+		sc.nextLine();
+		return NextAction.Continue();
+	}
+
+	@Override
+	protected NextAction delete(Scanner sc) {
+		sc.nextLine();
+		return NextAction.Continue();
 	}
 
 }

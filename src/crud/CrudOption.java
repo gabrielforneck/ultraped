@@ -1,18 +1,23 @@
 package crud;
 
+import java.util.Scanner;
+import java.util.function.Function;
+
+import consoleinterface.nextaction.NextAction;
+
 public class CrudOption {
 
 	private String description;
-	private ECrudNextAction nextAction;
+	private Function<Scanner, NextAction> action;
 	
 	public CrudOption() {
 	}
-	
-	public CrudOption(String description, ECrudNextAction nextAction) {
-		super();
+
+	public CrudOption(String description, Function<Scanner, NextAction> action) {
 		this.description = description;
-		this.nextAction = nextAction;
+		this.action = action;
 	}
+
 
 	public String getDescription() {
 		return description;
@@ -22,12 +27,15 @@ public class CrudOption {
 		this.description = description;
 	}
 
-	public ECrudNextAction getNextAction() {
-		return nextAction;
+	public Function<Scanner, NextAction> getAction() {
+		return action;
 	}
 
-	public void setNextAction(ECrudNextAction nextAction) {
-		this.nextAction = nextAction;
+	public void setAction(Function<Scanner, NextAction> action) {
+		this.action = action;
 	}
-
+	
+	public NextAction execute(Scanner sc) {
+		return action.apply(sc);
+	}
 }
