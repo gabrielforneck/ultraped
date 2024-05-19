@@ -6,7 +6,7 @@ import java.util.List;
 import consoleinterface.ConsoleInterface;
 import consoleinterface.table.exceptions.NoColumnsDefinedException;
 
-public class ConsoleTable<T> extends ConsoleInterface {
+public class ConsoleTable<T> extends ConsoleInterface implements IConsoleTable {
 
 	private List<T> data;
 	private List<ConsoleTableColumn<T>> columns;

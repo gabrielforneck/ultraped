@@ -8,6 +8,8 @@ import consoleinterface.nextaction.NextAction;
 import consoleinterface.table.ConsoleTable;
 import consoleinterface.table.ConsoleTableColumn;
 import crud.Crud;
+import crud.CrudField;
+import crud.ICrudField;
 import menu.interfaces.IExecutableOption;
 import supplier.Supplier;
 
@@ -31,9 +33,8 @@ public class SupplierCrud extends Crud implements IExecutableOption {
 		
 		return NextAction.Continue();
 	}
-
-	@Override
-	protected void showDataAsTable() {
+	
+	public static ConsoleTable<Supplier> getDefaultConsoleTable() {
 		List<ConsoleTableColumn<Supplier>> columns = new ArrayList<>();
 		
 		columns.add(new ConsoleTableColumn<Supplier>(5, "ID", (s) -> s.getId()));
@@ -41,11 +42,24 @@ public class SupplierCrud extends Crud implements IExecutableOption {
 		columns.add(new ConsoleTableColumn<Supplier>(20, "Telefone", (s) -> s.getPhone()));
 		columns.add(new ConsoleTableColumn<Supplier>(50, "E-mail", (s) -> s.getId()));
 		
-		new ConsoleTable<Supplier>(SUPPLIERS, columns).build();
+		return new ConsoleTable<Supplier>(SUPPLIERS, columns);
+	}
+
+	@Override
+	protected void showDataAsTable() {
+		getDefaultConsoleTable().build();
 	}
 
 	@Override
 	protected NextAction create(Scanner sc) {
+		Supplier dummySupplier = new Supplier();
+		List<ICrudField> fields = new ArrayList<>();
+		
+		fields.add(new CrudField<String>("Nome", "Insira o nome:", (n) -> dummySupplier.setName(n)));
+		fields.add(new CrudField<String>("Descrição", "Insira a descrição:", (n) -> dummySupplier.setDescription(n)));
+		fields.add(new CrudField<String>("Telefone", "Insira o telefone:", (n) -> dummySupplier.setPhone(n)));
+		fields.add(new CrudField<String>("E-mail", "Insira o e-mail:", (n) -> dummySupplier.setEmail(n)));
+
 		sc.nextLine();
 		return NextAction.Continue();
 	}

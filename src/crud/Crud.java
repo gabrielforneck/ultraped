@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 import consoleinterface.ConsoleInterface;
 import consoleinterface.nextaction.NextAction;
-import menu.interfaces.IMenuOption;
 
 public abstract class Crud extends ConsoleInterface {
 
