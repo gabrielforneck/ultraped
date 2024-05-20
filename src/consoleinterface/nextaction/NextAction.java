@@ -28,7 +28,7 @@ public class NextAction {
 		return new NextAction(ENextAction.EXIT);
 	}
 
-	public boolean nextActionIsExit() {
+	public boolean isExit() {
 		return nextAction == ENextAction.EXIT;
 	}
 

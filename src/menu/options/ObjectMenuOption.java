@@ -1,4 +1,4 @@
-package menu;
+package menu.options;
 
 import java.util.Scanner;
 
@@ -6,14 +6,14 @@ import consoleinterface.nextaction.NextAction;
 import menu.interfaces.IExecutableOption;
 import menu.interfaces.IMenuOption;
 
-public abstract class AbstractMenuOption implements IMenuOption {
+public abstract class ObjectMenuOption implements IMenuOption {
 	protected String description;
 	protected IExecutableOption option;
 	
-	protected AbstractMenuOption() {
+	protected ObjectMenuOption() {
 	}
 	
-	protected AbstractMenuOption(String description, IExecutableOption option) {
+	protected ObjectMenuOption(String description, IExecutableOption option) {
 		this.description = description;
 		this.option = option;
 	}

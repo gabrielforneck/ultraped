@@ -9,40 +9,33 @@ import consoleinterface.table.ConsoleTable;
 import consoleinterface.table.ConsoleTableColumn;
 import crud.Crud;
 import crud.CrudField;
-import crud.ICrudField;
+import ecommerce.EcommerceData;
+import menu.Menu;
 import menu.interfaces.IExecutableOption;
+import menu.interfaces.IMenuOption;
+import menu.options.MethodMenuOption;
+import result.Result;
 import supplier.Supplier;
+import supplier.validation.SupplierValidations;
 
 public class SupplierCrud extends Crud implements IExecutableOption {
 
-	public static final ArrayList<Supplier> SUPPLIERS = new ArrayList<Supplier>();
+	
 	
 	public SupplierCrud() {
 		super("Fornecedores");
 		addDefaultCrudOptions();
 	}
 
-	public NextAction execute(Scanner sc) {
-		
-		NextAction nextAction;
-		do {
-			constructCrud();
-			System.out.println();
-			nextAction = waitForOptionAndExecute(sc);
-		} while (!nextAction.nextActionIsExit());
-		
-		return NextAction.Continue();
-	}
-	
 	public static ConsoleTable<Supplier> getDefaultConsoleTable() {
 		List<ConsoleTableColumn<Supplier>> columns = new ArrayList<>();
 		
 		columns.add(new ConsoleTableColumn<Supplier>(5, "ID", (s) -> s.getId()));
 		columns.add(new ConsoleTableColumn<Supplier>(30, "Nome", (s) -> s.getName()));
 		columns.add(new ConsoleTableColumn<Supplier>(20, "Telefone", (s) -> s.getPhone()));
-		columns.add(new ConsoleTableColumn<Supplier>(50, "E-mail", (s) -> s.getId()));
+		columns.add(new ConsoleTableColumn<Supplier>(50, "E-mail", (s) -> s.getEmail()));
 		
-		return new ConsoleTable<Supplier>(SUPPLIERS, columns);
+		return new ConsoleTable<Supplier>(EcommerceData.supplierRepository.getData(), columns);
 	}
 
 	@Override
@@ -53,15 +46,27 @@ public class SupplierCrud extends Crud implements IExecutableOption {
 	@Override
 	protected NextAction create(Scanner sc) {
 		Supplier dummySupplier = new Supplier();
-		List<ICrudField> fields = new ArrayList<>();
+		List<IMenuOption> options = new ArrayList<>();
 		
-		fields.add(new CrudField<String>("Nome", "Insira o nome:", (n) -> dummySupplier.setName(n)));
-		fields.add(new CrudField<String>("Descrição", "Insira a descrição:", (n) -> dummySupplier.setDescription(n)));
-		fields.add(new CrudField<String>("Telefone", "Insira o telefone:", (n) -> dummySupplier.setPhone(n)));
-		fields.add(new CrudField<String>("E-mail", "Insira o e-mail:", (n) -> dummySupplier.setEmail(n)));
+		options.add(new CrudField<String>("Nome", "Insira o nome:", (n) -> dummySupplier.setName(n)));
+		options.add(new CrudField<String>("Descrição", "Insira a descrição:", (d) -> dummySupplier.setDescription(d)));
+		options.add(new CrudField<String>("Telefone", "Insira o telefone:", (p) -> dummySupplier.setPhone(p)));
+		options.add(new CrudField<String>("E-mail", "Insira o e-mail:", (e) -> dummySupplier.setEmail(e)));
+		options.add(new MethodMenuOption("Aceitar", (scanner) -> validateAndSaveNewSupplier(dummySupplier)));
+		
+		new Menu("Novo fornecedor", options).showCancelOption().execute(sc);
 
-		sc.nextLine();
 		return NextAction.Continue();
+	}
+	
+	private NextAction validateAndSaveNewSupplier(Supplier newSupplier) {
+		Result validationResult = SupplierValidations.validateAll(newSupplier);
+		
+		if (validationResult.isFailure())
+			return NextAction.Continue(validationResult.getMessage());
+		
+		EcommerceData.supplierRepository.saveNew(newSupplier);
+		return NextAction.Exit();
 	}
 
 	@Override

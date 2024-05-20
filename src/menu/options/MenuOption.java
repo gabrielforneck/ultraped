@@ -1,9 +1,8 @@
-package menu.defaultoptions;
+package menu.options;
 
-import menu.AbstractMenuOption;
 import menu.interfaces.IExecutableOption;
 
-public class MenuOption extends AbstractMenuOption {
+public class MenuOption extends ObjectMenuOption {
 
 	public MenuOption() {
 		super();

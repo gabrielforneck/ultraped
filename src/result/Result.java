@@ -1,5 +1,9 @@
 package result;
 
+import java.util.function.Consumer;
+
+import consoleinterface.nextaction.NextAction;
+
 public class Result {
 
 	private boolean isSuccess;
@@ -14,6 +18,13 @@ public class Result {
 		super();
 		this.isSuccess = isSuccess;
 		this.message = message;
+	}
+	
+	public NextAction toContinueNextActionIfFailure() {
+		if (this.isFailure())
+			return NextAction.Continue(this.message);
+		
+		return NextAction.Exit();
 	}
 	
 	public static Result Success() {

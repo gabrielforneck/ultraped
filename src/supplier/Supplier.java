@@ -1,10 +1,10 @@
 package supplier;
 
+import repositories.EntityWithID;
 import result.Result;
 import supplier.validation.SupplierValidations;
 
-public class Supplier {
-	private int id;
+public class Supplier extends EntityWithID {
 	private String name;
 	private String description;
 	private String phone;
@@ -23,22 +23,14 @@ public class Supplier {
 		this.email = email;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public String getName() {
 		return name;
 	}
 
 	public Result setName(String name) {
-		Result nameResult = SupplierValidations.validateName(name);
-		if (!nameResult.isFailure())
-			return nameResult;
+		Result result = SupplierValidations.validateName(name);
+		if (result.isFailure())
+			return result;
 		
 		this.name = name;
 		return Result.Success();
@@ -49,8 +41,9 @@ public class Supplier {
 	}
 
 	public Result setDescription(String description) {
-		if (description == null || description.length() == 0)
-			return Result.Failure("A descrição do fornecedor não pode ser vazio.");
+		Result result = SupplierValidations.validateDescription(description);
+		if (result.isFailure())
+			return result;
 
 		this.description = description;
 		return Result.Success();
@@ -61,8 +54,9 @@ public class Supplier {
 	}
 
 	public Result setPhone(String phone) {
-		if (phone == null || phone.length() == 0)
-			return Result.Failure("O telefone do fornecedor não pode ser vazio.");
+		Result result = SupplierValidations.validatePhone(phone);
+		if (result.isFailure())
+			return result;
 		
 		this.phone = phone;
 		return Result.Success();
@@ -73,8 +67,9 @@ public class Supplier {
 	}
 
 	public Result setEmail(String email) {
-		if (email == null || email.length() == 0)
-			return Result.Failure("O e-mail do fornecedor não pode ser vazio.");
+		Result result = SupplierValidations.validateEmail(email);
+		if (result.isFailure())
+			return result;
 
 		this.email = email;
 		return Result.Success();

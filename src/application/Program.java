@@ -3,7 +3,7 @@ package application;
 import java.util.Scanner;
 
 import menu.Menu;
-import menu.defaultoptions.MenuOption;
+import menu.options.MenuOption;
 import supplier.crud.SupplierCrud;
 
 public class Program {
@@ -12,8 +12,8 @@ public class Program {
 		Scanner sc = new Scanner(System.in);
 
 		new Menu("ULTRAPED")
-			.addOptions(new MenuOption("Fornecedores", new SupplierCrud()))
-			.ShowCancelOption()
+			.addOptions(new MenuOption("Fornecedores", new SupplierCrud().showCancelOption()))
+			.showCancelOption()
 			.execute(sc);
 		
 		sc.close();

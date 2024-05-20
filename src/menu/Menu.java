@@ -6,11 +6,10 @@ import java.util.Scanner;
 
 import consoleinterface.ConsoleInterface;
 import consoleinterface.nextaction.NextAction;
-import menu.defaultoptions.BackOption;
-import menu.defaultoptions.CancelOption;
 import menu.exceptions.NoOptionsDefinedException;
 import menu.interfaces.IExecutableOption;
 import menu.interfaces.IMenuOption;
+import menu.options.DefaultMenuOptions;
 
 public class Menu extends ConsoleInterface implements IExecutableOption {
 	protected List<IMenuOption> options;
@@ -41,7 +40,7 @@ public class Menu extends ConsoleInterface implements IExecutableOption {
 		this.options = new ArrayList<>();
 	}
 	
-	public void showOptions() {
+	protected void showOptions() {
 		if (this.options == null)
 			return;
 		
@@ -49,13 +48,13 @@ public class Menu extends ConsoleInterface implements IExecutableOption {
 			System.out.println(i + " - " + options.get(i).getDescription());
 	}
 	
-	public void constructMenu() {
+	protected void constructMenu() {
 		this.showTitle();
 		System.out.println();
 		this.showOptions();
 	}
 	
-	public NextAction execute(Scanner sc) throws NoOptionsDefinedException {
+	public NextAction execute(Scanner sc) {
 		if (this.options == null || this.options.size() == 0)
 			throw new NoOptionsDefinedException();
 		
@@ -70,7 +69,7 @@ public class Menu extends ConsoleInterface implements IExecutableOption {
 
 			nextAction = this.waitForOptionAndExecute(sc);
 			System.out.println();
-		} while (!nextAction.nextActionIsExit());
+		} while (!nextAction.isExit());
 		
 		return NextAction.Continue();
 	}
@@ -97,13 +96,13 @@ public class Menu extends ConsoleInterface implements IExecutableOption {
 		return selectedOption.execute(sc);
 	}
 	
-	public Menu ShowCancelOption() {
-		addOptions(new CancelOption());
+	public Menu showCancelOption() {
+		addOptions(DefaultMenuOptions.cancelOption());
 		return this;
 	}
 
-	public Menu ShowBackOption() {
-		addOptions(new BackOption());
+	public Menu showBackOption() {
+		addOptions(DefaultMenuOptions.backOption());
 		return this;
 	}
 	

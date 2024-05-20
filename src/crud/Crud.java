@@ -4,33 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import consoleinterface.ConsoleInterface;
 import consoleinterface.nextaction.NextAction;
+import menu.Menu;
+import menu.interfaces.IMenuOption;
+import menu.options.MethodMenuOption;
 
-public abstract class Crud extends ConsoleInterface {
+public abstract class Crud extends Menu {
 
-	protected String title;
-	protected List<CrudOption> options;
-	
 	protected Crud() {
+		super();
 		options = new ArrayList<>();
 	}
 	
 	protected Crud(String title) {
 		super(title);
-		options = new ArrayList<>();
 	}
 	
-	protected Crud(List<CrudOption> options) {
-		super();
-		options = new ArrayList<>();
-		this.options = options;
+	protected Crud(List<IMenuOption> options) {
+		super(options);
 	}
 	
-	protected Crud(String title, List<CrudOption> options) {
-		super(title);
-		options = new ArrayList<>();
-		this.options = options;
+	protected Crud(String title, List<IMenuOption> options) {
+		super(title, options);
 	}
 	
 	protected abstract void showDataAsTable();
@@ -39,11 +34,8 @@ public abstract class Crud extends ConsoleInterface {
 	protected abstract NextAction update(Scanner sc);
 	protected abstract NextAction delete(Scanner sc);
 	
-	protected NextAction goBack(Scanner sc) {
-		return NextAction.Exit();
-	}
-	
-	protected void constructCrud() {
+	@Override
+	protected void constructMenu() {
 		showTitle();
 		System.out.println();
 		showDataAsTable();
@@ -51,55 +43,12 @@ public abstract class Crud extends ConsoleInterface {
 		showOptions();
 	}
 	
-	protected void showOptions() {
-		if (this.options == null)
-			return;
+	protected Crud addDefaultCrudOptions() {
 		
-		for (int i = 0; i<options.size(); i++)
-			System.out.println(i + " - " + options.get(i).getDescription());
-	}
-
-	protected void addDefaultCrudOptions() {
+		options.add(new MethodMenuOption("Criar", (sc) -> create(sc)));
+		options.add(new MethodMenuOption("Alterar", (sc) -> update(sc)));
+		options.add(new MethodMenuOption("Excluir", (sc) -> delete(sc)));
 		
-		options.add(new CrudOption("Criar", (sc) -> create(sc)));
-		options.add(new CrudOption("Alterar", (sc) -> update(sc)));
-		options.add(new CrudOption("Excluir", (sc) -> delete(sc)));
-		options.add(new CrudOption("Voltar", (sc) -> goBack(sc)));
-	}
-	
-	protected NextAction waitForOptionAndExecute(Scanner sc) {
-		int optionIndex = 0;
-		
-		try {
-			System.out.print("Selecione a opção: ");
-			optionIndex = sc.nextInt();
-			sc.nextLine();
-		}
-		catch (Exception ex) {
-			sc.next();
-			return NextAction.Continue("Entrada inválida.");
-		}
-		
-		if (optionIndex < 0 || optionIndex >= options.size())
-			return NextAction.Continue("Opção não encontrada.");
-		
-		System.out.println();
-		return this.options.get(optionIndex).execute(sc);
-	}
-
-	public List<CrudOption> getOptions() {
-		return options;
-	}
-
-	public void setOptions(List<CrudOption> options) {
-		this.options = options;
-	}
-	
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
+		return this;
 	}
 }
