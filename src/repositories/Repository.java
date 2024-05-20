@@ -25,6 +25,14 @@ public class Repository<T extends EntityWithID> {
 		data.set(oldRecordIndex, record);
 	}
 	
+	public void delete(int iD) {
+		int recordIndex = getIndexByID(iD);
+		if (recordIndex == -1)
+			throw new NotFoundException("Registro não encontrado.");
+		
+		data.remove(recordIndex);
+	}
+	
 	public int getNextID() {
 		int max = 0;
 		
