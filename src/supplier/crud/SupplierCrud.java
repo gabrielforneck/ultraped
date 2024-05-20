@@ -28,6 +28,7 @@ public class SupplierCrud extends Crud implements IExecutableOption {
 	public SupplierCrud() {
 		super("Fornecedores");
 		addDefaultCrudOptions();
+		options.add(new MethodMenuOption("Buscar", (sc) -> filterByName(sc)));
 	}
 
 	public static ConsoleTable<Supplier> getDefaultConsoleTable() {
@@ -183,6 +184,26 @@ public class SupplierCrud extends Crud implements IExecutableOption {
 				.setDetailsToShow(details).showCancelOption().execute(sc);
 
 		return NextAction.Exit();
+	}
+	
+	private NextAction filterByName(Scanner sc) {
+		
+		System.out.println("Insira a pesquisa:");
+		String filter = sc.nextLine();
+		List<Supplier> filteredResults = new ArrayList<Supplier>();
+		
+		for (Supplier sp : EcommerceData.supplierRepository.getData())
+			if (sp.getName().contains(filter))
+				filteredResults.add(sp);
+		
+		if (filteredResults.size() == 0)
+			return NextAction.Continue("Não houveram resultados.");
+		
+		getDefaultConsoleTable().setData(filteredResults).build();
+		System.out.println("Prescione enter para continuar.");
+		sc.nextLine();
+		
+		return NextAction.Continue();
 	}
 
 }
