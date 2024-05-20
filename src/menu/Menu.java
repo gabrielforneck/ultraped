@@ -115,6 +115,11 @@ public class Menu extends ConsoleInterface implements IExecutableOption {
 		addOptions(DefaultMenuOptions.backOption());
 		return this;
 	}
+	
+	public Menu showExitOption() {
+		addOptions(DefaultMenuOptions.exitOption());
+		return this;
+	}
 
 	public int getOptionsQuantity(Integer optionIndex) {
 		return this.options.size();

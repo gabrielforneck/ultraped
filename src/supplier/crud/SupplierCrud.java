@@ -84,7 +84,7 @@ public class SupplierCrud extends Crud implements IExecutableOption {
 		List<IMenuOption> options = new ArrayList<>();
 
 		options.add(new MethodMenuOption("Aceitar", (scanner) -> NextAction.ExecuteAndExit(scanner,
-				(s) -> EcommerceData.supplierRepository.delete(selectedSupplier.getId()))));
+				(s) -> EcommerceData.supplierRepository.delete(selectedSupplier))));
 
 		new Menu("Você deseja mesmo remover o fornecedor " + selectedSupplier.getId() + "?", options)
 				.setDetailsToShow(selectedSupplier).showCancelOption().execute(sc);

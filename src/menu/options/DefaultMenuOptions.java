@@ -11,8 +11,8 @@ public final class DefaultMenuOptions {
 	public static MethodMenuOption backOption() {
 		return new MethodMenuOption("Voltar", (sc) -> NextAction.Exit());
 	}
-
-	public static MethodMenuOption acceptOption() {
-		return new MethodMenuOption("Aceitar", (sc) -> NextAction.Exit());
+	
+	public static MethodMenuOption exitOption() {
+		return new MethodMenuOption("Sair", (sc) -> NextAction.Exit());
 	}
 }

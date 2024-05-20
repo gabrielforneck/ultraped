@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import menu.Menu;
 import menu.options.MenuOption;
+import products.crud.ProductCrud;
 import supplier.crud.SupplierCrud;
 
 public class Program {
@@ -12,8 +13,9 @@ public class Program {
 		Scanner sc = new Scanner(System.in);
 
 		new Menu("ULTRAPED")
-			.addOptions(new MenuOption("Fornecedores", new SupplierCrud().showCancelOption()))
-			.showCancelOption()
+			.addOptions(new MenuOption("Fornecedores", new SupplierCrud().showBackOption()))
+			.addOptions(new MenuOption("Produtos", new ProductCrud().showBackOption()))
+			.showExitOption()
 			.execute(sc);
 		
 		sc.close();

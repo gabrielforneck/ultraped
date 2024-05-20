@@ -45,7 +45,7 @@ public final class SupplierValidations {
 		validationResult = validatePhone(supplier.getPhone());
 		if (validationResult.isFailure())
 			return validationResult;
-		
+
 		return validateEmail(supplier.getEmail());
 	}
 }
