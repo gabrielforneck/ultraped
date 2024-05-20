@@ -16,6 +16,14 @@ import result.Result;
 
 public class AddressCrud {
 
+	public Address create(Scanner sc) {
+		Address dummyAddress = new Address();
+		
+		update(dummyAddress, sc);
+		
+		return dummyAddress;
+	}
+	
 	public NextAction update(Address address, Scanner sc) {
 		Address dummyAddress = address == null ? new Address() : address.clone();
 		List<IMenuOption> options = getDefaultFieldOptions(dummyAddress);
@@ -28,7 +36,7 @@ public class AddressCrud {
 		if (dummyAddress.getStreet() == null)
 			return NextAction.Continue();
 		
-		address = dummyAddress;
+		dummyAddress.copyTo(address);
 		return NextAction.Continue();
 	}
 

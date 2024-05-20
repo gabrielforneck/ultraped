@@ -48,6 +48,9 @@ public final class AddressValidation {
 	}
 
 	public static Result validateAll(Address address) {
+		if (address == null)
+			return Result.Failure("Realize o cadastro do endereço.");
+		
 		Result validationResult = streetValidation(address.getStreet());
 		if (validationResult.isFailure())
 			return validationResult;

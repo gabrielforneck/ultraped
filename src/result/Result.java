@@ -24,6 +24,10 @@ public class Result {
 
 		return NextAction.Exit();
 	}
+	
+	public NextAction toContinueNextAction() {
+		return NextAction.Continue();
+	}
 
 	public static Result Success() {
 		return new Result(true);

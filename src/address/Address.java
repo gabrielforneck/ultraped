@@ -111,7 +111,7 @@ public class Address {
 	}
 
 	public Result setState(String state) {
-		Result validationResult = AddressValidation.stateValidation(street);
+		Result validationResult = AddressValidation.stateValidation(state);
 		if (validationResult.isFailure())
 			return validationResult;
 
@@ -140,5 +140,15 @@ public class Address {
 	@Override
 	public Address clone() {
 		return new Address(street, number, complement, district, cep, city, state);
+	}
+	
+	public void copyTo(Address address) {
+		address.setStreet(this.getStreet());
+		address.setNumber(this.getNumber());
+		address.setComplement(this.getComplement());
+		address.setDistrict(this.getDistrict());
+		address.setCep(this.getCep());
+		address.setCity(this.getCity());
+		address.setState(this.getState());
 	}
 }

@@ -51,6 +51,7 @@ public class SupplierCrud extends Crud implements IExecutableOption {
 		Supplier dummySupplier = new Supplier();
 		List<IMenuOption> options = getDefaultFieldOptions(dummySupplier);
 
+		options.add(new MethodMenuOption("Endereço", (scanner) -> dummySupplier.setAddress(new AddressCrud().create(scanner)).toContinueNextAction()));
 		options.add(new MethodMenuOption("Aceitar", (scanner) -> validateAndSaveNew(dummySupplier,
 				(s) -> SupplierValidations.validateAll(s), (s) -> EcommerceData.supplierRepository.save(s))));
 
@@ -75,6 +76,7 @@ public class SupplierCrud extends Crud implements IExecutableOption {
 				(scanner) -> showAllProductsBySupplierID(scanner, selectedSupplier.getId())));
 		options.add(new MethodMenuOption("Desvincular produto",
 				(scanner) -> remProduct(scanner, selectedSupplier.getId())));
+		options.add(new MethodMenuOption("Endereço", (scanner) -> new AddressCrud().update(selectedSupplier.getAddress(), sc)));
 		options.add(new MethodMenuOption("Aceitar", (scanner) -> validateAndSaveNew(selectedSupplier,
 				(s) -> SupplierValidations.validateAll(s), (s) -> EcommerceData.supplierRepository.update(s))));
 
@@ -110,7 +112,6 @@ public class SupplierCrud extends Crud implements IExecutableOption {
 		options.add(new CrudField<String>("Descrição", "Insira a descrição:", (d) -> supplier.setDescription(d)));
 		options.add(new CrudField<String>("Telefone", "Insira o telefone:", (p) -> supplier.setPhone(p)));
 		options.add(new CrudField<String>("E-mail", "Insira o e-mail:", (e) -> supplier.setEmail(e)));
-		options.add(new MethodMenuOption("Endereço", (sc) -> new AddressCrud().update(supplier.getAddress(), sc)));
 
 		return options;
 	}
