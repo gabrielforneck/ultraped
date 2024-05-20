@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import address.crud.AddressCrud;
 import consoleinterface.nextaction.NextAction;
 import consoleinterface.table.ConsoleTable;
 import consoleinterface.table.ConsoleTableColumn;
