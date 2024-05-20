@@ -1,7 +1,5 @@
 package result;
 
-import java.util.function.Consumer;
-
 import consoleinterface.nextaction.NextAction;
 
 public class Result {
