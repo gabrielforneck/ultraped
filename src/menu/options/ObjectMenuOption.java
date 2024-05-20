@@ -3,21 +3,21 @@ package menu.options;
 import java.util.Scanner;
 
 import consoleinterface.nextaction.NextAction;
-import menu.interfaces.IExecutableOption;
-import menu.interfaces.IMenuOption;
+import menu.options.interfaces.IExecutableOption;
+import menu.options.interfaces.IMenuOption;
 
 public abstract class ObjectMenuOption implements IMenuOption {
 	protected String description;
 	protected IExecutableOption option;
-	
+
 	protected ObjectMenuOption() {
 	}
-	
+
 	protected ObjectMenuOption(String description, IExecutableOption option) {
 		this.description = description;
 		this.option = option;
 	}
-	
+
 	public NextAction execute(Scanner sc) {
 		return this.option.execute(sc);
 	}

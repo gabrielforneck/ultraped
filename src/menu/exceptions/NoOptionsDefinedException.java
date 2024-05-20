@@ -1,10 +1,10 @@
 package menu.exceptions;
 
-@SuppressWarnings("serial") //TODO: Verificar como tratar isso
+@SuppressWarnings("serial") // TODO: Verificar como tratar isso
 public class NoOptionsDefinedException extends RuntimeException {
 
 	public static final String DESCRIPTION = "No options have been defined for this menu";
-	
+
 	public NoOptionsDefinedException() {
 		super(DESCRIPTION);
 	}

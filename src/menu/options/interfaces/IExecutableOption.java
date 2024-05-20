@@ -1,4 +1,4 @@
-package menu.interfaces;
+package menu.options.interfaces;
 
 import java.util.Scanner;
 

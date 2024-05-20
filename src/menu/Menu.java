@@ -7,24 +7,24 @@ import java.util.Scanner;
 import consoleinterface.ConsoleInterface;
 import consoleinterface.nextaction.NextAction;
 import menu.exceptions.NoOptionsDefinedException;
-import menu.interfaces.IExecutableOption;
-import menu.interfaces.IMenuOption;
 import menu.options.DefaultMenuOptions;
+import menu.options.interfaces.IExecutableOption;
+import menu.options.interfaces.IMenuOption;
 
 public class Menu extends ConsoleInterface implements IExecutableOption {
 	protected List<IMenuOption> options;
 	protected Object detailsToShow;
-	
+
 	public Menu() {
 		this.options = new ArrayList<>();
 	}
-	
+
 	public Menu(String title, IMenuOption option) {
 		super(title);
 		this.options = new ArrayList<>();
 		this.addOptions(option);
 	}
-	
+
 	public Menu(List<IMenuOption> options) {
 		this.options = new ArrayList<>();
 		this.addOptions(options);
@@ -35,7 +35,7 @@ public class Menu extends ConsoleInterface implements IExecutableOption {
 		this.options = new ArrayList<>();
 		this.addOptions(options);
 	}
-	
+
 	public Menu(String title, List<IMenuOption> options, String detailsToShow) {
 		super(title);
 		this.options = options;
@@ -46,15 +46,15 @@ public class Menu extends ConsoleInterface implements IExecutableOption {
 		super(title);
 		this.options = new ArrayList<>();
 	}
-	
+
 	protected void showOptions() {
 		if (this.options == null)
 			return;
-		
-		for (int i = 0; i<options.size(); i++)
+
+		for (int i = 0; i < options.size(); i++)
 			System.out.println(i + " - " + options.get(i).getDescription());
 	}
-	
+
 	protected void constructMenu() {
 		this.showTitle();
 		System.out.println();
@@ -64,49 +64,48 @@ public class Menu extends ConsoleInterface implements IExecutableOption {
 		}
 		this.showOptions();
 	}
-	
+
 	public NextAction execute(Scanner sc) {
 		if (this.options == null || this.options.size() == 0)
 			throw new NoOptionsDefinedException();
-		
+
 		NextAction nextAction = null;
 
 		do {
 			this.constructMenu();
 			System.out.println();
-			
+
 			if (nextAction != null && nextAction.getDescription() != null)
 				System.out.println(nextAction.getDescription());
 
 			nextAction = this.waitForOptionAndExecute(sc);
 			System.out.println();
 		} while (!nextAction.isExit());
-		
+
 		return NextAction.Continue();
 	}
-	
+
 	protected NextAction waitForOptionAndExecute(Scanner sc) {
 		int optionIndex = 0;
-		
+
 		try {
 			System.out.print("Selecione a opção: ");
 			optionIndex = sc.nextInt();
 			sc.nextLine();
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			sc.next();
 			return NextAction.Continue("Entrada inválida.");
 		}
-		
+
 		if (optionIndex < 0 || optionIndex >= options.size())
 			return NextAction.Continue("Opção não encontrada.");
-		
+
 		IMenuOption selectedOption = this.options.get(optionIndex);
-		
+
 		System.out.println();
 		return selectedOption.execute(sc);
 	}
-	
+
 	public Menu showCancelOption() {
 		addOptions(DefaultMenuOptions.cancelOption());
 		return this;
@@ -116,7 +115,7 @@ public class Menu extends ConsoleInterface implements IExecutableOption {
 		addOptions(DefaultMenuOptions.backOption());
 		return this;
 	}
-	
+
 	public int getOptionsQuantity(Integer optionIndex) {
 		return this.options.size();
 	}
@@ -129,7 +128,7 @@ public class Menu extends ConsoleInterface implements IExecutableOption {
 		this.options.add(option);
 		return this;
 	}
-	
+
 	public Menu addOptions(List<IMenuOption> options) {
 		this.options.addAll(options);
 		return this;
@@ -148,7 +147,7 @@ public class Menu extends ConsoleInterface implements IExecutableOption {
 		this.options.remove(optionIndex);
 		return this;
 	}
-	
+
 	public Menu clearOptions() {
 		this.options.clear();
 

@@ -31,7 +31,7 @@ public class Supplier extends EntityWithID {
 		Result result = SupplierValidations.validateName(name);
 		if (result.isFailure())
 			return result;
-		
+
 		this.name = name;
 		return Result.Success();
 	}
@@ -57,7 +57,7 @@ public class Supplier extends EntityWithID {
 		Result result = SupplierValidations.validatePhone(phone);
 		if (result.isFailure())
 			return result;
-		
+
 		this.phone = phone;
 		return Result.Success();
 	}
@@ -74,13 +74,11 @@ public class Supplier extends EntityWithID {
 		this.email = email;
 		return Result.Success();
 	}
-	
+
 	@Override
 	public String toString() {
-		return "ID: " + (id == 0 ? "?" : id) + "\n"
-				+ "Nome: " + (name == null ? "" : name) + "\n"
-				+ "Descrição: " + (description == null ? "" : description) + "\n"
-				+ "Telefone: " + (phone == null ? "" : phone) + "\n"
+		return "ID: " + (id == 0 ? "?" : id) + "\n" + "Nome: " + (name == null ? "" : name) + "\n" + "Descrição: "
+				+ (description == null ? "" : description) + "\n" + "Telefone: " + (phone == null ? "" : phone) + "\n"
 				+ "E-mail: " + (email == null ? "" : email);
 	}
 }

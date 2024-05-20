@@ -5,7 +5,7 @@ import java.util.function.Function;
 import consoleinterface.table.exceptions.TooShortColumnSizeException;
 
 public class ConsoleTableColumn<T> {
-	
+
 	private int columnSize;
 	private String columnName;
 	private Function<T, Object> dataGetter;
@@ -22,14 +22,14 @@ public class ConsoleTableColumn<T> {
 	public int getColumnSize() {
 		return columnSize;
 	}
-	
+
 	private String returnStringWithColumnSize(String str) {
 		if (str.length() > columnSize)
-			return str.substring(0, columnSize-3) + "...";
-		
+			return str.substring(0, columnSize - 3) + "...";
+
 		if (str.length() < columnSize)
 			str += " ".repeat(columnSize - str.length());
-		
+
 		return str;
 	}
 
@@ -40,7 +40,7 @@ public class ConsoleTableColumn<T> {
 	public String getColumnName() {
 		return columnName;
 	}
-	
+
 	public String getColumnNameWithColumnSize() {
 		return returnStringWithColumnSize(columnName);
 	}
@@ -56,7 +56,7 @@ public class ConsoleTableColumn<T> {
 	public void setDataGetter(Function<T, Object> dataGetter) {
 		this.dataGetter = dataGetter;
 	}
-	
+
 	public String getColumnDataWithColumnSize(T record) {
 		return returnStringWithColumnSize(dataGetter.apply(record).toString());
 	}

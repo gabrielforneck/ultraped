@@ -6,29 +6,29 @@ public class Result {
 
 	private boolean isSuccess;
 	private String message;
-	
+
 	private Result(boolean isSuccess) {
 		super();
 		this.isSuccess = isSuccess;
 	}
-	
+
 	private Result(boolean isSuccess, String message) {
 		super();
 		this.isSuccess = isSuccess;
 		this.message = message;
 	}
-	
+
 	public NextAction toContinueNextActionIfFailure() {
 		if (this.isFailure())
 			return NextAction.Continue(this.message);
-		
+
 		return NextAction.Exit();
 	}
-	
+
 	public static Result Success() {
 		return new Result(true);
 	}
-	
+
 	public static Result Failure(String message) {
 		return new Result(false, message);
 	}
@@ -36,7 +36,7 @@ public class Result {
 	public boolean isSuccess() {
 		return isSuccess;
 	}
-	
+
 	public boolean isFailure() {
 		return !isSuccess;
 	}
@@ -52,5 +52,5 @@ public class Result {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
+
 }
