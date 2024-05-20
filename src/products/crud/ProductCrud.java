@@ -23,6 +23,7 @@ public class ProductCrud extends Crud {
 	public ProductCrud() {
 		super("Produtos");
 		addDefaultCrudOptions();
+		options.add(new MethodMenuOption("Buscar", (sc) -> filterByName(sc)));
 	}
 	
 	public static ConsoleTable<Product> getDefaultConsoleTable() {
@@ -99,6 +100,26 @@ public class ProductCrud extends Crud {
 		options.add(new CrudField<String>("Descrição", "Insira a descrição:", (d) -> product.setDescription(d)));
 
 		return options;
+	}
+	
+	private NextAction filterByName(Scanner sc) {
+		
+		System.out.println("Insira a pesquisa:");
+		String filter = sc.nextLine();
+		List<Product> filteredResults = new ArrayList<Product>();
+		
+		for (Product p : EcommerceData.productRepository.getData())
+			if (p.getName().contains(filter))
+				filteredResults.add(p);
+		
+		if (filteredResults.size() == 0)
+			return NextAction.Continue("Não houveram resultados.");
+		
+		getDefaultConsoleTable().setData(filteredResults).build();
+		System.out.println("Prescione enter para continuar.");
+		sc.nextLine();
+		
+		return NextAction.Continue();
 	}
 
 }
