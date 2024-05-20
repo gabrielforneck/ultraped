@@ -13,6 +13,7 @@ import menu.options.DefaultMenuOptions;
 
 public class Menu extends ConsoleInterface implements IExecutableOption {
 	protected List<IMenuOption> options;
+	protected Object detailsToShow;
 	
 	public Menu() {
 		this.options = new ArrayList<>();
@@ -35,6 +36,12 @@ public class Menu extends ConsoleInterface implements IExecutableOption {
 		this.addOptions(options);
 	}
 	
+	public Menu(String title, List<IMenuOption> options, String detailsToShow) {
+		super(title);
+		this.options = options;
+		this.detailsToShow = detailsToShow;
+	}
+
 	public Menu(String title) {
 		super(title);
 		this.options = new ArrayList<>();
@@ -51,6 +58,10 @@ public class Menu extends ConsoleInterface implements IExecutableOption {
 	protected void constructMenu() {
 		this.showTitle();
 		System.out.println();
+		if (detailsToShow != null) {
+			System.out.println(detailsToShow.toString());
+			System.out.println();
+		}
 		this.showOptions();
 	}
 	
@@ -121,6 +132,15 @@ public class Menu extends ConsoleInterface implements IExecutableOption {
 	
 	public Menu addOptions(List<IMenuOption> options) {
 		this.options.addAll(options);
+		return this;
+	}
+
+	public Object getDetailsToShow() {
+		return detailsToShow;
+	}
+
+	public Menu setDetailsToShow(Object detailsToShow) {
+		this.detailsToShow = detailsToShow;
 		return this;
 	}
 
