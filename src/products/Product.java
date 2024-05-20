@@ -3,12 +3,15 @@ package products;
 import products.validation.ProductValidation;
 import repositories.EntityWithID;
 import result.Result;
+import stock.Stock;
 
 public class Product extends EntityWithID {
 	private String name;
 	private String description;
+	private Stock stock;
 
 	public Product() {
+		this.stock = new Stock(0, 0.0);
 	}
 
 	public String getName() {

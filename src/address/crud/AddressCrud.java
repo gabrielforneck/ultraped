@@ -15,14 +15,6 @@ import menu.options.interfaces.IMenuOption;
 import result.Result;
 
 public class AddressCrud {
-
-	public Address create(Scanner sc) {
-		Address dummyAddress = new Address();
-		
-		update(dummyAddress, sc);
-		
-		return dummyAddress;
-	}
 	
 	public NextAction update(Address address, Scanner sc) {
 		Address dummyAddress = address == null ? new Address() : address.clone();
@@ -43,13 +35,13 @@ public class AddressCrud {
 	private List<IMenuOption> getDefaultFieldOptions(Address address) {
 		List<IMenuOption> options = new ArrayList<>();
 
-		options.add(new CrudField<String>("Rua", "Insira o nome:", (n) -> address.setStreet(n)));
-		options.add(new CrudField<String>("Número", "Insira a descrição:", (d) -> address.setNumber(d)));
-		options.add(new CrudField<String>("Complemento", "Insira o telefone:", (p) -> address.setComplement(p)));
-		options.add(new CrudField<String>("Bairro", "Insira o e-mail:", (e) -> address.setDistrict(e)));
-		options.add(new CrudField<String>("CEP", "Insira o e-mail:", (e) -> address.setCep(e)));
-		options.add(new CrudField<String>("Cidade", "Insira o e-mail:", (e) -> address.setCity(e)));
-		options.add(new CrudField<String>("Estado", "Insira o e-mail:", (e) -> address.setState(e)));
+		options.add(new CrudField<String>("Rua", "Insira a rua:", (n) -> address.setStreet(n)));
+		options.add(new CrudField<String>("Número", "Insira o número:", (d) -> address.setNumber(d)));
+		options.add(new CrudField<String>("Complemento", "Insira o complemento:", (p) -> address.setComplement(p)));
+		options.add(new CrudField<String>("Bairro", "Insira o bairro:", (e) -> address.setDistrict(e)));
+		options.add(new CrudField<String>("CEP", "Insira o CEP:", (e) -> address.setCep(e)));
+		options.add(new CrudField<String>("Cidade", "Insira a cidade:", (e) -> address.setCity(e)));
+		options.add(new CrudField<String>("Estado", "Insira o estado:", (e) -> address.setState(e)));
 
 		return options;
 	}

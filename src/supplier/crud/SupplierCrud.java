@@ -51,7 +51,7 @@ public class SupplierCrud extends Crud implements IExecutableOption {
 		Supplier dummySupplier = new Supplier();
 		List<IMenuOption> options = getDefaultFieldOptions(dummySupplier);
 
-		options.add(new MethodMenuOption("Endereço", (scanner) -> dummySupplier.setAddress(new AddressCrud().create(scanner)).toContinueNextAction()));
+		options.add(new MethodMenuOption("Endereço", (scanner) -> new AddressCrud().update(dummySupplier.getAddress(), sc)));
 		options.add(new MethodMenuOption("Aceitar", (scanner) -> validateAndSaveNew(dummySupplier,
 				(s) -> SupplierValidations.validateAll(s), (s) -> EcommerceData.supplierRepository.save(s))));
 

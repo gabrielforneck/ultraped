@@ -61,6 +61,9 @@ public class ProductCrud extends Crud {
 		Product selectedProduct = selectResult.getData();
 
 		List<IMenuOption> options = getDefaultFieldOptions(selectedProduct);
+		
+		options.add(new MethodMenuOption("Aceitar", (scanner) -> validateAndSaveNew(selectedProduct,
+				(s) -> ProductValidation.validateAll(s), (s) -> EcommerceData.productRepository.update(s))));
 
 		options.add(new MethodMenuOption("Aceitar", (scanner) -> validateAndSaveNew(selectedProduct,
 				(s) -> ProductValidation.validateAll(s), (s) -> EcommerceData.productRepository.update(s))));

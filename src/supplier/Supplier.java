@@ -15,6 +15,7 @@ public class Supplier extends EntityWithID {
 
 	public Supplier() {
 		super();
+		this.address = new Address();
 	}
 
 	public String getName() {
