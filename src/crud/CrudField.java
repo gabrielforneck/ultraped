@@ -4,7 +4,6 @@ import java.util.Scanner;
 import java.util.function.Function;
 
 import consoleinterface.nextaction.NextAction;
-import consoleinterface.table.IConsoleTable;
 import menu.options.interfaces.IMenuOption;
 import result.Result;
 
