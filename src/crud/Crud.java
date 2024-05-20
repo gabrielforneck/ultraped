@@ -61,11 +61,15 @@ public abstract class Crud extends Menu {
 	}
 
 	protected <T extends EntityWithID> ResultWithData<T> waitForId(Scanner sc, Repository<T> repository) {
+		return waitForId(sc, repository, "Insira o ID do registro: ");
+	}
+	
+	protected <T extends EntityWithID> ResultWithData<T> waitForId(Scanner sc, Repository<T> repository, String description) {
 		if (repository.getData().size() == 0)
-			return ResultWithData.Failure("Não há registros para alterar.");
+			return ResultWithData.Failure("Não há registros para realizar esta ação.");
 
 		int iD;
-		System.out.print("Insira o ID do registro: ");
+		System.out.print(description);
 
 		try {
 			iD = sc.nextInt();

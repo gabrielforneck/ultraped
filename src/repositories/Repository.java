@@ -32,6 +32,10 @@ public class Repository<T extends EntityWithID> {
 
 		data.remove(recordIndex);
 	}
+	
+	public boolean exists(int iD) {
+		return getIndexByID(iD) != -1;
+	}
 
 	public int getNextID() {
 		int max = 0;

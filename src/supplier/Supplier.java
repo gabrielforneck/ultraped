@@ -1,5 +1,7 @@
 package supplier;
 
+import address.Address;
+import address.validation.AddressValidation;
 import repositories.EntityWithID;
 import result.Result;
 import supplier.validation.SupplierValidations;
@@ -9,18 +11,10 @@ public class Supplier extends EntityWithID {
 	private String description;
 	private String phone;
 	private String email;
+	private Address address;
 
 	public Supplier() {
 		super();
-	}
-
-	public Supplier(int id, String name, String description, String phone, String email) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.phone = phone;
-		this.email = email;
 	}
 
 	public String getName() {
@@ -75,12 +69,26 @@ public class Supplier extends EntityWithID {
 		return Result.Success();
 	}
 
+	public Address getAddress() {
+		return address;
+	}
+
+	public Result setAddress(Address address) {
+		Result result = AddressValidation.validateAll(address);
+		if (result.isFailure())
+			return result;
+		
+		this.address = address;
+		return Result.Success();
+	}
+
 	@Override
 	public String toString() {
 		return "ID: " + (id == 0 ? "?" : id) + "\n"
 				+ "Nome: " + (name == null ? "" : name) + "\n"
 				+ "Descrição: " + (description == null ? "" : description) + "\n"
 				+ "Telefone: " + (phone == null ? "" : phone) + "\n"
-				+ "E-mail: " + (email == null ? "" : email);
+				+ "E-mail: " + (email == null ? "" : email) + "\n"
+				+ "Endereço: " + (address == null ? "" : address.toString());
 	}
 }

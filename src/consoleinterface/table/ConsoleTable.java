@@ -88,8 +88,10 @@ public class ConsoleTable<T> extends ConsoleInterface implements IConsoleTable {
 		return data;
 	}
 
-	public void setData(List<T> data) {
+	public ConsoleTable<T> setData(List<T> data) {
 		this.data = data;
+
+		return this;
 	}
 
 	public int getColumnsQuantity() {

@@ -27,16 +27,16 @@ public class ProductCrud extends Crud {
 	public static ConsoleTable<Product> getDefaultConsoleTable() {
 		List<ConsoleTableColumn<Product>> columns = new ArrayList<>();
 
-		columns.add(new ConsoleTableColumn<>(5, "ID", (s) -> s.getId()));
-		columns.add(new ConsoleTableColumn<>(30, "Nome", (s) -> s.getName()));
-		columns.add(new ConsoleTableColumn<>(70, "Descrição", (s) -> s.getDescription()));
+		columns.add(new ConsoleTableColumn<>(5, "ID", (p) -> p.getId()));
+		columns.add(new ConsoleTableColumn<>(30, "Nome", (p) -> p.getName()));
+		columns.add(new ConsoleTableColumn<>(70, "Descrição", (p) -> p.getDescription()));
 
-		return new ConsoleTable<Product>(EcommerceData.productRepository.getData(), columns);
+		return new ConsoleTable<>(columns);
 	}
 
 	@Override
 	protected void showDataAsTable() {
-		getDefaultConsoleTable().build();
+		getDefaultConsoleTable().setData(EcommerceData.productRepository.getData()).build();
 	}
 
 	@Override
