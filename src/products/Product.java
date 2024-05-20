@@ -42,6 +42,14 @@ public class Product extends EntityWithID {
 		return Result.Success();
 	}
 
+	public Stock getStock() {
+		return stock;
+	}
+
+	public void setStock(Stock stock) {
+		this.stock = stock;
+	}
+
 	@Override
 	public String toString() {
 		return "ID: " + (id == 0 ? "?" : id) + "\n"

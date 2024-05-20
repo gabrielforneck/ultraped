@@ -1,4 +1,4 @@
-package stoc.crud;
+package stock.crud;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +35,9 @@ public class StockCrud {
 	private List<IMenuOption> getDefaultFieldOptions(Stock stock) {
 		List<IMenuOption> options = new ArrayList<>();
 
-		options.add(new CrudField<Integer>("Adicionar quantidade", "Insira a quantidade para adicionar:", (q) -> stock.addQuantity(q)));
-		options.add(new CrudField<Integer>("Remover quantidade", "Insira a quantidade para remover:", (q) -> stock.remQuantity(q)));
-		options.add(new CrudField<Double>("Preço", "Insira o preço:", (p) -> stock.setPrice(p)));
+		options.add(new CrudField<String>("Adicionar quantidade", "Insira a quantidade para adicionar:", (q) -> stock.addQuantity(Integer.parseInt(q))));
+		options.add(new CrudField<String>("Remover quantidade", "Insira a quantidade para remover:", (q) -> stock.remQuantity(Integer.parseInt(q))));
+		options.add(new CrudField<String>("Preço", "Insira o preço:", (p) -> stock.setPrice(Double.parseDouble(p))));
 
 		return options;
 	}

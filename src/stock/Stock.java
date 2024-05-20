@@ -16,7 +16,7 @@ public class Stock {
 	public int getQuantity() {
 		return quantity;
 	}
-
+	
 	public Result addQuantity(int quantity) {
 		Result result = StockValidation.validateAddQuantity(quantity);
 		if (result.isFailure())

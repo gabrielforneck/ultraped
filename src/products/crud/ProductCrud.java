@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import address.crud.AddressCrud;
 import consoleinterface.nextaction.NextAction;
 import consoleinterface.table.ConsoleTable;
 import consoleinterface.table.ConsoleTableColumn;
@@ -16,6 +17,7 @@ import menu.options.interfaces.IMenuOption;
 import products.Product;
 import products.validation.ProductValidation;
 import result.ResultWithData;
+import stock.crud.StockCrud;
 
 public class ProductCrud extends Crud {
 	
@@ -62,9 +64,7 @@ public class ProductCrud extends Crud {
 
 		List<IMenuOption> options = getDefaultFieldOptions(selectedProduct);
 		
-		options.add(new MethodMenuOption("Aceitar", (scanner) -> validateAndSaveNew(selectedProduct,
-				(s) -> ProductValidation.validateAll(s), (s) -> EcommerceData.productRepository.update(s))));
-
+		options.add(new MethodMenuOption("Editar estoque", (scanner) -> new StockCrud().update(selectedProduct.getStock(), sc)));
 		options.add(new MethodMenuOption("Aceitar", (scanner) -> validateAndSaveNew(selectedProduct,
 				(s) -> ProductValidation.validateAll(s), (s) -> EcommerceData.productRepository.update(s))));
 
