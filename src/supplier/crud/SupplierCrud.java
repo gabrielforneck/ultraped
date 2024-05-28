@@ -9,7 +9,7 @@ import consoleinterface.nextaction.NextAction;
 import consoleinterface.table.ConsoleTable;
 import consoleinterface.table.ConsoleTableColumn;
 import crud.Crud;
-import crud.CrudField;
+import crud.field.StringCrudField;
 import ecommerce.EcommerceData;
 import menu.Menu;
 import menu.options.MethodMenuOption;
@@ -109,10 +109,10 @@ public class SupplierCrud extends Crud implements IExecutableOption {
 	private List<IMenuOption> getDefaultFieldOptions(Supplier supplier) {
 		List<IMenuOption> options = new ArrayList<>();
 
-		options.add(new CrudField<String>("Nome", "Insira o nome:", (n) -> supplier.setName(n)));
-		options.add(new CrudField<String>("Descrição", "Insira a descrição:", (d) -> supplier.setDescription(d)));
-		options.add(new CrudField<String>("Telefone", "Insira o telefone:", (p) -> supplier.setPhone(p)));
-		options.add(new CrudField<String>("E-mail", "Insira o e-mail:", (e) -> supplier.setEmail(e)));
+		options.add(new StringCrudField("Nome", "Insira o nome:", (n) -> supplier.setName(n)));
+		options.add(new StringCrudField("Descrição", "Insira a descrição:", (d) -> supplier.setDescription(d)));
+		options.add(new StringCrudField("Telefone", "Insira o telefone:", (p) -> supplier.setPhone(p)));
+		options.add(new StringCrudField("E-mail", "Insira o e-mail:", (e) -> supplier.setEmail(e)));
 
 		return options;
 	}

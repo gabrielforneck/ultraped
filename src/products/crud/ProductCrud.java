@@ -8,7 +8,7 @@ import consoleinterface.nextaction.NextAction;
 import consoleinterface.table.ConsoleTable;
 import consoleinterface.table.ConsoleTableColumn;
 import crud.Crud;
-import crud.CrudField;
+import crud.field.StringCrudField;
 import ecommerce.EcommerceData;
 import menu.Menu;
 import menu.options.MethodMenuOption;
@@ -96,8 +96,8 @@ public class ProductCrud extends Crud {
 	private List<IMenuOption> getDefaultFieldOptions(Product product) {
 		List<IMenuOption> options = new ArrayList<>();
 
-		options.add(new CrudField<String>("Nome", "Insira o nome:", (n) -> product.setName(n)));
-		options.add(new CrudField<String>("Descrição", "Insira a descrição:", (d) -> product.setDescription(d)));
+		options.add(new StringCrudField("Nome", "Insira o nome:", (n) -> product.setName(n)));
+		options.add(new StringCrudField("Descrição", "Insira a descrição:", (d) -> product.setDescription(d)));
 
 		return options;
 	}

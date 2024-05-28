@@ -6,7 +6,10 @@ import java.util.Scanner;
 import java.util.function.Function;
 
 import consoleinterface.nextaction.NextAction;
-import crud.CrudField;
+import crud.field.CrudField;
+import crud.field.DoubleCrudField;
+import crud.field.IntegerCrudField;
+import crud.field.StringCrudField;
 import menu.Menu;
 import menu.options.MethodMenuOption;
 import menu.options.interfaces.IMenuOption;
@@ -35,9 +38,9 @@ public class StockCrud {
 	private List<IMenuOption> getDefaultFieldOptions(Stock stock) {
 		List<IMenuOption> options = new ArrayList<>();
 
-		options.add(new CrudField<String>("Adicionar quantidade", "Insira a quantidade para adicionar:", (q) -> stock.addQuantity(Integer.parseInt(q))));
-		options.add(new CrudField<String>("Remover quantidade", "Insira a quantidade para remover:", (q) -> stock.remQuantity(Integer.parseInt(q))));
-		options.add(new CrudField<String>("Preço", "Insira o preço:", (p) -> stock.setPrice(Double.parseDouble(p))));
+		options.add(new IntegerCrudField("Adicionar quantidade", "Insira a quantidade para adicionar:", (q) -> stock.addQuantity(q)));
+		options.add(new IntegerCrudField("Remover quantidade", "Insira a quantidade para remover:", (q) -> stock.remQuantity(q)));
+		options.add(new DoubleCrudField("Preço", "Insira o preço:", (p) -> stock.setPrice(p)));
 
 		return options;
 	}

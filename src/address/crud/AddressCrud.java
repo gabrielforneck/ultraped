@@ -8,7 +8,7 @@ import java.util.function.Function;
 import address.Address;
 import address.validation.AddressValidation;
 import consoleinterface.nextaction.NextAction;
-import crud.CrudField;
+import crud.field.StringCrudField;
 import menu.Menu;
 import menu.options.MethodMenuOption;
 import menu.options.interfaces.IMenuOption;
@@ -35,13 +35,13 @@ public class AddressCrud {
 	private List<IMenuOption> getDefaultFieldOptions(Address address) {
 		List<IMenuOption> options = new ArrayList<>();
 
-		options.add(new CrudField<String>("Rua", "Insira a rua:", (n) -> address.setStreet(n)));
-		options.add(new CrudField<String>("Número", "Insira o número:", (d) -> address.setNumber(d)));
-		options.add(new CrudField<String>("Complemento", "Insira o complemento:", (p) -> address.setComplement(p)));
-		options.add(new CrudField<String>("Bairro", "Insira o bairro:", (e) -> address.setDistrict(e)));
-		options.add(new CrudField<String>("CEP", "Insira o CEP:", (e) -> address.setCep(e)));
-		options.add(new CrudField<String>("Cidade", "Insira a cidade:", (e) -> address.setCity(e)));
-		options.add(new CrudField<String>("Estado", "Insira o estado:", (e) -> address.setState(e)));
+		options.add(new StringCrudField("Rua", "Insira a rua:", (n) -> address.setStreet(n)));
+		options.add(new StringCrudField("Número", "Insira o número:", (d) -> address.setNumber(d)));
+		options.add(new StringCrudField("Complemento", "Insira o complemento:", (p) -> address.setComplement(p)));
+		options.add(new StringCrudField("Bairro", "Insira o bairro:", (e) -> address.setDistrict(e)));
+		options.add(new StringCrudField("CEP", "Insira o CEP:", (e) -> address.setCep(e)));
+		options.add(new StringCrudField("Cidade", "Insira a cidade:", (e) -> address.setCity(e)));
+		options.add(new StringCrudField("Estado", "Insira o estado:", (e) -> address.setState(e)));
 
 		return options;
 	}
