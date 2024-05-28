@@ -6,10 +6,8 @@ import java.util.Scanner;
 import java.util.function.Function;
 
 import consoleinterface.nextaction.NextAction;
-import crud.field.CrudField;
 import crud.field.DoubleCrudField;
 import crud.field.IntegerCrudField;
-import crud.field.StringCrudField;
 import menu.Menu;
 import menu.options.MethodMenuOption;
 import menu.options.interfaces.IMenuOption;
