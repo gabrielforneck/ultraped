@@ -1,7 +1,5 @@
 package result;
 
-import consoleinterface.nextaction.NextAction;
-
 public class Result {
 
 	private boolean isSuccess;
@@ -16,17 +14,6 @@ public class Result {
 		super();
 		this.isSuccess = isSuccess;
 		this.message = message;
-	}
-
-	public NextAction toContinueNextActionIfFailure() {
-		if (this.isFailure())
-			return NextAction.Continue(this.message);
-
-		return NextAction.Exit();
-	}
-	
-	public NextAction toContinueNextAction() {
-		return NextAction.Continue();
 	}
 
 	public static Result Success() {
