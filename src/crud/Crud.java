@@ -66,7 +66,7 @@ public abstract class Crud extends Menu {
 	
 	protected <T extends EntityWithID> ResultWithData<T> waitForId(Scanner sc, Repository<T> repository, String description) {
 		if (repository.getData().size() == 0)
-			return ResultWithData.Failure("Não há registros para realizar esta ação.");
+			return ResultWithData.failure("Não há registros para realizar esta ação.");
 
 		int iD;
 		System.out.print(description);
@@ -76,14 +76,14 @@ public abstract class Crud extends Menu {
 			sc.nextLine();
 		} catch (Exception ex) {
 			sc.next();
-			return ResultWithData.Failure("Entrada inválida");
+			return ResultWithData.failure("Entrada inválida");
 		}
 
 		T record = repository.getByID(iD);
 		if (record == null)
-			return ResultWithData.Failure("Registro não encontrado.");
+			return ResultWithData.failure("Registro não encontrado.");
 
-		return ResultWithData.Success(record);
+		return ResultWithData.success(record);
 	}
 
 	protected <T extends EntityWithID> NextAction validateAndSaveNew(T newRecord, Function<T, Result> validator,

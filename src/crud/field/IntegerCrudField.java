@@ -21,7 +21,7 @@ public class IntegerCrudField extends CrudField<Integer> {
 			field = Integer.parseInt(sc.nextLine());
 		} catch (Exception e) {
 			sc.next();
-			return Result.Failure("Entrada inválida");
+			return Result.failure("Entrada inválida");
 		}
 
 		return super.getFieldSetter().apply(field);

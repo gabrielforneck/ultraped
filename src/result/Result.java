@@ -16,11 +16,11 @@ public class Result {
 		this.message = message;
 	}
 
-	public static Result Success() {
+	public static Result success() {
 		return new Result(true);
 	}
 
-	public static Result Failure(String message) {
+	public static Result failure(String message) {
 		return new Result(false, message);
 	}
 
@@ -43,5 +43,4 @@ public class Result {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-
 }

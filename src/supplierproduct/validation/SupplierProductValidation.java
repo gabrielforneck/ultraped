@@ -12,22 +12,22 @@ public final class SupplierProductValidation {
 
 	public static Result validateSupplierID(int supplierID) {
 		if (supplierID <= 0)
-			return Result.Failure("Código do fornecedor inválido.");
+			return Result.failure("Código do fornecedor inválido.");
 		
 		if (!EcommerceData.supplierRepository.exists(supplierID))
-			return Result.Failure("O fornecedor não existe.");
+			return Result.failure("O fornecedor não existe.");
 		
-		return Result.Success();
+		return Result.success();
 	}
 	
 	public static Result validateProductID(int productID) {
 		if (productID <= 0)
-			return Result.Failure("Código do produto inválido.");
+			return Result.failure("Código do produto inválido.");
 		
 		if (!EcommerceData.productRepository.exists(productID))
-			return Result.Failure("O produto não existe.");
+			return Result.failure("O produto não existe.");
 		
-		return Result.Success();
+		return Result.success();
 	}
 	
 	public static Result validateAll(SupplierProduct product) {

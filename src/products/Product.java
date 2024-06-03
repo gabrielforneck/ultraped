@@ -25,7 +25,7 @@ public class Product extends EntityWithID {
 		
 		this.name = name;
 		
-		return Result.Success();
+		return Result.success();
 	}
 
 	public String getDescription() {
@@ -39,7 +39,7 @@ public class Product extends EntityWithID {
 		
 		this.description = description;
 		
-		return Result.Success();
+		return Result.success();
 	}
 
 	public Stock getStock() {

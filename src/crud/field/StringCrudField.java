@@ -20,7 +20,7 @@ public class StringCrudField extends CrudField<String> {
 			field = sc.nextLine();
 		} catch (Exception e) {
 			sc.next();
-			return Result.Failure("Entrada inválida");
+			return Result.failure("Entrada inválida");
 		}
 
 		return super.getFieldSetter().apply(field);

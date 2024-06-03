@@ -21,7 +21,7 @@ public class DoubleCrudField extends CrudField<Double> {
 			field = Double.parseDouble(sc.nextLine());
 		} catch (Exception e) {
 			sc.next();
-			return Result.Failure("Entrada inválida");
+			return Result.failure("Entrada inválida");
 		}
 
 		return super.getFieldSetter().apply(field);

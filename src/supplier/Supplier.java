@@ -28,7 +28,7 @@ public class Supplier extends EntityWithID {
 			return result;
 
 		this.name = name;
-		return Result.Success();
+		return Result.success();
 	}
 
 	public String getDescription() {
@@ -41,7 +41,7 @@ public class Supplier extends EntityWithID {
 			return result;
 
 		this.description = description;
-		return Result.Success();
+		return Result.success();
 	}
 
 	public String getPhone() {
@@ -54,7 +54,7 @@ public class Supplier extends EntityWithID {
 			return result;
 
 		this.phone = phone;
-		return Result.Success();
+		return Result.success();
 	}
 
 	public String getEmail() {
@@ -67,7 +67,7 @@ public class Supplier extends EntityWithID {
 			return result;
 
 		this.email = email;
-		return Result.Success();
+		return Result.success();
 	}
 
 	public Address getAddress() {
@@ -80,7 +80,7 @@ public class Supplier extends EntityWithID {
 			return result;
 		
 		this.address = address;
-		return Result.Success();
+		return Result.success();
 	}
 
 	@Override

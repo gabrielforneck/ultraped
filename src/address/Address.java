@@ -38,7 +38,7 @@ public class Address {
 
 		this.street = street;
 
-		return Result.Success();
+		return Result.success();
 	}
 
 	public String getNumber() {
@@ -52,7 +52,7 @@ public class Address {
 
 		this.number = number;
 
-		return Result.Success();
+		return Result.success();
 	}
 
 	public String getComplement() {
@@ -61,7 +61,7 @@ public class Address {
 
 	public Result setComplement(String complement) {
 		this.complement = complement;
-		return Result.Success();
+		return Result.success();
 	}
 
 	public String getDistrict() {
@@ -75,7 +75,7 @@ public class Address {
 
 		this.district = district;
 
-		return Result.Success();
+		return Result.success();
 	}
 
 	public String getCep() {
@@ -89,7 +89,7 @@ public class Address {
 
 		this.cep = cep;
 
-		return Result.Success();
+		return Result.success();
 	}
 
 	public String getCity() {
@@ -103,7 +103,7 @@ public class Address {
 
 		this.city = city;
 
-		return Result.Success();
+		return Result.success();
 	}
 
 	public String getState() {
@@ -117,7 +117,7 @@ public class Address {
 
 		this.state = state;
 
-		return Result.Success();
+		return Result.success();
 	}
 	
 	public void clear() {

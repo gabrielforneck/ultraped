@@ -23,7 +23,7 @@ public class Stock {
 			return result;
 		
 		this.quantity += quantity;
-		return Result.Success();
+		return Result.success();
 	}
 	
 	public Result remQuantity(int quantity) {
@@ -32,7 +32,7 @@ public class Stock {
 			return result;
 		
 		this.quantity -= quantity;
-		return Result.Success();
+		return Result.success();
 	}
 
 	public double getPrice() {
@@ -45,7 +45,7 @@ public class Stock {
 			return result;
 		
 		this.price = price;
-		return Result.Success();
+		return Result.success();
 	}
 	
 	@Override
