@@ -9,6 +9,7 @@ import java.util.List;
 import com.google.gson.Gson;
 
 import result.Result;
+import result.ResultWithData;
 import supplier.Supplier;
 
 public class SupplierRepository {
@@ -17,11 +18,12 @@ public class SupplierRepository {
 	
 	public Result Insert(Supplier s) {
 		
-		List<Supplier> suppliers = getAll();
-		if (suppliers == null) suppliers = new ArrayList<Supplier>();
+		ResultWithData<List<Supplier>> suppliersResult = getAll();
+		if (suppliersResult.isFailure()) return Result.failure(suppliersResult.getMessage());
 		
+		List<Supplier> suppliers = suppliersResult.getData();
+
 		s.setId(getNextID(suppliers));
-		
 		suppliers.add(s);
 		
 		Result saveResult = saveToFile(suppliers);
@@ -32,7 +34,10 @@ public class SupplierRepository {
 	}
 	
 	public Result Update(Supplier s) {
-		List<Supplier> suppliers = getAll();
+		ResultWithData<List<Supplier>> suppliersResult = getAll();
+		if (suppliersResult.isFailure()) return Result.failure(suppliersResult.getMessage());
+		
+		List<Supplier> suppliers = suppliersResult.getData();
 		
 		int index = getIndexByID(s.getId(), suppliers);
 		if (index == -1) return Result.failure("Registro não encontrado.");
@@ -47,7 +52,10 @@ public class SupplierRepository {
 	}
 	
 	public Result Delete(int iD) {
-		List<Supplier> suppliers = getAll();
+		ResultWithData<List<Supplier>> suppliersResult = getAll();
+		if (suppliersResult.isFailure()) return Result.failure(suppliersResult.getMessage());
+		
+		List<Supplier> suppliers = suppliersResult.getData();
 		
 		int index = getIndexByID(iD, suppliers);
 		if (index == -1) return Result.failure("Registro não encontrado.");
@@ -61,8 +69,11 @@ public class SupplierRepository {
 		return Result.success();
 	}
 	
-	public Supplier getByID(int iD) {
-		return getByID(iD, getAll());
+	public ResultWithData<Supplier> getByID(int iD) {
+		ResultWithData<List<Supplier>> suppliersResult = getAll();
+		if (suppliersResult.isFailure()) return ResultWithData.failure(suppliersResult.getMessage());
+		
+		return ResultWithData.success(getByID(iD, suppliersResult.getData()));
 	}
 
 	private Supplier getByID(int iD, List<Supplier> suppliers) {
@@ -83,8 +94,11 @@ public class SupplierRepository {
 		return -1;
 	}
 	
-	public int getNextID() {
-		return getNextID(getAll());
+	public ResultWithData<Integer> getNextID() {
+		ResultWithData<List<Supplier>> suppliersResult = getAll();
+		if (suppliersResult.isFailure()) return ResultWithData.failure(suppliersResult.getMessage());
+		
+		return ResultWithData.success(getNextID(suppliersResult.getData()));
 	}
 	
 	private int getNextID(List<Supplier> suppliers) {
@@ -98,7 +112,7 @@ public class SupplierRepository {
 		return maxID+1;
 	}
 
-	public List<Supplier> getAll() {
+	public ResultWithData<List<Supplier>> getAll() {
 
 		List<Supplier> suppliers;
 
@@ -107,10 +121,10 @@ public class SupplierRepository {
 		try (FileReader reader = new FileReader(FILE_LOCATION)) {
 			suppliers = gson.fromJson(reader, ArrayList.class);
 		} catch (IOException ex) {
-			return null;
+			return ResultWithData.failure("Não foi possível carregar os fornecedores do disco.");
 		}
 
-		return suppliers;
+		return ResultWithData.success(suppliers);
 	}
 	
 	public Result saveToFile(List<Supplier> suppliers) {
