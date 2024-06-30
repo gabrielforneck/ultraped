@@ -3,6 +3,7 @@ package products.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import application.Program;
 import products.Product;
 import repositories.exceptions.NotFoundException;
 
@@ -45,8 +46,9 @@ public class ProductRepository {
 
 	public int getNextID() {
 		int max = 0;
+		List<Product> allProducts = Program.applicationData.supplierRepository.getAllProducts();
 
-		for (Product p : products)
+		for (Product p : allProducts)
 			if (p.getId() > max)
 				max = p.getId();
 

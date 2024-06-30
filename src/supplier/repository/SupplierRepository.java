@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
+import products.Product;
 import repositories.exceptions.NotFoundException;
 import supplier.Supplier;
 
@@ -93,5 +94,14 @@ public class SupplierRepository {
 				searchResult.add(s);
 		
 		return searchResult;
+	}
+	
+	public List<Product> getAllProducts() {
+		List<Product> products = new ArrayList<>();
+		
+		for (Supplier s : suppliers)
+			products.addAll(s.getProducts());
+		
+		return products;
 	}
 }
