@@ -1,5 +1,7 @@
 package result;
 
+import consoleinterface.nextaction.NextAction;
+
 public class Result {
 
 	private boolean isSuccess;
@@ -22,6 +24,13 @@ public class Result {
 
 	public static Result failure(String message) {
 		return new Result(false, message);
+	}
+	
+	public NextAction toExitNextActionIfSucces() {
+		if (isSuccess)
+			return NextAction.Exit();
+		
+		return NextAction.Continue(message);
 	}
 
 	public boolean isSuccess() {

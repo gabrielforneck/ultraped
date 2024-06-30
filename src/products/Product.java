@@ -1,17 +1,25 @@
 package products;
 
 import products.validation.ProductValidation;
-import repositories.EntityWithID;
 import result.Result;
 import stock.Stock;
 
-public class Product extends EntityWithID {
+public class Product {
+	private int id;
 	private String name;
 	private String description;
 	private Stock stock;
 
 	public Product() {
 		this.stock = new Stock(0, 0.0);
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {

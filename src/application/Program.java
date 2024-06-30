@@ -5,7 +5,6 @@ import java.util.Scanner;
 import ecommerce.EcommerceData;
 import menu.Menu;
 import menu.options.MenuOption;
-import products.crud.ProductCrud;
 import result.ResultWithData;
 import supplier.crud.SupplierCrud;
 
@@ -20,7 +19,6 @@ public class Program {
 
 		new Menu("ULTRAPED")
 			.addOptions(new MenuOption("Fornecedores", new SupplierCrud().showBackOption()))
-			.addOptions(new MenuOption("Produtos", new ProductCrud().showBackOption()))
 			.showExitOption()
 			.execute(sc);
 		
@@ -31,7 +29,7 @@ public class Program {
 		ResultWithData<EcommerceData> appDataResult = EcommerceData.loadAll();
 		if (appDataResult.isFailure())
 		{
-			System.out.println(appDataResult.getMessage());
+			System.out.println("Ocorreu um erro ao carregar os dados da aplicação: " + appDataResult.getMessage());
 			System.exit(0);
 		}
 		

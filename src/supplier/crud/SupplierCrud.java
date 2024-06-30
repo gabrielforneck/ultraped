@@ -5,25 +5,22 @@ import java.util.List;
 import java.util.Scanner;
 
 import address.crud.AddressCrud;
+import application.Program;
 import consoleinterface.nextaction.NextAction;
 import consoleinterface.table.ConsoleTable;
 import consoleinterface.table.ConsoleTableColumn;
 import crud.Crud;
+import crud.field.IntegerCrudField;
 import crud.field.StringCrudField;
-import ecommerce.EcommerceData;
 import menu.Menu;
 import menu.options.MethodMenuOption;
 import menu.options.interfaces.IExecutableOption;
 import menu.options.interfaces.IMenuOption;
-import products.Product;
-import products.crud.ProductCrud;
 import result.ResultWithData;
 import supplier.Supplier;
 import supplier.validation.SupplierValidations;
-import supplierproduct.SupplierProduct;
-import supplierproduct.validation.SupplierProductValidation;
 
-public class SupplierCrud extends Crud implements IExecutableOption {
+public class SupplierCrud extends Crud<Supplier> implements IExecutableOption {
 
 	public SupplierCrud() {
 		super("Fornecedores");
@@ -44,66 +41,48 @@ public class SupplierCrud extends Crud implements IExecutableOption {
 
 	@Override
 	protected void showDataAsTable() {
-		getDefaultConsoleTable().setData(EcommerceData.supplierRepository.getData()).build();
+		getDefaultConsoleTable().setData(Program.applicationData.supplierRepository.getAll()).build();
 	}
 
 	@Override
 	protected NextAction create(Scanner sc) {
 		Supplier dummySupplier = new Supplier();
-		List<IMenuOption> options = getDefaultFieldOptions(dummySupplier);
 
-		options.add(new MethodMenuOption("Endereço", (scanner) -> new AddressCrud().update(dummySupplier.getAddress(), sc)));
-		options.add(new MethodMenuOption("Aceitar", (scanner) -> validateAndSaveNew(dummySupplier,
-				(s) -> SupplierValidations.validateAll(s), (s) -> EcommerceData.supplierRepository.save(s))));
-
-		new Menu("Novo fornecedor", options).setDetailsToShow(dummySupplier).showCancelOption().execute(sc);
+		updateRecord("Novo fornecedor", dummySupplier, sc);
+		
+		Program.applicationData.supplierRepository.save(dummySupplier);
 
 		return NextAction.Continue();
 	}
 
 	@Override
 	protected NextAction update(Scanner sc) {
-		ResultWithData<Supplier> selectResult = waitForId(sc, EcommerceData.supplierRepository);
-		if (selectResult.isFailure())
-			return NextAction.Continue(selectResult.getMessage());
+		ResultWithData<Supplier> requestResult = requestSupplier(sc);
+		if (requestResult.isFailure())
+			return NextAction.Continue(requestResult.getMessage());
 
-		Supplier selectedSupplier = selectResult.getData();
+		//Não preciso atualizar no repositório pois já estou alterando na referência.
+		return updateRecord("Atualizar o registro " + requestResult.getData().getId(), requestResult.getData(), sc);
+	}
+	
+	@Override
+	protected NextAction updateRecord(String title, Supplier record, Scanner sc) {
+		List<IMenuOption> options = getDefaultFieldOptions(record);
+		options.add(new MethodMenuOption("Concluir", (scanner) -> SupplierValidations.validateAll(record).toExitNextActionIfSucces()));
 
-		List<IMenuOption> options = getDefaultFieldOptions(selectedSupplier);
-
-		options.add(new MethodMenuOption("Vincular um produto",
-				(scanner) -> addProduct(scanner, selectedSupplier.getId())));
-		options.add(new MethodMenuOption("Ver produtos vinculados",
-				(scanner) -> showAllProductsBySupplierID(scanner, selectedSupplier.getId())));
-		options.add(new MethodMenuOption("Desvincular produto",
-				(scanner) -> remProduct(scanner, selectedSupplier.getId())));
-		options.add(new MethodMenuOption("Endereço", (scanner) -> new AddressCrud().update(selectedSupplier.getAddress(), sc)));
-		options.add(new MethodMenuOption("Aceitar", (scanner) -> validateAndSaveNew(selectedSupplier,
-				(s) -> SupplierValidations.validateAll(s), (s) -> EcommerceData.supplierRepository.update(s))));
-
-		new Menu("Alterar o fornecedor " + selectedSupplier.getId(), options).setDetailsToShow(selectedSupplier)
-				.showCancelOption().execute(sc);
-
-		return NextAction.Continue();
+		return new Menu(title, options).setDetailsToShow(record).execute(sc);
 	}
 
 	@Override
 	protected NextAction delete(Scanner sc) {
-		ResultWithData<Supplier> selectResult = waitForId(sc, EcommerceData.supplierRepository);
-		if (selectResult.isFailure())
-			return NextAction.Continue(selectResult.getMessage());
+		ResultWithData<Supplier> requestResult = requestSupplier(sc);
+		if (requestResult.isFailure())
+			return NextAction.Continue(requestResult.getMessage());
+		
+		//TODO: Avaliar como validar se o fornecedor pode ser excluído. Exemplo: o fornecedor tem produtos que estão em uso em algum pedido.
+		Program.applicationData.supplierRepository.delete(requestResult.getData().getId());
 
-		Supplier selectedSupplier = selectResult.getData();
-
-		List<IMenuOption> options = new ArrayList<>();
-
-		options.add(new MethodMenuOption("Aceitar", (scanner) -> NextAction.ExecuteAndExit(scanner,
-				(s) -> EcommerceData.supplierRepository.delete(selectedSupplier))));
-
-		new Menu("Você deseja mesmo remover o fornecedor " + selectedSupplier.getId() + "?", options)
-				.setDetailsToShow(selectedSupplier).showCancelOption().execute(sc);
-
-		return NextAction.Continue();
+		return NextAction.Continue("Fornecedor removido.");
 	}
 
 	private List<IMenuOption> getDefaultFieldOptions(Supplier supplier) {
@@ -113,97 +92,40 @@ public class SupplierCrud extends Crud implements IExecutableOption {
 		options.add(new StringCrudField("Descrição", "Insira a descrição:", (d) -> supplier.setDescription(d)));
 		options.add(new StringCrudField("Telefone", "Insira o telefone:", (p) -> supplier.setPhone(p)));
 		options.add(new StringCrudField("E-mail", "Insira o e-mail:", (e) -> supplier.setEmail(e)));
+		options.add(new MethodMenuOption("Endereço", (sc) -> new AddressCrud().update(supplier.getAddress(), sc)));
 
 		return options;
 	}
-
-	private NextAction addProduct(Scanner sc, int supplierID) {
-		SupplierProduct dummySupplierProduct = new SupplierProduct();
-
-		ResultWithData<Product> selectProductResult = waitForId(sc, EcommerceData.productRepository,
-				"Insira o ID do produto: ");
-		if (selectProductResult.isFailure())
-			return NextAction.Continue(selectProductResult.getMessage());
-
-		dummySupplierProduct.setSupplierID(supplierID);
-		dummySupplierProduct.setProductID(selectProductResult.getData().getId());
-
-		if (SupplierProductValidation.isASupplierProduct(dummySupplierProduct))
-			return NextAction.Continue("Essa vinculação já existe.");
-
-		List<IMenuOption> options = new ArrayList<>();
-
-		options.add(new MethodMenuOption("Aceitar", (scanner) -> NextAction.ExecuteAndExit(scanner,
-				(s) -> EcommerceData.supplierProductRepository.save(dummySupplierProduct))));
-
-		String details = "FORNECEDOR:\n";
-		details += EcommerceData.supplierRepository.getByID(dummySupplierProduct.getSupplierID()).toString() + "\n\n";
-		details += "PRODUTO:\n";
-		details += EcommerceData.productRepository.getByID(dummySupplierProduct.getProductID()).toString();
-
-		new Menu("Você deseja mesmo confirmar essa vinculação?", options).setDetailsToShow(details).showCancelOption()
-				.execute(sc);
-
-		return NextAction.Exit();
-	}
-
-	private NextAction showAllProductsBySupplierID(Scanner sc, int supplierID) {
-		ProductCrud.getDefaultConsoleTable().setData(SupplierProductValidation.getAllProductsBySupplierID(supplierID))
-				.build();
-
-		System.out.println("\nPressione enter para continuar");
-		sc.nextLine();
-
-		return NextAction.Continue();
-	}
-
-	private NextAction remProduct(Scanner sc, int supplierID) {
-		SupplierProduct dummySupplierProduct = new SupplierProduct();
-
-		ResultWithData<Product> selectProductResult = waitForId(sc, EcommerceData.productRepository,
-				"Insira o ID do produto: ");
-		if (selectProductResult.isFailure())
-			return NextAction.Continue(selectProductResult.getMessage());
-
-		dummySupplierProduct.setSupplierID(supplierID);
-		dummySupplierProduct.setProductID(selectProductResult.getData().getId());
-
-		dummySupplierProduct.setId(SupplierProductValidation.getID(dummySupplierProduct));
-		if (dummySupplierProduct.getId() == 0)
-			return NextAction.Continue("Essa vinculação não existe.");
-
-		String details = "FORNECEDOR:\n";
-		details += EcommerceData.supplierRepository.getByID(dummySupplierProduct.getSupplierID()).toString() + "\n\n";
-		details += "PRODUTO:\n";
-		details += EcommerceData.productRepository.getByID(dummySupplierProduct.getProductID()).toString();
-
-		new Menu("Você deseja mesmo desfazer essa vinculação?")
-				.addOptions(new MethodMenuOption("Aceitar",
-						(scanner) -> NextAction.ExecuteAndExit(scanner,
-								(s) -> EcommerceData.supplierProductRepository.delete(dummySupplierProduct))))
-				.setDetailsToShow(details).showCancelOption().execute(sc);
-
-		return NextAction.Exit();
-	}
 	
 	private NextAction filterByName(Scanner sc) {
+		ResultWithData<String> requestResult = new StringCrudField("", "Insira a pesquisa:").requestData(sc);
+		if (requestResult.isFailure())
+			return NextAction.Continue(requestResult.getMessage());
 		
-		System.out.println("Insira a pesquisa:");
-		String filter = sc.nextLine();
-		List<Supplier> filteredResults = new ArrayList<Supplier>();
-		
-		for (Supplier sp : EcommerceData.supplierRepository.getData())
-			if (sp.getName().contains(filter))
-				filteredResults.add(sp);
-		
-		if (filteredResults.size() == 0)
+		List<Supplier> searchResult = Program.applicationData.supplierRepository.getByName(requestResult.getData());
+		if (searchResult.size() == 0)
 			return NextAction.Continue("Não houveram resultados.");
 		
-		getDefaultConsoleTable().setData(filteredResults).build();
+		getDefaultConsoleTable().setData(searchResult).build();
 		System.out.println("Prescione enter para continuar.");
 		sc.nextLine();
 		
 		return NextAction.Continue();
+	}
+	
+	private ResultWithData<Supplier> requestSupplier(Scanner sc) {
+		if (Program.applicationData.supplierRepository.getCount() == 0)
+			return ResultWithData.failure("Nenhum fornecedor cadastrado.");
+
+		ResultWithData<Integer> requestResult = new IntegerCrudField("", "Insira o ID do registro: ").requestData(sc);
+		if (requestResult.isFailure())
+			return ResultWithData.failure(requestResult.getMessage());
+		
+		Supplier selectedSupplier = Program.applicationData.supplierRepository.getByID(requestResult.getData());
+		if (selectedSupplier == null)
+			return ResultWithData.failure("Fornecedor não encontrado.");
+		
+		return ResultWithData.success(selectedSupplier);
 	}
 
 }

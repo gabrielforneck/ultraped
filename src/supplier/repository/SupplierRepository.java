@@ -1,141 +1,94 @@
 package supplier.repository;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.Gson;
-
-import result.Result;
-import result.ResultWithData;
+import repositories.exceptions.NotFoundException;
 import supplier.Supplier;
 
 public class SupplierRepository {
 
-	public static final String FILE_LOCATION = "/data/suppliers.json";
-	
-	public Result Insert(Supplier s) {
-		
-		ResultWithData<List<Supplier>> suppliersResult = getAll();
-		if (suppliersResult.isFailure()) return Result.failure(suppliersResult.getMessage());
-		
-		List<Supplier> suppliers = suppliersResult.getData();
+	private List<Supplier> suppliers;
 
-		s.setId(getNextID(suppliers));
-		suppliers.add(s);
-		
-		Result saveResult = saveToFile(suppliers);
-		if (saveResult.isFailure())
-			return Result.failure("Não foi possível salvar o novo registro no disco: " + saveResult.getMessage() + ".");
-		
-		return Result.success();
+	public SupplierRepository() {
+		this.suppliers = new ArrayList<>();
 	}
 	
-	public Result Update(Supplier s) {
-		ResultWithData<List<Supplier>> suppliersResult = getAll();
-		if (suppliersResult.isFailure()) return Result.failure(suppliersResult.getMessage());
-		
-		List<Supplier> suppliers = suppliersResult.getData();
-		
-		int index = getIndexByID(s.getId(), suppliers);
-		if (index == -1) return Result.failure("Registro não encontrado.");
-		
-		suppliers.set(index, s);
-		
-		Result saveResult = saveToFile(suppliers);
-		if (saveResult.isFailure())
-			return Result.failure("Não foi possível salvar as alterações em disco: " + saveResult.getMessage() + ".");
-		
-		return Result.success();
-	}
-	
-	public Result Delete(int iD) {
-		ResultWithData<List<Supplier>> suppliersResult = getAll();
-		if (suppliersResult.isFailure()) return Result.failure(suppliersResult.getMessage());
-		
-		List<Supplier> suppliers = suppliersResult.getData();
-		
-		int index = getIndexByID(iD, suppliers);
-		if (index == -1) return Result.failure("Registro não encontrado.");
-		
-		suppliers.remove(index);
-		
-		Result saveResult = saveToFile(suppliers);
-		if (saveResult.isFailure())
-			return Result.failure("Não foi possível remover o registro do disco: " + saveResult.getMessage() + ".");
-		
-		return Result.success();
-	}
-	
-	public ResultWithData<Supplier> getByID(int iD) {
-		ResultWithData<List<Supplier>> suppliersResult = getAll();
-		if (suppliersResult.isFailure()) return ResultWithData.failure(suppliersResult.getMessage());
-		
-		return ResultWithData.success(getByID(iD, suppliersResult.getData()));
+	public SupplierRepository(List<Supplier> suppliers) {
+		this.suppliers = suppliers;
 	}
 
-	private Supplier getByID(int iD, List<Supplier> suppliers) {
-
-		int index = getIndexByID(iD, suppliers);
-		if (index == -1) return null;
-		
-		return suppliers.get(index);
+	public void save(Supplier supplier) {
+		supplier.setId(getNextID());
+		suppliers.add(supplier);
 	}
-	
-	private int getIndexByID(int iD, List<Supplier> suppliers) {
 
-		if (suppliers == null) return -1;
-		
+	public void update(Supplier supplier) {
+		int oldRecordIndex = getIndexByID(supplier.getId());
+		if (oldRecordIndex == -1)
+			throw new NotFoundException("Registro não encontrado.");
+
+		suppliers.set(oldRecordIndex, supplier);
+	}
+
+	public void delete(int id) {
+		int recordIndex = getIndexByID(id);
+		if (recordIndex == -1)
+			throw new NotFoundException("Registro não encontrado.");
+
+		suppliers.remove(recordIndex);
+	}
+
+	public boolean exists(int iD) {
+		return getIndexByID(iD) != -1;
+	}
+
+	public int getNextID() {
+		int max = 0;
+
+		for (Supplier record : suppliers)
+			if (record.getId() > max)
+				max = record.getId();
+
+		return ++max;
+	}
+
+	private int getIndexByID(int iD) {
+
 		for (int i = 0; i < suppliers.size(); i++)
-			if (suppliers.get(i).getId() == iD) return i;
-		
+			if (suppliers.get(i).getId() == iD)
+				return i;
+
 		return -1;
 	}
-	
-	public ResultWithData<Integer> getNextID() {
-		ResultWithData<List<Supplier>> suppliersResult = getAll();
-		if (suppliersResult.isFailure()) return ResultWithData.failure(suppliersResult.getMessage());
-		
-		return ResultWithData.success(getNextID(suppliersResult.getData()));
+
+	public Supplier getByID(int iD) {
+
+		for (Supplier record : suppliers)
+			if (record.getId() == iD)
+				return record;
+
+		return null;
+	}
+
+	public List<Supplier> getAll() {
+		return suppliers;
 	}
 	
-	private int getNextID(List<Supplier> suppliers) {
-		int maxID = 1;
+	public int getCount() {
+		return suppliers.size();
+	}
+	
+	public List<Supplier> getByName(String nameFilter) {
+		if (nameFilter == null)
+			return new ArrayList<Supplier>();
 		
-		if (suppliers == null) return 1;
+		List<Supplier> searchResult = new ArrayList<Supplier>();
 		
 		for (Supplier s : suppliers)
-			if (s.getId() > maxID) maxID = s.getId();
+			if (s.getName().contains(nameFilter))
+				searchResult.add(s);
 		
-		return maxID+1;
-	}
-
-	public ResultWithData<List<Supplier>> getAll() {
-
-		List<Supplier> suppliers;
-
-		Gson gson = new Gson();
-
-		try (FileReader reader = new FileReader(FILE_LOCATION)) {
-			suppliers = gson.fromJson(reader, ArrayList.class);
-		} catch (IOException ex) {
-			return ResultWithData.failure("Não foi possível carregar os fornecedores do disco.");
-		}
-
-		return ResultWithData.success(suppliers);
-	}
-	
-	public Result saveToFile(List<Supplier> suppliers) {
-		Gson gson = new Gson();
-		
-		try (FileWriter writer = new FileWriter(FILE_LOCATION)) {
-			gson.toJson(suppliers, writer);
-		} catch (Exception e) {
-			return Result.failure(e.getMessage());
-		}
-		
-		return Result.success();
+		return searchResult;
 	}
 }

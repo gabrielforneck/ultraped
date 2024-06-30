@@ -1,21 +1,36 @@
 package supplier;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import address.Address;
 import address.validation.AddressValidation;
-import repositories.EntityWithID;
+import products.Product;
+import products.validation.ProductValidation;
 import result.Result;
 import supplier.validation.SupplierValidations;
 
-public class Supplier extends EntityWithID {
+public class Supplier {
+	private int id;
 	private String name;
 	private String description;
 	private String phone;
 	private String email;
 	private Address address;
+	private List<Product> products;
 
 	public Supplier() {
 		super();
 		this.address = new Address();
+		this.products = new ArrayList<>();
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -80,6 +95,24 @@ public class Supplier extends EntityWithID {
 			return result;
 		
 		this.address = address;
+		return Result.success();
+	}
+	
+	public List<Product> getProducts() {
+		return products;
+	}
+	
+	@Deprecated
+	public Result setProducts(List<Product> products) {
+		
+		for (Product p : products) {
+			Result validation = ProductValidation.validateAll(p);
+			if (validation.isFailure())
+				return validation;
+		}
+		
+		this.products = products;
+		
 		return Result.success();
 	}
 

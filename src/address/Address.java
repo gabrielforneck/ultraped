@@ -119,36 +119,11 @@ public class Address {
 
 		return Result.success();
 	}
-	
-	public void clear() {
-		this.street = null;
-		this.number = null;
-		this.district = null;
-		this.cep = null;
-		this.city = null;
-		this.complement = null;
-		this.state = null;
-	}
 
 	@Override
 	public String toString() {
 		return "Rua " + (street != null ? street : "") + ", número " + (number != null ? number : "")
 				+ (complement != null && complement.length() > 0 ? ", complemento " + complement : "") + ", bairro "
 				+ (district != null ? district : "") + ", CEP " + (cep != null ? cep : "") + ", cidade " + (city != null ? city : "") + " - " + (state != null ? state : "");
-	}
-	
-	@Override
-	public Address clone() {
-		return new Address(street, number, complement, district, cep, city, state);
-	}
-	
-	public void copyTo(Address address) {
-		address.setStreet(this.getStreet());
-		address.setNumber(this.getNumber());
-		address.setComplement(this.getComplement());
-		address.setDistrict(this.getDistrict());
-		address.setCep(this.getCep());
-		address.setCity(this.getCity());
-		address.setState(this.getState());
 	}
 }

@@ -1,8 +1,5 @@
 package consoleinterface.nextaction;
 
-import java.util.Scanner;
-import java.util.function.Consumer;
-
 public class NextAction {
 
 	private String description;
@@ -26,11 +23,6 @@ public class NextAction {
 
 	public static NextAction Continue(String description) {
 		return new NextAction(description, ENextAction.CONTINUE);
-	}
-
-	public static NextAction ExecuteAndExit(Scanner sc, Consumer<Scanner> action) {
-		action.accept(sc);
-		return new NextAction(ENextAction.EXIT);
 	}
 
 	public static NextAction Exit() {

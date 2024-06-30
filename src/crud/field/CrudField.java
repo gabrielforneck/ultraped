@@ -6,6 +6,7 @@ import java.util.function.Function;
 import consoleinterface.nextaction.NextAction;
 import menu.options.interfaces.IMenuOption;
 import result.Result;
+import result.ResultWithData;
 
 public abstract class CrudField<T> implements IMenuOption {
 
@@ -14,11 +15,17 @@ public abstract class CrudField<T> implements IMenuOption {
 	private Function<T, Result> fieldSetter;
 
 
-	public CrudField(String description, String requestString, Function<T, Result> fieldSetter) {
+	protected CrudField(String description, String requestString, Function<T, Result> fieldSetter) {
 		super();
 		this.description = description;
 		this.requestString = requestString;
 		this.fieldSetter = fieldSetter;
+	}
+	
+	protected CrudField(String description, String requestString) {
+		super();
+		this.description = description;
+		this.requestString = requestString;
 	}
 
 	@Override
@@ -36,6 +43,7 @@ public abstract class CrudField<T> implements IMenuOption {
 	}
 
 	public abstract Result requestField(Scanner sc);
+	public abstract ResultWithData<T> requestData(Scanner sc);
 
 	public String getRequestString() {
 		return requestString;

@@ -54,23 +54,4 @@ public class Stock {
 				+ ", preço: " + price;
 	}
 	
-	@Override
-	public Stock clone() {
-		return new Stock(quantity, price);
-	}
-	
-	public void clear() {
-		this.price = 0;
-		this.quantity = -1;
-	}
-	
-	public void copyTo(Stock s) {
-		s.setPrice(price);
-		s.setQuantity(quantity);
-	}
-
-	private void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-	
 }
