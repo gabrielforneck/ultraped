@@ -9,7 +9,7 @@ import application.Program;
 import consoleinterface.nextaction.NextAction;
 import consoleinterface.table.ConsoleTable;
 import consoleinterface.table.ConsoleTableColumn;
-import crud.Crud;
+import crud.FullCrud;
 import crud.field.IntegerCrudField;
 import crud.field.StringCrudField;
 import menu.Menu;
@@ -22,13 +22,11 @@ import result.ResultWithData;
 import supplier.Supplier;
 import supplier.validation.SupplierValidations;
 
-public class SupplierCrud extends Crud<Supplier> implements IExecutableOption {
+public class SupplierCrud extends FullCrud<Supplier> implements IExecutableOption {
 
 	public SupplierCrud() {
 		super("Fornecedores");
 		addDefaultCrudOptions();
-		options.add(new MethodMenuOption("Buscar", this::filterByName));
-		options.add(new MethodMenuOption("Visualizar", this::showSupplierDetails));
 	}
 
 	public static ConsoleTable<Supplier> getDefaultConsoleTable() {
@@ -53,6 +51,7 @@ public class SupplierCrud extends Crud<Supplier> implements IExecutableOption {
 
 		updateRecord("Novo fornecedor", dummySupplier, sc);
 		
+		//TODO: Fazer com que a alteração seja salva em disco
 		Program.applicationData.supplierRepository.save(dummySupplier);
 
 		return NextAction.Continue();
@@ -65,6 +64,7 @@ public class SupplierCrud extends Crud<Supplier> implements IExecutableOption {
 			return NextAction.Continue(requestResult.getMessage());
 
 		//Não preciso atualizar no repositório pois já estou alterando na referência.
+		//TODO: Fazer com que a alteração seja salva em disco
 		return updateRecord("Atualizar o registro " + requestResult.getData().getId(), requestResult.getData(), sc);
 	}
 	
@@ -83,6 +83,7 @@ public class SupplierCrud extends Crud<Supplier> implements IExecutableOption {
 			return NextAction.Continue(requestResult.getMessage());
 		
 		//TODO: Avaliar como validar se o fornecedor pode ser excluído. Exemplo: o fornecedor tem produtos que estão em uso em algum pedido.
+		//TODO: Fazer com que a alteração seja salva em disco
 		Program.applicationData.supplierRepository.delete(requestResult.getData().getId());
 
 		return NextAction.Continue("Fornecedor removido.");
@@ -140,5 +141,12 @@ public class SupplierCrud extends Crud<Supplier> implements IExecutableOption {
 		
 		return ResultWithData.success(selectedSupplier);
 	}
-
+	
+	private void addDefaultCrudOptions() {
+		options.add(new MethodMenuOption("Criar", this::create));
+		options.add(new MethodMenuOption("Alterar", this::update));
+		options.add(new MethodMenuOption("Excluir", this::delete));
+		options.add(new MethodMenuOption("Buscar", this::filterByName));
+		options.add(new MethodMenuOption("Visualizar", this::showSupplierDetails));
+	}
 }

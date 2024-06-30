@@ -8,7 +8,7 @@ import application.Program;
 import consoleinterface.nextaction.NextAction;
 import consoleinterface.table.ConsoleTable;
 import consoleinterface.table.ConsoleTableColumn;
-import crud.Crud;
+import crud.FullCrud;
 import crud.field.IntegerCrudField;
 import crud.field.StringCrudField;
 import menu.Menu;
@@ -21,7 +21,7 @@ import result.ResultWithData;
 import stock.crud.StockCrud;
 import supplier.Supplier;
 
-public class ProductCrud extends Crud<Product> {
+public class ProductCrud extends FullCrud<Product> {
 	
 	private ProductRepository localRepository;
 	
@@ -125,5 +125,12 @@ public class ProductCrud extends Crud<Product> {
 			return ResultWithData.failure("Produto não encontrado.");
 		
 		return ResultWithData.success(selectedProduct);
+	}
+	
+	private void addDefaultCrudOptions() {
+		
+		options.add(new MethodMenuOption("Criar", this::create));
+		options.add(new MethodMenuOption("Alterar", this::update));
+		options.add(new MethodMenuOption("Excluir", this::delete));
 	}
 }

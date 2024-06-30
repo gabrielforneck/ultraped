@@ -8,6 +8,7 @@ import java.io.IOException;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
+import costumer.repository.CostumerRepository;
 import result.Result;
 import result.ResultWithData;
 import supplier.repository.SupplierRepository;
@@ -17,6 +18,9 @@ public class EcommerceData {
 	
 	@SerializedName("supplierRepository")
 	public SupplierRepository supplierRepository = new SupplierRepository();
+	
+	@SerializedName("costumerRepository")
+	public CostumerRepository costumerRepository = new CostumerRepository();
 	
 	public static ResultWithData<EcommerceData> loadAll() {
 		File f = new File(FILE_LOCATION);
