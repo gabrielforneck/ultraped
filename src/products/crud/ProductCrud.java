@@ -26,10 +26,10 @@ public class ProductCrud extends Crud<Product> {
 	private ProductRepository localRepository;
 	
 	public ProductCrud(Supplier supplier) {
-		super("Produtos");
+		super("Produtos do fornecedor " + (supplier.getId() == 0 ? "?" : supplier.getId()));
 		localRepository = new ProductRepository(supplier.getProducts());
 		addDefaultCrudOptions();
-		options.add(new MethodMenuOption("Buscar", (sc) -> filterByName(sc)));
+		options.add(new MethodMenuOption("Buscar", this::filterByName));
 	}
 	
 	public static ConsoleTable<Product> getDefaultConsoleTable() {
@@ -90,8 +90,8 @@ public class ProductCrud extends Crud<Product> {
 	private List<IMenuOption> getDefaultFieldOptions(Product product) {
 		List<IMenuOption> options = new ArrayList<>();
 
-		options.add(new StringCrudField("Nome", "Insira o nome:", (n) -> product.setName(n)));
-		options.add(new StringCrudField("Descrição", "Insira a descrição:", (d) -> product.setDescription(d)));
+		options.add(new StringCrudField("Nome", "Insira o nome:", product::setName));
+		options.add(new StringCrudField("Descrição", "Insira a descrição:", product::setDescription));
 		options.add(new MethodMenuOption("Editar estoque", (sc) -> new StockCrud().update(product.getStock(), sc)));
 
 		return options;
@@ -107,8 +107,7 @@ public class ProductCrud extends Crud<Product> {
 			return NextAction.Continue("Não houveram resultados.");
 		
 		getDefaultConsoleTable().setData(filteredResults).build();
-		System.out.println("Prescione enter para continuar.");
-		sc.nextLine();
+		super.waitForEnter(sc);
 		
 		return NextAction.Continue();
 	}

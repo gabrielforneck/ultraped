@@ -49,8 +49,8 @@ public abstract class Crud<T> extends Menu {
 
 	protected void addDefaultCrudOptions() {
 
-		options.add(new MethodMenuOption("Criar", (sc) -> create(sc)));
-		options.add(new MethodMenuOption("Alterar", (sc) -> update(sc)));
-		options.add(new MethodMenuOption("Excluir", (sc) -> delete(sc)));
+		options.add(new MethodMenuOption("Criar", this::create));
+		options.add(new MethodMenuOption("Alterar", this::update));
+		options.add(new MethodMenuOption("Excluir", this::delete));
 	}
 }

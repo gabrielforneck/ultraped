@@ -27,7 +27,8 @@ public class SupplierCrud extends Crud<Supplier> implements IExecutableOption {
 	public SupplierCrud() {
 		super("Fornecedores");
 		addDefaultCrudOptions();
-		options.add(new MethodMenuOption("Buscar", (sc) -> filterByName(sc)));
+		options.add(new MethodMenuOption("Buscar", this::filterByName));
+		options.add(new MethodMenuOption("Visualizar", this::showSupplierDetails));
 	}
 
 	public static ConsoleTable<Supplier> getDefaultConsoleTable() {
@@ -86,14 +87,24 @@ public class SupplierCrud extends Crud<Supplier> implements IExecutableOption {
 
 		return NextAction.Continue("Fornecedor removido.");
 	}
+	
+	private NextAction showSupplierDetails(Scanner sc) {
+		ResultWithData<Supplier> requestResult = requestSupplier(sc);
+		if (requestResult.isFailure())
+			return NextAction.Continue(requestResult.getMessage());
+		
+		System.out.println(requestResult.getData().toString());
+		super.waitForEnter(sc);
+		return NextAction.Continue();
+	}
 
 	private List<IMenuOption> getDefaultFieldOptions(Supplier supplier) {
 		List<IMenuOption> options = new ArrayList<>();
 
-		options.add(new StringCrudField("Nome", "Insira o nome:", (n) -> supplier.setName(n)));
-		options.add(new StringCrudField("Descrição", "Insira a descrição:", (d) -> supplier.setDescription(d)));
-		options.add(new StringCrudField("Telefone", "Insira o telefone:", (p) -> supplier.setPhone(p)));
-		options.add(new StringCrudField("E-mail", "Insira o e-mail:", (e) -> supplier.setEmail(e)));
+		options.add(new StringCrudField("Nome", "Insira o nome:", supplier::setName));
+		options.add(new StringCrudField("Descrição", "Insira a descrição:", supplier::setDescription));
+		options.add(new StringCrudField("Telefone", "Insira o telefone:", supplier::setPhone));
+		options.add(new StringCrudField("E-mail", "Insira o e-mail:", supplier::setEmail));
 		options.add(new MethodMenuOption("Endereço", (sc) -> new AddressCrud().update(supplier.getAddress(), sc)));
 		options.add(new MenuOption("Produtos", new ProductCrud(supplier).showBackOption()));
 
@@ -110,8 +121,7 @@ public class SupplierCrud extends Crud<Supplier> implements IExecutableOption {
 			return NextAction.Continue("Não houveram resultados.");
 		
 		getDefaultConsoleTable().setData(searchResult).build();
-		System.out.println("Prescione enter para continuar.");
-		sc.nextLine();
+		super.waitForEnter(sc);
 		
 		return NextAction.Continue();
 	}

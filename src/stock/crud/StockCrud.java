@@ -25,9 +25,9 @@ public class StockCrud {
 	private List<IMenuOption> getDefaultFieldOptions(Stock stock) {
 		List<IMenuOption> options = new ArrayList<>();
 
-		options.add(new IntegerCrudField("Adicionar quantidade", "Insira a quantidade para adicionar:", (q) -> stock.addQuantity(q)));
-		options.add(new IntegerCrudField("Remover quantidade", "Insira a quantidade para remover:", (q) -> stock.remQuantity(q)));
-		options.add(new DoubleCrudField("Preço", "Insira o preço:", (p) -> stock.setPrice(p)));
+		options.add(new IntegerCrudField("Adicionar quantidade", "Insira a quantidade para adicionar:", stock::addQuantity));
+		options.add(new IntegerCrudField("Remover quantidade", "Insira a quantidade para remover:", stock::remQuantity));
+		options.add(new DoubleCrudField("Preço", "Insira o preço:", stock::setPrice));
 
 		return options;
 	}

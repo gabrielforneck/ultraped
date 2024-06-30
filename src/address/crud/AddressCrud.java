@@ -24,13 +24,13 @@ public class AddressCrud {
 	private List<IMenuOption> getDefaultFieldOptions(Address address) {
 		List<IMenuOption> options = new ArrayList<>();
 
-		options.add(new StringCrudField("Rua", "Insira a rua:", (s) -> address.setStreet(s)));
-		options.add(new StringCrudField("Número", "Insira o número:", (n) -> address.setNumber(n)));
-		options.add(new StringCrudField("Complemento", "Insira o complemento:", (c) -> address.setComplement(c)));
-		options.add(new StringCrudField("Bairro", "Insira o bairro:", (b) -> address.setDistrict(b)));
-		options.add(new StringCrudField("CEP", "Insira o CEP:", (c) -> address.setCep(c)));
-		options.add(new StringCrudField("Cidade", "Insira a cidade:", (c) -> address.setCity(c)));
-		options.add(new StringCrudField("Estado", "Insira o estado:", (e) -> address.setState(e)));
+		options.add(new StringCrudField("Rua", "Insira a rua:", address::setStreet));
+		options.add(new StringCrudField("Número", "Insira o número:", address::setNumber));
+		options.add(new StringCrudField("Complemento", "Insira o complemento:", address::setComplement));
+		options.add(new StringCrudField("Bairro", "Insira o bairro:", address::setDistrict));
+		options.add(new StringCrudField("CEP", "Insira o CEP:", address::setCep));
+		options.add(new StringCrudField("Cidade", "Insira a cidade:", address::setCity));
+		options.add(new StringCrudField("Estado", "Insira o estado:", address::setState));
 
 		return options;
 	}

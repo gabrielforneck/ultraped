@@ -100,6 +100,11 @@ public class Menu extends ConsoleInterface implements IExecutableOption {
 		System.out.println();
 		return selectedOption.execute(sc);
 	}
+	
+	protected void waitForEnter(Scanner sc) {
+		System.out.println("Pressione enter para continuar.");
+		sc.nextLine();
+	}
 
 	public Menu showCancelOption() {
 		addOptions(DefaultMenuOptions.cancelOption());
