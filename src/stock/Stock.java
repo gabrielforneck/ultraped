@@ -1,10 +1,15 @@
 package stock;
 
+import com.google.gson.annotations.SerializedName;
+
 import result.Result;
 import stock.validation.StockValidation;
 
 public class Stock {
+	@SerializedName("quantity")
 	public int quantity;
+	
+	@SerializedName("price")
 	public double price;
 	
 	public Stock(int quantity, double price) {
@@ -23,7 +28,7 @@ public class Stock {
 			return result;
 		
 		this.quantity += quantity;
-		return Result.Success();
+		return Result.success();
 	}
 	
 	public Result remQuantity(int quantity) {
@@ -32,7 +37,7 @@ public class Stock {
 			return result;
 		
 		this.quantity -= quantity;
-		return Result.Success();
+		return Result.success();
 	}
 
 	public double getPrice() {
@@ -45,32 +50,13 @@ public class Stock {
 			return result;
 		
 		this.price = price;
-		return Result.Success();
+		return Result.success();
 	}
 	
 	@Override
 	public String toString() {
 		return "Quantidade: " + quantity
 				+ ", preço: " + price;
-	}
-	
-	@Override
-	public Stock clone() {
-		return new Stock(quantity, price);
-	}
-	
-	public void clear() {
-		this.price = 0;
-		this.quantity = -1;
-	}
-	
-	public void copyTo(Stock s) {
-		s.setPrice(price);
-		s.setQuantity(quantity);
-	}
-
-	private void setQuantity(int quantity) {
-		this.quantity = quantity;
 	}
 	
 }

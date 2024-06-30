@@ -1,15 +1,30 @@
 package address;
 
+import com.google.gson.annotations.SerializedName;
+
 import address.validation.AddressValidation;
 import result.Result;
 
 public class Address {
+	@SerializedName("street")
 	private String street;
+	
+	@SerializedName("number")
 	private String number;
+	
+	@SerializedName("complement")
 	private String complement;
+	
+	@SerializedName("district")
 	private String district;
+	
+	@SerializedName("cep")
 	private String cep;
+	
+	@SerializedName("city")
 	private String city;
+	
+	@SerializedName("state")
 	private String state;
 
 	public Address() {
@@ -38,7 +53,7 @@ public class Address {
 
 		this.street = street;
 
-		return Result.Success();
+		return Result.success();
 	}
 
 	public String getNumber() {
@@ -52,7 +67,7 @@ public class Address {
 
 		this.number = number;
 
-		return Result.Success();
+		return Result.success();
 	}
 
 	public String getComplement() {
@@ -61,7 +76,7 @@ public class Address {
 
 	public Result setComplement(String complement) {
 		this.complement = complement;
-		return Result.Success();
+		return Result.success();
 	}
 
 	public String getDistrict() {
@@ -75,7 +90,7 @@ public class Address {
 
 		this.district = district;
 
-		return Result.Success();
+		return Result.success();
 	}
 
 	public String getCep() {
@@ -89,7 +104,7 @@ public class Address {
 
 		this.cep = cep;
 
-		return Result.Success();
+		return Result.success();
 	}
 
 	public String getCity() {
@@ -103,7 +118,7 @@ public class Address {
 
 		this.city = city;
 
-		return Result.Success();
+		return Result.success();
 	}
 
 	public String getState() {
@@ -117,17 +132,7 @@ public class Address {
 
 		this.state = state;
 
-		return Result.Success();
-	}
-	
-	public void clear() {
-		this.street = null;
-		this.number = null;
-		this.district = null;
-		this.cep = null;
-		this.city = null;
-		this.complement = null;
-		this.state = null;
+		return Result.success();
 	}
 
 	@Override
@@ -135,20 +140,5 @@ public class Address {
 		return "Rua " + (street != null ? street : "") + ", número " + (number != null ? number : "")
 				+ (complement != null && complement.length() > 0 ? ", complemento " + complement : "") + ", bairro "
 				+ (district != null ? district : "") + ", CEP " + (cep != null ? cep : "") + ", cidade " + (city != null ? city : "") + " - " + (state != null ? state : "");
-	}
-	
-	@Override
-	public Address clone() {
-		return new Address(street, number, complement, district, cep, city, state);
-	}
-	
-	public void copyTo(Address address) {
-		address.setStreet(this.getStreet());
-		address.setNumber(this.getNumber());
-		address.setComplement(this.getComplement());
-		address.setDistrict(this.getDistrict());
-		address.setCep(this.getCep());
-		address.setCity(this.getCity());
-		address.setState(this.getState());
 	}
 }

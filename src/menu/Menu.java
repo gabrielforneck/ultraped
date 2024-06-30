@@ -6,10 +6,12 @@ import java.util.Scanner;
 
 import consoleinterface.ConsoleInterface;
 import consoleinterface.nextaction.NextAction;
+import crud.field.IntegerCrudField;
 import menu.exceptions.NoOptionsDefinedException;
 import menu.options.DefaultMenuOptions;
 import menu.options.interfaces.IExecutableOption;
 import menu.options.interfaces.IMenuOption;
+import result.ResultWithData;
 
 public class Menu extends ConsoleInterface implements IExecutableOption {
 	protected List<IMenuOption> options;
@@ -86,24 +88,22 @@ public class Menu extends ConsoleInterface implements IExecutableOption {
 	}
 
 	protected NextAction waitForOptionAndExecute(Scanner sc) {
-		int optionIndex = 0;
+		ResultWithData<Integer> requestResult = new IntegerCrudField("", "Selecione a opção:").requestData(sc);
+		if (requestResult.isFailure())
+			return NextAction.Continue(requestResult.getMessage());
 
-		try {
-			System.out.print("Selecione a opção: ");
-			optionIndex = sc.nextInt();
-			sc.nextLine();
-		} catch (Exception ex) {
-			sc.next();
-			return NextAction.Continue("Entrada inválida.");
-		}
-
-		if (optionIndex < 0 || optionIndex >= options.size())
+		if (requestResult.getData() < 0 || requestResult.getData() >= options.size())
 			return NextAction.Continue("Opção não encontrada.");
 
-		IMenuOption selectedOption = this.options.get(optionIndex);
+		IMenuOption selectedOption = this.options.get(requestResult.getData());
 
 		System.out.println();
 		return selectedOption.execute(sc);
+	}
+	
+	protected void waitForEnter(Scanner sc) {
+		System.out.println("Pressione enter para continuar.");
+		sc.nextLine();
 	}
 
 	public Menu showCancelOption() {

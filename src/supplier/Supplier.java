@@ -1,21 +1,50 @@
 package supplier;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gson.annotations.SerializedName;
+
 import address.Address;
 import address.validation.AddressValidation;
-import repositories.EntityWithID;
+import products.Product;
 import result.Result;
 import supplier.validation.SupplierValidations;
 
-public class Supplier extends EntityWithID {
+public class Supplier {
+	@SerializedName("id")
+	private int id;
+	
+	@SerializedName("name")
 	private String name;
+	
+	@SerializedName("description")
 	private String description;
+	
+	@SerializedName("phone")
 	private String phone;
+	
+	@SerializedName("email")
 	private String email;
+	
+	@SerializedName("address")
 	private Address address;
+	
+	@SerializedName("products")
+	private List<Product> products;
 
 	public Supplier() {
 		super();
 		this.address = new Address();
+		this.products = new ArrayList<>();
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -28,7 +57,7 @@ public class Supplier extends EntityWithID {
 			return result;
 
 		this.name = name;
-		return Result.Success();
+		return Result.success();
 	}
 
 	public String getDescription() {
@@ -41,7 +70,7 @@ public class Supplier extends EntityWithID {
 			return result;
 
 		this.description = description;
-		return Result.Success();
+		return Result.success();
 	}
 
 	public String getPhone() {
@@ -54,7 +83,7 @@ public class Supplier extends EntityWithID {
 			return result;
 
 		this.phone = phone;
-		return Result.Success();
+		return Result.success();
 	}
 
 	public String getEmail() {
@@ -67,7 +96,7 @@ public class Supplier extends EntityWithID {
 			return result;
 
 		this.email = email;
-		return Result.Success();
+		return Result.success();
 	}
 
 	public Address getAddress() {
@@ -80,7 +109,11 @@ public class Supplier extends EntityWithID {
 			return result;
 		
 		this.address = address;
-		return Result.Success();
+		return Result.success();
+	}
+	
+	public List<Product> getProducts() {
+		return products;
 	}
 
 	@Override
