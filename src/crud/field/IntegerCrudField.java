@@ -3,7 +3,6 @@ package crud.field;
 import java.util.Scanner;
 import java.util.function.Function;
 
-import crud.field.exceptions.FiledSetterNotDefinedException;
 import result.Result;
 import result.ResultWithData;
 
@@ -18,17 +17,6 @@ public class IntegerCrudField extends CrudField<Integer> {
 	}
 
 	@Override
-	public Result requestField(Scanner sc) {
-		if (super.getFieldSetter() == null)
-			throw new FiledSetterNotDefinedException();
-
-		ResultWithData<Integer> requestResult = requestData(sc);
-		if (requestResult.isFailure())
-			return Result.failure(requestResult.getMessage());
-
-		return super.getFieldSetter().apply(requestResult.getData());
-	}
-	
 	public ResultWithData<Integer> requestData(Scanner sc) {
 		Integer field;
 
@@ -38,7 +26,7 @@ public class IntegerCrudField extends CrudField<Integer> {
 			field = Integer.parseInt(sc.nextLine());
 		} catch (Exception e) {
 			sc.reset();
-			return ResultWithData.failure("Entrada inválida");
+			return ResultWithData.failure("Entrada inválida.");
 		}
 		
 		return ResultWithData.success(field);
