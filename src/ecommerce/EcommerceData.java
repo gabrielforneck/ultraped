@@ -4,18 +4,18 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 
 import result.Result;
 import result.ResultWithData;
-import supplier.Supplier;
 import supplier.repository.SupplierRepository;
 
 public class EcommerceData {
 	private static final String FILE_LOCATION = "data.upd";
 	
+	@SerializedName("supplierRepository")
 	public SupplierRepository supplierRepository = new SupplierRepository();
 	
 	public static ResultWithData<EcommerceData> loadAll() {
@@ -38,13 +38,13 @@ public class EcommerceData {
 		return ResultWithData.success(ec);
 	}
 	
-	public Result saveAll(List<Supplier> suppliers) {
+	public Result saveAll() {
 		Gson gson = new Gson();
 		
 		try (FileWriter writer = new FileWriter(FILE_LOCATION)) {			
-			gson.toJson(suppliers, writer);
+			gson.toJson(this, writer);
 		} catch (Exception ex) {
-			return Result.failure("Ocorreu um erro ao salvar os dados da aplicação: " + ex.getMessage());
+			return Result.failure(ex.getMessage());
 		}
 		
 		return Result.success();

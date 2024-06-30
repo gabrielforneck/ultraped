@@ -3,11 +3,14 @@ package supplier.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.annotations.SerializedName;
+
 import repositories.exceptions.NotFoundException;
 import supplier.Supplier;
 
 public class SupplierRepository {
 
+	@SerializedName("suppliers")
 	private List<Supplier> suppliers;
 
 	public SupplierRepository() {

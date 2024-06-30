@@ -1,15 +1,30 @@
 package address;
 
+import com.google.gson.annotations.SerializedName;
+
 import address.validation.AddressValidation;
 import result.Result;
 
 public class Address {
+	@SerializedName("street")
 	private String street;
+	
+	@SerializedName("number")
 	private String number;
+	
+	@SerializedName("complement")
 	private String complement;
+	
+	@SerializedName("district")
 	private String district;
+	
+	@SerializedName("cep")
 	private String cep;
+	
+	@SerializedName("city")
 	private String city;
+	
+	@SerializedName("state")
 	private String state;
 
 	public Address() {

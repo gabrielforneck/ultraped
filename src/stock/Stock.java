@@ -1,10 +1,15 @@
 package stock;
 
+import com.google.gson.annotations.SerializedName;
+
 import result.Result;
 import stock.validation.StockValidation;
 
 public class Stock {
+	@SerializedName("quantity")
 	public int quantity;
+	
+	@SerializedName("price")
 	public double price;
 	
 	public Stock(int quantity, double price) {

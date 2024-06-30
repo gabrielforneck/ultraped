@@ -5,6 +5,7 @@ import java.util.Scanner;
 import ecommerce.EcommerceData;
 import menu.Menu;
 import menu.options.MenuOption;
+import result.Result;
 import result.ResultWithData;
 import supplier.crud.SupplierCrud;
 
@@ -21,6 +22,10 @@ public class Program {
 			.addOptions(new MenuOption("Fornecedores", new SupplierCrud().showBackOption()))
 			.showExitOption()
 			.execute(sc);
+		
+		Result saveResult = applicationData.saveAll();
+		if (saveResult.isFailure())
+			System.out.println("Ocorreu um erro ao salvar os dados da aplicação: " + saveResult.getMessage());
 		
 		sc.close();
 	}

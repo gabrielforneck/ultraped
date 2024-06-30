@@ -3,20 +3,34 @@ package supplier;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.annotations.SerializedName;
+
 import address.Address;
 import address.validation.AddressValidation;
 import products.Product;
-import products.validation.ProductValidation;
 import result.Result;
 import supplier.validation.SupplierValidations;
 
 public class Supplier {
+	@SerializedName("id")
 	private int id;
+	
+	@SerializedName("name")
 	private String name;
+	
+	@SerializedName("description")
 	private String description;
+	
+	@SerializedName("phone")
 	private String phone;
+	
+	@SerializedName("email")
 	private String email;
+	
+	@SerializedName("address")
 	private Address address;
+	
+	@SerializedName("products")
 	private List<Product> products;
 
 	public Supplier() {
@@ -100,20 +114,6 @@ public class Supplier {
 	
 	public List<Product> getProducts() {
 		return products;
-	}
-	
-	@Deprecated
-	public Result setProducts(List<Product> products) {
-		
-		for (Product p : products) {
-			Result validation = ProductValidation.validateAll(p);
-			if (validation.isFailure())
-				return validation;
-		}
-		
-		this.products = products;
-		
-		return Result.success();
 	}
 
 	@Override

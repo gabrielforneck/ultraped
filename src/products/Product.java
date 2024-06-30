@@ -1,13 +1,22 @@
 package products;
 
+import com.google.gson.annotations.SerializedName;
+
 import products.validation.ProductValidation;
 import result.Result;
 import stock.Stock;
 
 public class Product {
+	@SerializedName("id")
 	private int id;
+	
+	@SerializedName("name")
 	private String name;
+	
+	@SerializedName("description")
 	private String description;
+	
+	@SerializedName("stock")
 	private Stock stock;
 
 	public Product() {
