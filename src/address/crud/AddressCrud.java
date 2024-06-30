@@ -18,7 +18,7 @@ public class AddressCrud {
 		List<IMenuOption> options = getDefaultFieldOptions(address);
 		options.add(new MethodMenuOption("Aceitar", (scanner) -> AddressValidation.validateAll(address).toExitNextActionIfSucces()));
 
-		return new Menu("Novo endereço").addOptions(options).setDetailsToShow(address).execute(sc);
+		return new Menu("Alterar endereço").addOptions(options).setDetailsToShow(address).execute(sc);
 	}
 
 	private List<IMenuOption> getDefaultFieldOptions(Address address) {

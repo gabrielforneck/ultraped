@@ -37,7 +37,7 @@ public class IntegerCrudField extends CrudField<Integer> {
 		try {
 			field = Integer.parseInt(sc.nextLine());
 		} catch (Exception e) {
-			sc.next();
+			sc.reset();
 			return ResultWithData.failure("Entrada inválida");
 		}
 		

@@ -37,7 +37,7 @@ public class StringCrudField extends CrudField<String> {
 		try {
 			field = sc.nextLine();
 		} catch (Exception e) {
-			sc.next();
+			sc.reset();
 			return ResultWithData.failure("Entrada inválida");
 		}
 		

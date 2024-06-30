@@ -13,9 +13,11 @@ import crud.Crud;
 import crud.field.IntegerCrudField;
 import crud.field.StringCrudField;
 import menu.Menu;
+import menu.options.MenuOption;
 import menu.options.MethodMenuOption;
 import menu.options.interfaces.IExecutableOption;
 import menu.options.interfaces.IMenuOption;
+import products.crud.ProductCrud;
 import result.ResultWithData;
 import supplier.Supplier;
 import supplier.validation.SupplierValidations;
@@ -93,6 +95,7 @@ public class SupplierCrud extends Crud<Supplier> implements IExecutableOption {
 		options.add(new StringCrudField("Telefone", "Insira o telefone:", (p) -> supplier.setPhone(p)));
 		options.add(new StringCrudField("E-mail", "Insira o e-mail:", (e) -> supplier.setEmail(e)));
 		options.add(new MethodMenuOption("Endereço", (sc) -> new AddressCrud().update(supplier.getAddress(), sc)));
+		options.add(new MenuOption("Produtos", new ProductCrud(supplier).showBackOption()));
 
 		return options;
 	}
