@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import order.validation.OrderValidation;
 import result.Result;
 
 public class Order {
@@ -42,20 +43,49 @@ public class Order {
 		this.deliveryDate = deliveryDate;
 	}
 
-	public int getProductsQuantity() {
+	public int getOrderProductsQuantity() {
 		return products.size();
 	}
 	
-	public OrderProduct getProduct(int index) {
+	public OrderProduct getOrderProduct(int index) {
 		return products.get(index);
 	}
 
-	public void setProduct(int index, OrderProduct p) {
+	public Result setOrderProduct(int index, OrderProduct p) {
+		Result validationResult = OrderValidation.productValidation(p, this);
+		if (validationResult.isFailure())
+			return validationResult;
+
 		products.set(index, p);
+		
+		return Result.success();
 	}
 	
-	public void removeProduct(int index) {
+	public void removeOrderProduct(int index) {
 		products.remove(index);
+	}
+	
+	public Result addOrderProduct(OrderProduct p) {
+		Result validationResult = OrderValidation.productValidation(p, this);
+		if (validationResult.isFailure())
+			return validationResult;
+
+		products.add(p);
+		
+		return Result.success();
+	}
+	
+	public boolean orderProductExists(int productID) {
+		return getOrderProductIndexByProductID(productID) != -1;
+	}
+	
+	public int getOrderProductIndexByProductID(int productID) {
+		for (int i = 0; i < products.size(); i++) {
+			if (products.get(i).getProduct().getId() == productID)
+				return i;
+		}
+		
+		return -1;
 	}
 	
 	public Result cancel() {
@@ -78,5 +108,22 @@ public class Order {
 		
 		situation = EOrderSituation.DELIVERED;
 		return Result.success();
+	}
+	
+	public double getTotalPrice() {
+		double total = 0.0;
+		
+		for (OrderProduct p : products) {
+			total += p.getTotalValue();
+		}
+		
+		return total;
+	}
+	
+	@Override
+	public String toString() {
+		return "ID: " + (id == 0 ? "?" : id) + "\n"
+				+ "Quantidade de itens: " + getOrderProductsQuantity() + "\n"
+				+ "Total do pedido: " + getTotalPrice();
 	}
 }

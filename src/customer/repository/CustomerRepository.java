@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 import customer.Customer;
+import order.Order;
 import repositories.exceptions.NotFoundException;
 
 public class CustomerRepository {
@@ -104,5 +105,12 @@ public class CustomerRepository {
 		return null;
 	}
 	
-	//TODO: getAllOrders
+	public List<Order> getAllOrders() {
+		List<Order> orders = new ArrayList<>();
+
+		for (Customer c : customers)
+			orders.addAll(c.getOrders());
+		
+		return orders;
+	}
 }

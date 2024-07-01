@@ -30,58 +30,65 @@ public class ConsoleTable<T> extends ConsoleInterface implements IConsoleTable {
 		if (columns == null || columns.size() == 0)
 			throw new NoColumnsDefinedException();
 
-		buildHeader();
-		buildBody();
+		System.out.println(this.toString());
 	}
 
-	private void buildBody() {
+	private String buildBody() {
+		String body = "";
+		String tableSeparator = getTableSeparator('-');
 
 		for (T record : data) {
-			showRecord(record);
-			drawTableSeparator('-');
+			body += getRecordLine(record);
+			body += tableSeparator;
 		}
+		
+		return body;
 	}
 
-	private void showRecord(T record) {
-
-		System.out.print(" | ");
+	private String getRecordLine(T record) {
+		String line = " | ";
 
 		for (ConsoleTableColumn<T> column : columns) {
-			System.out.print(column.getColumnDataWithColumnSize(record));
-			System.out.print(" | ");
+			line += column.getColumnDataWithColumnSize(record);
+			line += " | ";
 		}
 
-		System.out.println();
+		return line + "\n";
 	}
 
-	private void buildHeader() {
-		drawTableSeparator('=');
-		showColumnsNames();
-		drawTableSeparator('=');
+	private String buildHeader() {
+		String header = "";
+		String tableSeparator = getTableSeparator('=');
+		
+		header += tableSeparator;
+		header += getColumnsNames();
+		header += tableSeparator;
+		
+		return header;
 	}
 
-	private void showColumnsNames() {
-		System.out.print(" | ");
+	private String getColumnsNames() {
+		String line = " | ";
 
 		for (ConsoleTableColumn<T> column : columns) {
-			System.out.print(column.getColumnNameWithColumnSize());
-			System.out.print(" | ");
+			line += column.getColumnNameWithColumnSize();
+			line += " | ";
 		}
 
-		System.out.println();
+		return line + "\n";
 	}
 
-	private void drawTableSeparator(char ch) {
-
-		System.out.print(" + ");
+	private String getTableSeparator(char ch) {
+		String line = " + ";
+		
+		String chSeparator = Character.toString(ch);
 
 		for (ConsoleTableColumn<T> column : columns) {
-			drawLine(column.getColumnSize(), ch);
-			System.out.print(" + ");
+			line += chSeparator.repeat(column.getColumnSize());
+			line += " + ";
 		}
 
-		System.out.println();
-
+		return line + "\n";
 	}
 
 	public List<T> getData() {
@@ -108,6 +115,11 @@ public class ConsoleTable<T> extends ConsoleInterface implements IConsoleTable {
 
 	public void addColumn(int columnIndex, ConsoleTableColumn<T> newColumn) {
 		this.columns.add(columnIndex, newColumn);
+	}
+	
+	@Override
+	public String toString() {
+		return buildHeader() + buildBody();
 	}
 
 }

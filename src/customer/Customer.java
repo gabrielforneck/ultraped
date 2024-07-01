@@ -1,10 +1,14 @@
 package customer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gson.annotations.SerializedName;
 
 import address.Address;
 import address.validation.AddressValidation;
 import customer.validation.CustomerValidation;
+import order.Order;
 import result.Result;
 
 public class Customer {
@@ -25,9 +29,13 @@ public class Customer {
 	
 	@SerializedName("address")
 	private Address address;
+	
+	@SerializedName("orders")
+	private List<Order> orders;
 
 	public Customer() {
 		address = new Address();
+		orders = new ArrayList<>();
 	}
 
 	public int getId() {
@@ -103,6 +111,10 @@ public class Customer {
 		this.address = address;
 		
 		return Result.success();
+	}
+	
+	public List<Order> getOrders() {
+		return orders;
 	}
 	
 	@Override

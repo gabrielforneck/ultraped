@@ -93,5 +93,22 @@ public class ProductRepository {
 		
 		return searchResult;
 	}
+	
+	public List<Product> getByIDOrNameOrDescription(String filter) {
+		int idFilter = 0;
+		List<Product> searchResult = new ArrayList<>();
+		
+		try {
+			idFilter = Integer.parseInt(filter);
+		} catch (NumberFormatException ex) {
+			idFilter = 0;
+		}
+		
+		for (Product p : products)
+			if (p.getId() == idFilter || p.getName().toLowerCase().contains(filter.toLowerCase()) || p.getDescription().toLowerCase().contains(filter.toLowerCase()))
+				searchResult.add(p);
+		
+		return searchResult;
+	}
 
 }
