@@ -14,7 +14,6 @@ import menu.options.MethodMenuOption;
 import order.Order;
 import order.menus.OrderCreationMenu;
 import order.repository.OrderRepository;
-import products.Product;
 import products.repository.ProductRepository;
 import result.ResultWithData;
 
@@ -66,11 +65,17 @@ public class CustomerArea extends Menu {
 		
 		System.out.println(requestResult.getData().toString());
 		
+		System.out.println();
 		System.out.println("Produtos do pedido:");
-		for (Product p : requestResult.getData().getAllProducts()) {
-			System.out.println(p);
+		
+		for (int i = 0; i < requestResult.getData().getOrderProductsQuantity(); i++) {
+			System.out.println("-> Item " + (i+1) + ":");
+			System.out.println(requestResult.getData().getOrderProduct(i).toString());
 			System.out.println();
+			
 		}
+		
+		super.waitForEnter(sc);
 		
 		return NextAction.Continue();
 	}

@@ -11,7 +11,6 @@ import menu.Menu;
 import menu.options.MethodMenuOption;
 import order.Order;
 import order.repository.OrderRepository;
-import products.Product;
 import result.Result;
 import result.ResultWithData;
 
@@ -87,12 +86,17 @@ public class OrdersManagementMenu extends Menu {
 			return NextAction.Continue(requestResult.getMessage());
 		
 		System.out.println(requestResult.getData().toString());
+		System.out.println();
 		
 		System.out.println("Produtos do pedido:");
-		for (Product p : requestResult.getData().getAllProducts()) {
-			System.out.println(p);
+		for (int i = 0; i < requestResult.getData().getOrderProductsQuantity(); i++) {
+			System.out.println("-> Item " + (i+1) + ":");
+			System.out.println(requestResult.getData().getOrderProduct(i).toString());
 			System.out.println();
+			
 		}
+		
+		super.waitForEnter(sc);
 		
 		return NextAction.Continue();
 	}
