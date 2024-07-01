@@ -1,6 +1,7 @@
 package costumer.validation;
 
 import address.validation.AddressValidation;
+import application.Program;
 import costumer.Costumer;
 import result.Result;
 
@@ -25,6 +26,9 @@ public final class CostumerValidation {
 		
 		if (!email.contains("@"))
 			return Result.failure("E-mail inválido.");
+		
+		if (Program.applicationData.costumerRepository.getByEmail(email) != null)
+			return Result.failure("Já exite um cliente cadastrado com este e-mail.");
 		
 		return Result.success();
 	}

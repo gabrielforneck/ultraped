@@ -94,5 +94,15 @@ public class CostumerRepository {
 		return searchResult;
 	}
 	
+	public Costumer getByEmail(String email) {
+
+		for (Costumer c : costumers) {
+			if (c.getEmail().equalsIgnoreCase(email))
+				return c;
+		}
+		
+		return null;
+	}
+	
 	//TODO: getAllOrders
 }
