@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.Program;
+import order.Order;
 import products.Product;
 import repositories.exceptions.NotFoundException;
 
@@ -123,6 +124,15 @@ public class ProductRepository {
 	
 	public void setData(List<Product> products) {
 		this.products = products;
+	}
+	
+	public boolean isInUse(Product p) {
+		
+		for (Order o : Program.applicationData.customerRepository.getAllOrders())
+			if (o.getAllProducts().contains(p))
+				return true;
+		
+		return false;
 	}
 
 }

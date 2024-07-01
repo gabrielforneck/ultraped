@@ -51,7 +51,6 @@ public final class CustomerCrud {
 		if (requestResult.getData() == false)
 			return NextAction.Continue();
 		
-		//TODO: Avaliar como validar se o fornecedor pode ser excluído. Exemplo: o fornecedor tem produtos que estão em uso em algum pedido.
 		//TODO: Fazer com que a alteração seja salva em disco
 		Program.applicationData.customerRepository.delete(c.getId());
 

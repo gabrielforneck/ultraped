@@ -18,6 +18,7 @@ import menu.options.MethodMenuOption;
 import menu.options.interfaces.IExecutableOption;
 import menu.options.interfaces.IMenuOption;
 import products.crud.ProductCrud;
+import result.Result;
 import result.ResultWithData;
 import supplier.Supplier;
 import supplier.validation.SupplierValidations;
@@ -82,7 +83,10 @@ public class SupplierCrud extends FullCrud<Supplier> implements IExecutableOptio
 		if (requestResult.isFailure())
 			return NextAction.Continue(requestResult.getMessage());
 		
-		//TODO: Avaliar como validar se o fornecedor pode ser excluído. Exemplo: o fornecedor tem produtos que estão em uso em algum pedido.
+		Result deleteResult = SupplierValidations.canBeDeleted(requestResult.getData());
+		if (deleteResult.isFailure())
+			return NextAction.Continue(deleteResult.getMessage());
+
 		//TODO: Fazer com que a alteração seja salva em disco
 		Program.applicationData.supplierRepository.delete(requestResult.getData().getId());
 

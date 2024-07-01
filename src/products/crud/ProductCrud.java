@@ -81,10 +81,12 @@ public class ProductCrud extends FullCrud<Product> {
 		if (requestResult.isFailure())
 			return NextAction.Continue(requestResult.getMessage());
 
-		//TODO: Avaliar como validar se o fornecedor pode ser excluído. Exemplo: o produto está referenciado em mais de um local.
+		if (localRepository.isInUse(requestResult.getData()))
+			return NextAction.Continue("O produto não pode ser removido pois está em um pedido.");
+
 		localRepository.delete(requestResult.getData().getId());
 
-		return NextAction.Continue("Fornecedor removido.");
+		return NextAction.Continue("Produto removido.");
 	}
 	
 	private List<IMenuOption> getDefaultFieldOptions(Product product) {

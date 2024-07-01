@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
 import consoleinterface.table.ConsoleTable;
 import consoleinterface.table.ConsoleTableColumn;
 import order.validation.OrderValidation;
+import products.Product;
 import result.Result;
 import util.date.DateUtils;
 
@@ -134,6 +135,15 @@ public class Order {
 	
 	public void setTotalPrice(double price) {
 		this.price = price;
+	}
+	
+	public List<Product> getAllProducts() {
+		List<Product> productList = new ArrayList<>();
+		
+		for (OrderProduct o : products)
+			productList.add(o.getProduct());
+		
+		return productList;
 	}
 	
 	public double getTotalPrice() {

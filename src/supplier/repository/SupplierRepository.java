@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
+import application.Program;
+import order.Order;
 import products.Product;
 import repositories.exceptions.NotFoundException;
 import supplier.Supplier;
@@ -103,5 +105,15 @@ public class SupplierRepository {
 			products.addAll(s.getProducts());
 		
 		return products;
+	}
+	
+	public boolean hasSomeProductInSomeOrder(Supplier s) {
+		
+		for (Order o : Program.applicationData.customerRepository.getAllOrders())
+			for (Product p : s.getProducts())
+				if (o.getAllProducts().contains(p))
+					return true;
+		
+		return false;
 	}
 }

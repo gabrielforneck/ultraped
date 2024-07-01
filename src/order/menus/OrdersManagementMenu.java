@@ -73,6 +73,7 @@ public class OrdersManagementMenu extends Menu {
 		options.add(new MethodMenuOption("Entregar pedido", this::deliverOrder));
 		options.add(new MethodMenuOption("Cancelar pedido", this::cancelOrder));
 		options.add(new MethodMenuOption("Visualizar todos os pedidos", this::viewAll));
+		//TODO: Maneira para visualizar os produtos do pedido
 	}
 	
 	private void updateOrdersInProgress() {

@@ -47,6 +47,7 @@ public class CustomerArea extends Menu {
 		super.options.add(new MethodMenuOption("Ver todos meus pedidos", this::viewAllOrders));
 		super.options.add(new MethodMenuOption("Atualizar meu cadastro", (sc) -> CustomerCrud.update(sc, customer)));
 		super.options.add(new MethodMenuOption("Excluir meu cadastro", (sc) -> CustomerCrud.delete(sc, customer)));
+		//TODO: Maneira para visualizar os produtos do pedido
 	}
 	
 	private NextAction viewAllOrders(Scanner sc) {
