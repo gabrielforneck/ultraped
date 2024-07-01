@@ -8,15 +8,15 @@ import com.google.gson.annotations.SerializedName;
 import customer.Customer;
 import repositories.exceptions.NotFoundException;
 
-public class CostumerRepository {
+public class CustomerRepository {
 	@SerializedName("costumers")
 	private List<Customer> costumers;
 
-	public CostumerRepository() {
+	public CustomerRepository() {
 		this.costumers = new ArrayList<>();
 	}
 	
-	public CostumerRepository(List<Customer> costumers) {
+	public CustomerRepository(List<Customer> costumers) {
 		this.costumers = costumers;
 	}
 

@@ -2,7 +2,7 @@ package application;
 
 import java.util.Scanner;
 
-import customer.customerarea.CostumerAreaLoginScreen;
+import customer.customerarea.CustomerAreaLoginScreen;
 import ecommerce.EcommerceData;
 import menu.Menu;
 import menu.options.MenuOption;
@@ -20,7 +20,7 @@ public class Program {
 		Scanner sc = new Scanner(System.in);
 
 		new Menu("ULTRAPED")
-			.addOptions(new MenuOption("Área do cliente", new CostumerAreaLoginScreen().showBackOption()))
+			.addOptions(new MenuOption("Área do cliente", new CustomerAreaLoginScreen().showBackOption()))
 			.addOptions(new MenuOption("Área interna", new SupplierCrud().showBackOption()))
 			.showExitOption()
 			.execute(sc);

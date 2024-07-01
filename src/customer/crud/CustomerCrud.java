@@ -10,13 +10,13 @@ import consoleinterface.nextaction.NextAction;
 import crud.field.BooleanCrudField;
 import crud.field.StringCrudField;
 import customer.Customer;
-import customer.validation.CostumerValidation;
+import customer.validation.CustomerValidation;
 import menu.Menu;
 import menu.options.MethodMenuOption;
 import menu.options.interfaces.IMenuOption;
 import result.ResultWithData;
 
-public final class CostumerCrud {
+public final class CustomerCrud {
 
 	public static Customer create(Scanner sc) {
 		Customer dummyCostumer = new Customer();
@@ -38,7 +38,7 @@ public final class CostumerCrud {
 
 	private static NextAction updateRecord(String title, Customer record, Scanner sc) {
 		List<IMenuOption> options = getDefaultFieldOptions(record);
-		options.add(new MethodMenuOption("Concluir", (scanner) -> CostumerValidation.validateAll(record).toExitNextActionIfSucces()));
+		options.add(new MethodMenuOption("Concluir", (scanner) -> CustomerValidation.validateAll(record).toExitNextActionIfSucces()));
 
 		return new Menu(title, options).setDetailsToShow(record).execute(sc);
 	}

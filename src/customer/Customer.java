@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import address.Address;
 import address.validation.AddressValidation;
-import customer.validation.CostumerValidation;
+import customer.validation.CustomerValidation;
 import result.Result;
 
 public class Customer {
@@ -43,7 +43,7 @@ public class Customer {
 	}
 
 	public Result setName(String name) {
-		Result validationResult = CostumerValidation.validateName(name);
+		Result validationResult = CustomerValidation.validateName(name);
 		if (validationResult.isFailure())
 			return validationResult;
 
@@ -56,7 +56,7 @@ public class Customer {
 	}
 
 	public Result setPhone(String phone) {
-		Result validationResult = CostumerValidation.validatePhone(phone);
+		Result validationResult = CustomerValidation.validatePhone(phone);
 		if (validationResult.isFailure())
 			return validationResult;
 
@@ -69,7 +69,7 @@ public class Customer {
 	}
 
 	public Result setEmail(String email) {
-		Result validationResult = CostumerValidation.validateEmail(email, id);
+		Result validationResult = CustomerValidation.validateEmail(email, id);
 		if (validationResult.isFailure())
 			return validationResult;
 
@@ -82,7 +82,7 @@ public class Customer {
 	}
 
 	public Result setCreditCard(String creditCard) {
-		Result validationResult = CostumerValidation.validateCreditCard(creditCard);
+		Result validationResult = CustomerValidation.validateCreditCard(creditCard);
 		if (validationResult.isFailure())
 			return validationResult;
 

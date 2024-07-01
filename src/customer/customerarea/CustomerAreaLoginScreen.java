@@ -6,14 +6,14 @@ import application.Program;
 import consoleinterface.nextaction.NextAction;
 import crud.field.StringCrudField;
 import customer.Customer;
-import customer.crud.CostumerCrud;
+import customer.crud.CustomerCrud;
 import menu.Menu;
 import menu.options.MethodMenuOption;
 import result.ResultWithData;
 
-public class CostumerAreaLoginScreen extends Menu {
+public class CustomerAreaLoginScreen extends Menu {
 	
-	public CostumerAreaLoginScreen() {
+	public CustomerAreaLoginScreen() {
 		super("Acessar área do cliente");
 		addDefaultOptions();
 	}
@@ -24,10 +24,10 @@ public class CostumerAreaLoginScreen extends Menu {
 	}
 	
 	private NextAction createAccount(Scanner sc) {
-		Customer newCostummer = CostumerCrud.create(sc);
+		Customer newCostummer = CustomerCrud.create(sc);
 		
 		System.out.println();
-		return new CostumerArea(newCostummer).showBackOption().execute(sc);
+		return new CustomerArea(newCostummer).showBackOption().execute(sc);
 	}
 	
 	private NextAction login(Scanner sc) {
@@ -36,7 +36,7 @@ public class CostumerAreaLoginScreen extends Menu {
 			return NextAction.Continue(requestResult.getMessage());
 		
 		System.out.println();
-		return new CostumerArea(requestResult.getData()).showBackOption().execute(sc);
+		return new CustomerArea(requestResult.getData()).showBackOption().execute(sc);
 	}
 	
 	private ResultWithData<Customer> requestCostumerByIDOrEmail(Scanner sc) {

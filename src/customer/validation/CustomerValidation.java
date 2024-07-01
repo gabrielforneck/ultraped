@@ -5,7 +5,7 @@ import application.Program;
 import customer.Customer;
 import result.Result;
 
-public final class CostumerValidation {
+public final class CustomerValidation {
 	public static Result validateName(String name) {
 		if (name == null || name.length() == 0)
 			return Result.failure("O nome do cliente deve ser preenchido.");
