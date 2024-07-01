@@ -1,12 +1,12 @@
-package costumerarea;
+package customer.customerarea;
 
 import java.util.Scanner;
 
 import application.Program;
 import consoleinterface.nextaction.NextAction;
-import costumer.Costumer;
-import costumer.crud.CostumerCrud;
 import crud.field.StringCrudField;
+import customer.Customer;
+import customer.crud.CostumerCrud;
 import menu.Menu;
 import menu.options.MethodMenuOption;
 import result.ResultWithData;
@@ -24,14 +24,14 @@ public class CostumerAreaLoginScreen extends Menu {
 	}
 	
 	private NextAction createAccount(Scanner sc) {
-		Costumer newCostummer = CostumerCrud.create(sc);
+		Customer newCostummer = CostumerCrud.create(sc);
 		
 		System.out.println();
 		return new CostumerArea(newCostummer).showBackOption().execute(sc);
 	}
 	
 	private NextAction login(Scanner sc) {
-		ResultWithData<Costumer> requestResult = requestCostumerByIDOrEmail(sc);
+		ResultWithData<Customer> requestResult = requestCostumerByIDOrEmail(sc);
 		if (requestResult.isFailure())
 			return NextAction.Continue(requestResult.getMessage());
 		
@@ -39,12 +39,12 @@ public class CostumerAreaLoginScreen extends Menu {
 		return new CostumerArea(requestResult.getData()).showBackOption().execute(sc);
 	}
 	
-	private ResultWithData<Costumer> requestCostumerByIDOrEmail(Scanner sc) {
+	private ResultWithData<Customer> requestCostumerByIDOrEmail(Scanner sc) {
 		ResultWithData<String> requestResult = new StringCrudField("", "Insira o ID ou o e-mail do cliente:").requestData(sc);
 		if (requestResult.isFailure())
 			return ResultWithData.failure(requestResult.getMessage());
 		
-		Costumer c;
+		Customer c;
 		Integer id;
 		
 		try {

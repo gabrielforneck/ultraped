@@ -1,13 +1,13 @@
-package costumer;
+package customer;
 
 import com.google.gson.annotations.SerializedName;
 
 import address.Address;
 import address.validation.AddressValidation;
-import costumer.validation.CostumerValidation;
+import customer.validation.CostumerValidation;
 import result.Result;
 
-public class Costumer {
+public class Customer {
 	@SerializedName("id")
 	private int id;
 	
@@ -26,7 +26,7 @@ public class Costumer {
 	@SerializedName("address")
 	private Address address;
 
-	public Costumer() {
+	public Customer() {
 		address = new Address();
 	}
 

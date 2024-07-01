@@ -8,7 +8,7 @@ import java.io.IOException;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
-import costumer.repository.CostumerRepository;
+import customer.repository.CostumerRepository;
 import result.Result;
 import result.ResultWithData;
 import supplier.repository.SupplierRepository;

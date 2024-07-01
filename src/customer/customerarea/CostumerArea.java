@@ -1,15 +1,15 @@
-package costumerarea;
+package customer.customerarea;
 
-import costumer.Costumer;
-import costumer.crud.CostumerCrud;
+import customer.Customer;
+import customer.crud.CostumerCrud;
 import menu.Menu;
 import menu.options.MethodMenuOption;
 
 public class CostumerArea extends Menu {
 	
-	private Costumer costumer;
+	private Customer costumer;
 
-	public CostumerArea(Costumer costumer) {
+	public CostumerArea(Customer costumer) {
 		super("Área do cliente " + costumer.getName() + " (" + costumer.getId() + ")");
 		this.costumer = costumer;
 		addDefaultOptions();

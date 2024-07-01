@@ -1,31 +1,31 @@
-package costumer.repository;
+package customer.repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
-import costumer.Costumer;
+import customer.Customer;
 import repositories.exceptions.NotFoundException;
 
 public class CostumerRepository {
 	@SerializedName("costumers")
-	private List<Costumer> costumers;
+	private List<Customer> costumers;
 
 	public CostumerRepository() {
 		this.costumers = new ArrayList<>();
 	}
 	
-	public CostumerRepository(List<Costumer> costumers) {
+	public CostumerRepository(List<Customer> costumers) {
 		this.costumers = costumers;
 	}
 
-	public void save(Costumer costumer) {
+	public void save(Customer costumer) {
 		costumer.setId(getNextID());
 		costumers.add(costumer);
 	}
 
-	public void update(Costumer costumer) {
+	public void update(Customer costumer) {
 		int oldRecordIndex = getIndexByID(costumer.getId());
 		if (oldRecordIndex == -1)
 			throw new NotFoundException("Registro não encontrado.");
@@ -48,7 +48,7 @@ public class CostumerRepository {
 	public int getNextID() {
 		int max = 0;
 
-		for (Costumer record : costumers)
+		for (Customer record : costumers)
 			if (record.getId() > max)
 				max = record.getId();
 
@@ -64,16 +64,16 @@ public class CostumerRepository {
 		return -1;
 	}
 
-	public Costumer getByID(int iD) {
+	public Customer getByID(int iD) {
 
-		for (Costumer record : costumers)
+		for (Customer record : costumers)
 			if (record.getId() == iD)
 				return record;
 
 		return null;
 	}
 
-	public List<Costumer> getAll() {
+	public List<Customer> getAll() {
 		return costumers;
 	}
 	
@@ -81,22 +81,22 @@ public class CostumerRepository {
 		return costumers.size();
 	}
 	
-	public List<Costumer> getByName(String nameFilter) {
+	public List<Customer> getByName(String nameFilter) {
 		if (nameFilter == null)
-			return new ArrayList<Costumer>();
+			return new ArrayList<Customer>();
 		
-		List<Costumer> searchResult = new ArrayList<>();
+		List<Customer> searchResult = new ArrayList<>();
 		
-		for (Costumer c : costumers)
+		for (Customer c : costumers)
 			if (c.getName().contains(nameFilter))
 				searchResult.add(c);
 		
 		return searchResult;
 	}
 	
-	public Costumer getByEmail(String email) {
+	public Customer getByEmail(String email) {
 
-		for (Costumer c : costumers) {
+		for (Customer c : costumers) {
 			if (c.getEmail().equalsIgnoreCase(email))
 				return c;
 		}

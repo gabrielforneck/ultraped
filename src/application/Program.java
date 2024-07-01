@@ -2,7 +2,7 @@ package application;
 
 import java.util.Scanner;
 
-import costumerarea.CostumerAreaLoginScreen;
+import customer.customerarea.CostumerAreaLoginScreen;
 import ecommerce.EcommerceData;
 import menu.Menu;
 import menu.options.MenuOption;
