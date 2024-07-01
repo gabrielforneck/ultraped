@@ -24,10 +24,10 @@ public class CostumerAreaLoginScreen extends Menu {
 	}
 	
 	private NextAction createAccount(Scanner sc) {
-		CostumerCrud crud = new CostumerCrud();
-		Costumer newCostummer = crud.create(sc);
-		login(sc, newCostummer);
-		return NextAction.Continue();
+		Costumer newCostummer = CostumerCrud.create(sc);
+		
+		System.out.println();
+		return new CostumerArea(newCostummer).showBackOption().execute(sc);
 	}
 	
 	private NextAction login(Scanner sc) {
@@ -35,14 +35,8 @@ public class CostumerAreaLoginScreen extends Menu {
 		if (requestResult.isFailure())
 			return NextAction.Continue(requestResult.getMessage());
 		
-		login(sc, requestResult.getData());
-		
-		return NextAction.Continue();
-	}
-	
-	private void login(Scanner sc, Costumer c) {
-		System.out.println("Login realizado!!!");
-		super.waitForEnter(sc);
+		System.out.println();
+		return new CostumerArea(requestResult.getData()).showBackOption().execute(sc);
 	}
 	
 	private ResultWithData<Costumer> requestCostumerByIDOrEmail(Scanner sc) {

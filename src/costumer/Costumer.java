@@ -69,7 +69,7 @@ public class Costumer {
 	}
 
 	public Result setEmail(String email) {
-		Result validationResult = CostumerValidation.validateEmail(email);
+		Result validationResult = CostumerValidation.validateEmail(email, id);
 		if (validationResult.isFailure())
 			return validationResult;
 

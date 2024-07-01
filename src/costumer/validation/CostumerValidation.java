@@ -20,14 +20,15 @@ public final class CostumerValidation {
 		return Result.success();
 	}
 	
-	public static Result validateEmail(String email) {
+	public static Result validateEmail(String email, int currentCostumerID) {
 		if (email == null || email.length() == 0)
 			return Result.failure("O e-mail do cliente deve ser preenchido.");
 		
 		if (!email.contains("@"))
 			return Result.failure("E-mail inválido.");
 		
-		if (Program.applicationData.costumerRepository.getByEmail(email) != null)
+		Costumer c = Program.applicationData.costumerRepository.getByEmail(email);
+		if (c != null && c.getId() != currentCostumerID)
 			return Result.failure("Já exite um cliente cadastrado com este e-mail.");
 		
 		return Result.success();
@@ -49,7 +50,7 @@ public final class CostumerValidation {
 		if ((validationResult = validatePhone(costumer.getPhone())).isFailure())
 			return validationResult;
 		
-		if ((validationResult = validateEmail(costumer.getEmail())).isFailure())
+		if ((validationResult = validateEmail(costumer.getEmail(), costumer.getId())).isFailure())
 			return validationResult;
 		
 		if ((validationResult = validateCreditCard(costumer.getCreditCard())).isFailure())
