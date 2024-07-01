@@ -6,6 +6,7 @@ import java.util.Scanner;
 import application.Program;
 import consoleinterface.nextaction.NextAction;
 import consoleinterface.table.ConsoleTableColumn;
+import crud.field.IntegerCrudField;
 import customer.Customer;
 import customer.crud.CustomerCrud;
 import menu.Menu;
@@ -13,7 +14,9 @@ import menu.options.MethodMenuOption;
 import order.Order;
 import order.menus.OrderCreationMenu;
 import order.repository.OrderRepository;
+import products.Product;
 import products.repository.ProductRepository;
+import result.ResultWithData;
 
 public class CustomerArea extends Menu {
 	
@@ -41,13 +44,43 @@ public class CustomerArea extends Menu {
 		return NextAction.Continue();
 	}
 	
+	private ResultWithData<Order> requestOrder(Scanner sc) {
+		if (localOrderRepository.getCount() ==  0)
+			return ResultWithData.failure("Nenhum pedido para o seu usuário.");
+
+		ResultWithData<Integer> requestResult = new IntegerCrudField("", "Insira o ID do registro: ").requestData(sc);
+		if (requestResult.isFailure())
+			return ResultWithData.failure(requestResult.getMessage());
+		
+		Order selectedOrder = localOrderRepository.getByID(requestResult.getData());
+		if (selectedOrder == null)
+			 return ResultWithData.failure("Pedido não encontrado.");
+		
+		return ResultWithData.success(selectedOrder);
+	}
+	
+	private NextAction viewOrder(Scanner sc) {
+		ResultWithData<Order> requestResult = requestOrder(sc);
+		if (requestResult.isFailure())
+			return NextAction.Continue(requestResult.getMessage());
+		
+		System.out.println(requestResult.getData().toString());
+		
+		System.out.println("Produtos do pedido:");
+		for (Product p : requestResult.getData().getAllProducts()) {
+			System.out.println(p);
+			System.out.println();
+		}
+		
+		return NextAction.Continue();
+	}
 	private void addDefaultOptions() {
 
 		super.options.add(new MethodMenuOption("Novo pedido", this::createOrder));
 		super.options.add(new MethodMenuOption("Ver todos meus pedidos", this::viewAllOrders));
+		super.options.add(new MethodMenuOption("Visualizar pedido", this::viewOrder));
 		super.options.add(new MethodMenuOption("Atualizar meu cadastro", (sc) -> CustomerCrud.update(sc, customer)));
 		super.options.add(new MethodMenuOption("Excluir meu cadastro", (sc) -> CustomerCrud.delete(sc, customer)));
-		//TODO: Maneira para visualizar os produtos do pedido
 	}
 	
 	private NextAction viewAllOrders(Scanner sc) {
