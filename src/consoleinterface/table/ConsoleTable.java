@@ -109,12 +109,22 @@ public class ConsoleTable<T> extends ConsoleInterface implements IConsoleTable {
 		return columns.get(columnIndex);
 	}
 
-	public void setColumn(int columnIndex, ConsoleTableColumn<T> newColumn) {
+	public ConsoleTable<T> setColumn(int columnIndex, ConsoleTableColumn<T> newColumn) {
 		this.columns.set(columnIndex, newColumn);
+		
+		return this;
 	}
 
-	public void addColumn(int columnIndex, ConsoleTableColumn<T> newColumn) {
+	public ConsoleTable<T> addColumn(int columnIndex, ConsoleTableColumn<T> newColumn) {
 		this.columns.add(columnIndex, newColumn);
+		
+		return this;
+	}
+	
+	public ConsoleTable<T> addColumn(ConsoleTableColumn<T> newColumn) {
+		this.columns.add(newColumn);
+		
+		return this;
 	}
 	
 	@Override

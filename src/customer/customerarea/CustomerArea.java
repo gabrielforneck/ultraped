@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import application.Program;
 import consoleinterface.nextaction.NextAction;
+import consoleinterface.table.ConsoleTableColumn;
 import customer.Customer;
 import customer.crud.CustomerCrud;
 import menu.Menu;
@@ -43,8 +44,20 @@ public class CustomerArea extends Menu {
 	private void addDefaultOptions() {
 
 		super.options.add(new MethodMenuOption("Novo pedido", this::createOrder));
+		super.options.add(new MethodMenuOption("Ver todos meus pedidos", this::viewAllOrders));
 		super.options.add(new MethodMenuOption("Atualizar meu cadastro", (sc) -> CustomerCrud.update(sc, customer)));
 		super.options.add(new MethodMenuOption("Excluir meu cadastro", (sc) -> CustomerCrud.delete(sc, customer)));
+	}
+	
+	private NextAction viewAllOrders(Scanner sc) {
+		
+		Order.getDefaultConsoleTable()
+			.setData(localOrderRepository.getAll())
+			.addColumn(new ConsoleTableColumn<Order>(20, "Situação", (o) -> o.getSituation()))
+			.build();
+		super.waitForEnter(sc);
+		
+		return NextAction.Continue();
 	}
 	
 	private void updateOrdersInProgress() {
