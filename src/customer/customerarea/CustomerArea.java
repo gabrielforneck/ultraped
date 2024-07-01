@@ -38,6 +38,8 @@ public class CustomerArea extends Menu {
 		menu.execute(sc);
 		
 		localOrderRepository.save(menu.getDummyOrder());
+		Program.applicationData.supplierRepository.discountStockQuantities(menu.getDummyOrder().getAllOrderProducts());
+		Program.applicationData.saveAllToDisk();
 		
 		updateOrdersInProgress();
 		return NextAction.Continue();

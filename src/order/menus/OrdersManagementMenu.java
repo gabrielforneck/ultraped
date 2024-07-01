@@ -34,6 +34,7 @@ public class OrdersManagementMenu extends Menu {
 		if (cancelResult.isFailure())
 			return NextAction.Continue(cancelResult.getMessage());
 		
+		Program.applicationData.supplierRepository.sumStockQuantities(requestResult.getData().getAllOrderProducts());
 		Program.applicationData.saveAllToDisk();
 
 		updateOrdersInProgress();

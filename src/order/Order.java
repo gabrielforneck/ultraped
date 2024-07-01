@@ -170,6 +170,10 @@ public class Order {
 		return new ConsoleTable<Order>(columns);
 	}
 	
+	public List<OrderProduct> getAllOrderProducts() {
+		return products;
+	}
+	
 	@Override
 	public String toString() {
 		return "ID: " + (id == 0 ? "?" : id) + "\n"
