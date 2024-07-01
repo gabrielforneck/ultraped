@@ -28,6 +28,9 @@ public class Order {
 	@SerializedName("situation")
 	private EOrderSituation situation;
 	
+	@SerializedName("price")
+	private Double price;
+	
 	public Order() {
 		products = new ArrayList<>();
 		situation = EOrderSituation.NEW;
@@ -128,7 +131,14 @@ public class Order {
 		return Result.success();
 	}
 	
+	public void setTotalPrice(double price) {
+		this.price = price;
+	}
+	
 	public double getTotalPrice() {
+		if (price != null)
+			return price;
+
 		double total = 0.0;
 		
 		for (OrderProduct p : products) {

@@ -24,6 +24,7 @@ public class OrderRepository {
 	public void save(Order order) {
 		order.setId(getNextID());
 		order.setCreationDate(DateUtils.getCurrentSystemDate());
+		order.setTotalPrice(order.getTotalPrice());
 		orders.add(order);
 	}
 	public void update(Order order) {
