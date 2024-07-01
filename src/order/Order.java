@@ -16,22 +16,22 @@ import util.date.DateUtils;
 public class Order {
 	@SerializedName("id")
 	private int id;
-	
+
 	@SerializedName("creationDate")
 	private Date creationDate;
-	
+
 	@SerializedName("deliveryDate")
 	private Date deliveryDate;
-	
+
 	@SerializedName("products")
 	private List<OrderProduct> products;
-	
+
 	@SerializedName("situation")
 	private EOrderSituation situation;
-	
+
 	@SerializedName("price")
 	private Double price;
-	
+
 	public Order() {
 		products = new ArrayList<>();
 		situation = EOrderSituation.NEW;
@@ -64,7 +64,7 @@ public class Order {
 	public int getOrderProductsQuantity() {
 		return products.size();
 	}
-	
+
 	public OrderProduct getOrderProduct(int index) {
 		return products.get(index);
 	}
@@ -75,109 +75,119 @@ public class Order {
 			return validationResult;
 
 		products.set(index, p);
-		
+
 		return Result.success();
 	}
-	
+
 	public void removeOrderProduct(int index) {
 		products.remove(index);
 	}
-	
+
 	public Result addOrderProduct(OrderProduct p) {
 		Result validationResult = OrderValidation.productValidation(p, this);
 		if (validationResult.isFailure())
 			return validationResult;
 
 		products.add(p);
-		
+
 		return Result.success();
 	}
-	
+
 	public boolean orderProductExists(int productID) {
 		return getOrderProductIndexByProductID(productID) != -1;
 	}
-	
+
 	public int getOrderProductIndexByProductID(int productID) {
 		for (int i = 0; i < products.size(); i++) {
 			if (products.get(i).getProduct().getId() == productID)
 				return i;
 		}
-		
+
 		return -1;
 	}
-	
+
 	public EOrderSituation getSituation() {
 		return situation;
 	}
-	
+
 	public Result cancel() {
 		if (situation == EOrderSituation.DELIVERED)
 			return Result.failure("O pedido não pode ser cancelado pois já foi entregue.");
-		
+
 		if (situation == EOrderSituation.CANCELED)
 			return Result.failure("O pedido já está cancelado.");
-		
+
 		situation = EOrderSituation.CANCELED;
 		return Result.success();
 	}
-	
+
 	public Result deliver() {
 		if (situation == EOrderSituation.DELIVERED)
 			return Result.failure("O pedido já foi entregue.");
-		
+
 		if (situation == EOrderSituation.CANCELED)
 			return Result.failure("O pedido não pode ser entregue pois está cancelado.");
-		
+
 		deliveryDate = DateUtils.getCurrentSystemDate();
 		situation = EOrderSituation.DELIVERED;
 		return Result.success();
 	}
-	
+
 	public void setTotalPrice(double price) {
 		this.price = price;
 	}
-	
+
 	public List<Product> getAllProducts() {
 		List<Product> productList = new ArrayList<>();
-		
+
 		for (OrderProduct o : products)
 			productList.add(o.getProduct());
-		
+
 		return productList;
 	}
-	
+
 	public double getTotalPrice() {
 		if (price != null)
 			return price;
 
 		double total = 0.0;
-		
+
 		for (OrderProduct p : products) {
 			total += p.getTotalValue();
 		}
-		
-		return total * 1.17; //ICMS
+
+		return total * 1.17; // ICMS
 	}
-	
+
 	public static ConsoleTable<Order> getDefaultConsoleTable() {
 		List<ConsoleTableColumn<Order>> columns = new ArrayList<>();
-		
+
 		columns.add(new ConsoleTableColumn<Order>(5, "ID", (o) -> o.getId()));
-		columns.add(new ConsoleTableColumn<Order>(15, "Criação", (o) -> DateUtils.ApplyDefaultDateFormat(o.getCreationDate())));
-		columns.add(new ConsoleTableColumn<Order>(20, "Quantidade de itens", (o) -> o.getId()));
+		columns.add(new ConsoleTableColumn<Order>(15, "Criação",
+				(o) -> DateUtils.ApplyDefaultDateFormat(o.getCreationDate())));
+		columns.add(new ConsoleTableColumn<Order>(20, "Quantidade de itens", (o) -> o.getTotalItemsQuantity()));
 		columns.add(new ConsoleTableColumn<Order>(20, "Total", (o) -> o.getTotalPrice()));
 
 		return new ConsoleTable<Order>(columns);
 	}
-	
+
 	public List<OrderProduct> getAllOrderProducts() {
 		return products;
 	}
-	
+
+	public int getTotalItemsQuantity() {
+		int total = 0;
+
+		for (OrderProduct o : products) {
+			total += o.getQuantity();
+		}
+
+		return total;
+	}
+
 	@Override
 	public String toString() {
-		return "ID: " + (id == 0 ? "?" : id) + "\n"
-				+ "Quantidade de itens: " + getOrderProductsQuantity() + "\n"
+		return "ID: " + (id == 0 ? "?" : id) + "\n" + "Quantidade de itens: " + getOrderProductsQuantity() + "\n"
 				+ "Total do pedido: " + getTotalPrice();
 	}
 }
