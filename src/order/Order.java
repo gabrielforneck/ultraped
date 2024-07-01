@@ -127,6 +127,7 @@ public class Order {
 		if (situation == EOrderSituation.CANCELED)
 			return Result.failure("O pedido não pode ser entregue pois está cancelado.");
 		
+		deliveryDate = DateUtils.getCurrentSystemDate();
 		situation = EOrderSituation.DELIVERED;
 		return Result.success();
 	}

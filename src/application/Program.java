@@ -2,13 +2,13 @@ package application;
 
 import java.util.Scanner;
 
+import administration.administrationarea.AdministrationArea;
 import customer.customerarea.CustomerAreaLoginScreen;
 import ecommerce.EcommerceData;
 import menu.Menu;
 import menu.options.MenuOption;
 import result.Result;
 import result.ResultWithData;
-import supplier.crud.SupplierCrud;
 
 public class Program {
 	public static EcommerceData applicationData;
@@ -21,7 +21,7 @@ public class Program {
 
 		new Menu("ULTRAPED")
 			.addOptions(new MenuOption("Área do cliente", new CustomerAreaLoginScreen().showBackOption()))
-			.addOptions(new MenuOption("Área interna", new SupplierCrud().showBackOption()))
+			.addOptions(new MenuOption("Área interna", new AdministrationArea().showBackOption()))
 			.showExitOption()
 			.execute(sc);
 		
