@@ -1,12 +1,17 @@
 package order;
 
+import com.google.gson.annotations.SerializedName;
+
 import order.validation.OrderProductValidation;
 import products.Product;
 import result.Result;
 
 public class OrderProduct {
 
+	@SerializedName("product")
 	private Product product;
+	
+	@SerializedName("quantity")
 	private int quantity;
 	
 	public OrderProduct() {
@@ -53,7 +58,7 @@ public class OrderProduct {
 	
 	@Override
 	public String toString() {
-		return (product == null ? "" : product.toString()) + "\n\n"
+		return (product == null ? "" : (product.toString() + "\n\n"))
 				+ "Quantidade: " + quantity + "\n"
 				+ (product == null ? "" : ("Total do item: R$ " + getTotalValue()));
 	}

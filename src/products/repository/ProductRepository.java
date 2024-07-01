@@ -110,5 +110,15 @@ public class ProductRepository {
 		
 		return searchResult;
 	}
+	
+	public List<Product> getAllWithStock() {
+		List<Product> productsWithStock = new ArrayList<>();
+		
+		for (Product p : products)
+			if (p.getStock().getQuantity() > 0)
+				productsWithStock.add(p);
+		
+		return productsWithStock;
+	}
 
 }

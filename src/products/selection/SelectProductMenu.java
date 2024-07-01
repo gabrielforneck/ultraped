@@ -46,7 +46,7 @@ public class SelectProductMenu extends Menu {
 	private NextAction selectProduct(Scanner sc) {
 		if (dataShown.size() == 1)
 		{
-			selectedProduct = dataShown.get(1);
+			selectedProduct = dataShown.get(0);
 			return NextAction.Exit();
 		}
 		

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.Program;
+import order.EOrderSituation;
 import order.Order;
 import repositories.exceptions.NotFoundException;
 import util.date.DateUtils;
@@ -72,5 +73,15 @@ public class OrderRepository {
 	
 	public int getCount() {
 		return orders.size();
+	}
+	
+	public List<Order> getOrdersInProgress() {
+		List<Order> ordersInProgress = new ArrayList<>();
+		
+		for (Order o : orders)
+			if (o.getSituation() == EOrderSituation.NEW)
+				ordersInProgress.add(o);
+		
+		return ordersInProgress;
 	}
 }

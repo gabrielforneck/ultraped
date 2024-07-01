@@ -4,14 +4,28 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gson.annotations.SerializedName;
+
+import consoleinterface.table.ConsoleTable;
+import consoleinterface.table.ConsoleTableColumn;
 import order.validation.OrderValidation;
 import result.Result;
+import util.date.DateUtils;
 
 public class Order {
+	@SerializedName("id")
 	private int id;
+	
+	@SerializedName("creationDate")
 	private Date creationDate;
+	
+	@SerializedName("deliveryDate")
 	private Date deliveryDate;
+	
+	@SerializedName("products")
 	private List<OrderProduct> products;
+	
+	@SerializedName("situation")
 	private EOrderSituation situation;
 	
 	public Order() {
@@ -88,6 +102,10 @@ public class Order {
 		return -1;
 	}
 	
+	public EOrderSituation getSituation() {
+		return situation;
+	}
+	
 	public Result cancel() {
 		if (situation == EOrderSituation.DELIVERED)
 			return Result.failure("O pedido não pode ser cancelado pois já foi entregue.");
@@ -118,6 +136,17 @@ public class Order {
 		}
 		
 		return total;
+	}
+	
+	public static ConsoleTable<Order> getDefaultConsoleTable() {
+		List<ConsoleTableColumn<Order>> columns = new ArrayList<>();
+		
+		columns.add(new ConsoleTableColumn<Order>(5, "ID", (o) -> o.getId()));
+		columns.add(new ConsoleTableColumn<Order>(15, "Criação", (o) -> DateUtils.ApplyDefaultDateFormat(o.getCreationDate())));
+		columns.add(new ConsoleTableColumn<Order>(20, "Quantidade de itens", (o) -> o.getId()));
+		columns.add(new ConsoleTableColumn<Order>(20, "Total", (o) -> o.getTotalPrice()));
+
+		return new ConsoleTable<Order>(columns);
 	}
 	
 	@Override
