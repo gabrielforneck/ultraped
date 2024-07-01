@@ -22,22 +22,23 @@ import stock.crud.StockCrud;
 import supplier.Supplier;
 
 public class ProductCrud extends FullCrud<Product> {
-	
+
 	private ProductRepository localRepository;
-	
+
 	public ProductCrud(Supplier supplier) {
 		super("Produtos do fornecedor " + (supplier.getId() == 0 ? "?" : supplier.getId()));
 		localRepository = new ProductRepository(supplier.getProducts());
 		addDefaultCrudOptions();
 		options.add(new MethodMenuOption("Buscar", this::filterByName));
 	}
-	
+
 	public static ConsoleTable<Product> getDefaultConsoleTable() {
 		List<ConsoleTableColumn<Product>> columns = new ArrayList<>();
 
 		columns.add(new ConsoleTableColumn<>(5, "ID", (p) -> p.getId()));
 		columns.add(new ConsoleTableColumn<>(30, "Nome", (p) -> p.getName()));
 		columns.add(new ConsoleTableColumn<>(70, "Descrição", (p) -> p.getDescription()));
+		columns.add(new ConsoleTableColumn<>(20, "Qtd. estoque", (p) -> p.getStock().getQuantity()));
 
 		return new ConsoleTable<>(columns);
 	}
@@ -62,16 +63,17 @@ public class ProductCrud extends FullCrud<Product> {
 		ResultWithData<Product> requestResult = requestProduct(sc);
 		if (requestResult.isFailure())
 			return NextAction.Continue(requestResult.getMessage());
-		
-		//Não preciso atualizar no repositório pois já estou alterando na referência.
+
+		// Não preciso atualizar no repositório pois já estou alterando na referência.
 		return updateRecord("Atualizar o registro " + requestResult.getData().getId(), requestResult.getData(), sc);
 	}
-	
+
 	@Override
 	protected NextAction updateRecord(String title, Product record, Scanner sc) {
 		List<IMenuOption> options = getDefaultFieldOptions(record);
-		options.add(new MethodMenuOption("Concluir", (scanner) -> ProductValidation.validateAll(record).toExitNextActionIfSucces()));
-		
+		options.add(new MethodMenuOption("Concluir",
+				(scanner) -> ProductValidation.validateAll(record).toExitNextActionIfSucces()));
+
 		return new Menu(title, options).setDetailsToShow(record).execute(sc);
 	}
 
@@ -88,7 +90,7 @@ public class ProductCrud extends FullCrud<Product> {
 
 		return NextAction.Continue("Produto removido.");
 	}
-	
+
 	private List<IMenuOption> getDefaultFieldOptions(Product product) {
 		List<IMenuOption> options = new ArrayList<>();
 
@@ -98,22 +100,22 @@ public class ProductCrud extends FullCrud<Product> {
 
 		return options;
 	}
-	
+
 	private NextAction filterByName(Scanner sc) {
 		ResultWithData<String> requestResult = new StringCrudField("", "Insira o filtro:").requestData(sc);
 		if (requestResult.isFailure())
 			return NextAction.Continue(requestResult.getMessage());
-		
+
 		List<Product> filteredResults = localRepository.getByName(requestResult.getData());
 		if (filteredResults.size() == 0)
 			return NextAction.Continue("Não houveram resultados.");
-		
+
 		getDefaultConsoleTable().setData(filteredResults).build();
 		super.waitForEnter(sc);
-		
+
 		return NextAction.Continue();
 	}
-	
+
 	private ResultWithData<Product> requestProduct(Scanner sc) {
 		if (Program.applicationData.supplierRepository.getCount() == 0)
 			return ResultWithData.failure("Nenhum produto cadastrado.");
@@ -121,16 +123,16 @@ public class ProductCrud extends FullCrud<Product> {
 		ResultWithData<Integer> requestResult = new IntegerCrudField("", "Insira o ID do registro: ").requestData(sc);
 		if (requestResult.isFailure())
 			return ResultWithData.failure(requestResult.getMessage());
-		
+
 		Product selectedProduct = localRepository.getByID(requestResult.getData());
 		if (selectedProduct == null)
 			return ResultWithData.failure("Produto não encontrado.");
-		
+
 		return ResultWithData.success(selectedProduct);
 	}
-	
+
 	private void addDefaultCrudOptions() {
-		
+
 		options.add(new MethodMenuOption("Criar", this::create));
 		options.add(new MethodMenuOption("Alterar", this::update));
 		options.add(new MethodMenuOption("Excluir", this::delete));
