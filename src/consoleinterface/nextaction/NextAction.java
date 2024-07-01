@@ -1,12 +1,10 @@
 package consoleinterface.nextaction;
 
-import java.util.Scanner;
-import java.util.function.Consumer;
-
 public class NextAction {
 
 	private String description;
 	private ENextAction nextAction;
+	private boolean lastActionWasCanceled;
 
 	private NextAction(ENextAction nextAction) {
 		super();
@@ -25,11 +23,6 @@ public class NextAction {
 
 	public static NextAction Continue(String description) {
 		return new NextAction(description, ENextAction.CONTINUE);
-	}
-
-	public static NextAction ExecuteAndExit(Scanner sc, Consumer<Scanner> action) {
-		action.accept(sc);
-		return new NextAction(ENextAction.EXIT);
 	}
 
 	public static NextAction Exit() {
@@ -54,5 +47,13 @@ public class NextAction {
 
 	public void setNextAction(ENextAction nextAction) {
 		this.nextAction = nextAction;
+	}
+	
+	public boolean lastActionWasCanceled() {
+		return lastActionWasCanceled;
+	}
+
+	public void setLastActionWasCanceled(boolean lastActionWasCanceled) {
+		this.lastActionWasCanceled = lastActionWasCanceled;
 	}
 }

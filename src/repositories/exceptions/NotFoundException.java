@@ -1,7 +1,8 @@
 package repositories.exceptions;
 
-@SuppressWarnings("serial") //TODO: Ver de como tratar isso
 public class NotFoundException extends RuntimeException {
+
+	private static final long serialVersionUID = 309206999961221431L;
 
 	public NotFoundException() {
 	}

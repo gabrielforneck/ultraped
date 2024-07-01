@@ -18,23 +18,19 @@ public class Result {
 		this.message = message;
 	}
 
-	public NextAction toContinueNextActionIfFailure() {
-		if (this.isFailure())
-			return NextAction.Continue(this.message);
-
-		return NextAction.Exit();
-	}
-	
-	public NextAction toContinueNextAction() {
-		return NextAction.Continue();
-	}
-
-	public static Result Success() {
+	public static Result success() {
 		return new Result(true);
 	}
 
-	public static Result Failure(String message) {
+	public static Result failure(String message) {
 		return new Result(false, message);
+	}
+	
+	public NextAction toExitNextActionIfSucces() {
+		if (isSuccess)
+			return NextAction.Exit();
+		
+		return NextAction.Continue(message);
 	}
 
 	public boolean isSuccess() {
@@ -56,5 +52,4 @@ public class Result {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-
 }

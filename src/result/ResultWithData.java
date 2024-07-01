@@ -1,7 +1,5 @@
 package result;
 
-import consoleinterface.nextaction.NextAction;
-
 public class ResultWithData<T> {
 	private boolean isSuccess;
 	private String message;
@@ -17,18 +15,11 @@ public class ResultWithData<T> {
 		this.message = message;
 	}
 
-	public NextAction toContinueNextActionIfFailure() {
-		if (this.isFailure())
-			return NextAction.Continue(this.message);
-
-		return NextAction.Exit();
-	}
-
-	public static <T> ResultWithData<T> Success(T data) {
+	public static <T> ResultWithData<T> success(T data) {
 		return new ResultWithData<T>(true, data);
 	}
 
-	public static <T> ResultWithData<T> Failure(String message) {
+	public static <T> ResultWithData<T> failure(String message) {
 		return new ResultWithData<T>(false, message);
 	}
 
