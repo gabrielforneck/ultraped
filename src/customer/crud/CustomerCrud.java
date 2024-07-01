@@ -23,8 +23,8 @@ public final class CustomerCrud {
 		
 		updateRecord("Novo cliente", dummyCustomer, sc);
 
-		//TODO: Fazer com que a alteração seja salva em disco
 		Program.applicationData.customerRepository.save(dummyCustomer);
+		Program.applicationData.saveAllToDisk();
 
 		return dummyCustomer;
 	}
@@ -32,8 +32,9 @@ public final class CustomerCrud {
 	public static NextAction update(Scanner sc, Customer customer) {
 		
 		//Não preciso atualizar no repositório pois já estou alterando na referência.
-		//TODO: Fazer com que a alteração seja salva em disco
-		return updateRecord("Atualizar o meu cadastro", customer, sc);
+		updateRecord("Atualizar o meu cadastro", customer, sc);
+		Program.applicationData.saveAllToDisk();
+		return NextAction.Continue();
 	}
 
 	private static NextAction updateRecord(String title, Customer record, Scanner sc) {
@@ -51,8 +52,8 @@ public final class CustomerCrud {
 		if (requestResult.getData() == false)
 			return NextAction.Continue();
 		
-		//TODO: Fazer com que a alteração seja salva em disco
 		Program.applicationData.customerRepository.delete(c.getId());
+		Program.applicationData.saveAllToDisk();
 
 		return NextAction.Exit();
 	}

@@ -35,6 +35,8 @@ public class OrdersManagementMenu extends Menu {
 		if (cancelResult.isFailure())
 			return NextAction.Continue(cancelResult.getMessage());
 		
+		Program.applicationData.saveAllToDisk();
+
 		updateOrdersInProgress();
 		return NextAction.Continue("Pedido cancelado.");
 	}
@@ -47,6 +49,8 @@ public class OrdersManagementMenu extends Menu {
 		Result deliverResult = requestResult.getData().deliver();
 		if (deliverResult.isFailure())
 			return NextAction.Continue(deliverResult.getMessage());
+		
+		Program.applicationData.saveAllToDisk();
 		
 		updateOrdersInProgress();
 		return NextAction.Continue("Pedido entregue.");

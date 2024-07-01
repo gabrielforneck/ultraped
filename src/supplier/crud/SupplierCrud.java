@@ -52,8 +52,8 @@ public class SupplierCrud extends FullCrud<Supplier> implements IExecutableOptio
 
 		updateRecord("Novo fornecedor", dummySupplier, sc);
 		
-		//TODO: Fazer com que a alteração seja salva em disco
 		Program.applicationData.supplierRepository.save(dummySupplier);
+		Program.applicationData.saveAllToDisk();
 
 		return NextAction.Continue();
 	}
@@ -65,8 +65,11 @@ public class SupplierCrud extends FullCrud<Supplier> implements IExecutableOptio
 			return NextAction.Continue(requestResult.getMessage());
 
 		//Não preciso atualizar no repositório pois já estou alterando na referência.
-		//TODO: Fazer com que a alteração seja salva em disco
-		return updateRecord("Atualizar o registro " + requestResult.getData().getId(), requestResult.getData(), sc);
+		updateRecord("Atualizar o registro " + requestResult.getData().getId(), requestResult.getData(), sc);
+		
+		Program.applicationData.saveAllToDisk();
+		
+		return NextAction.Continue();
 	}
 	
 	@Override
@@ -87,8 +90,8 @@ public class SupplierCrud extends FullCrud<Supplier> implements IExecutableOptio
 		if (deleteResult.isFailure())
 			return NextAction.Continue(deleteResult.getMessage());
 
-		//TODO: Fazer com que a alteração seja salva em disco
 		Program.applicationData.supplierRepository.delete(requestResult.getData().getId());
+		Program.applicationData.saveAllToDisk();
 
 		return NextAction.Continue("Fornecedor removido.");
 	}

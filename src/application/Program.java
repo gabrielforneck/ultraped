@@ -25,7 +25,7 @@ public class Program {
 			.showExitOption()
 			.execute(sc);
 		
-		Result saveResult = applicationData.saveAll();
+		Result saveResult = applicationData.saveAllToDisk();
 		if (saveResult.isFailure())
 			System.out.println("Ocorreu um erro ao salvar os dados da aplicação: " + saveResult.getMessage());
 		

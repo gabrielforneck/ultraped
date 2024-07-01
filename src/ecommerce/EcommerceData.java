@@ -47,7 +47,7 @@ public class EcommerceData {
 		return ResultWithData.success(ec.adjustProductReferences());
 	}
 
-	public Result saveAll() {
+	public Result saveAllToDisk() {
 		Gson gson = new Gson();
 
 		try (FileWriter writer = new FileWriter(FILE_LOCATION)) {
