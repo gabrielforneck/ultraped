@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.util.function.Function;
 
 import consoleinterface.nextaction.NextAction;
+import crud.field.exceptions.FiledSetterNotDefinedException;
 import menu.options.interfaces.IMenuOption;
 import result.Result;
 import result.ResultWithData;
@@ -42,7 +43,17 @@ public abstract class CrudField<T> implements IMenuOption {
 		return NextAction.Continue();
 	}
 
-	public abstract Result requestField(Scanner sc);
+	public Result requestField(Scanner sc) {
+		if (fieldSetter == null)
+			throw new FiledSetterNotDefinedException();
+
+		ResultWithData<T> requestResult = requestData(sc);
+		if (requestResult.isFailure())
+			return Result.failure(requestResult.getMessage());
+
+		return getFieldSetter().apply(requestResult.getData());
+	}
+
 	public abstract ResultWithData<T> requestData(Scanner sc);
 
 	public String getRequestString() {

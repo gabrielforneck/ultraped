@@ -8,7 +8,7 @@ import application.Program;
 import consoleinterface.nextaction.NextAction;
 import consoleinterface.table.ConsoleTable;
 import consoleinterface.table.ConsoleTableColumn;
-import crud.Crud;
+import crud.FullCrud;
 import crud.field.IntegerCrudField;
 import crud.field.StringCrudField;
 import menu.Menu;
@@ -21,7 +21,7 @@ import result.ResultWithData;
 import stock.crud.StockCrud;
 import supplier.Supplier;
 
-public class ProductCrud extends Crud<Product> {
+public class ProductCrud extends FullCrud<Product> {
 	
 	private ProductRepository localRepository;
 	
@@ -81,10 +81,12 @@ public class ProductCrud extends Crud<Product> {
 		if (requestResult.isFailure())
 			return NextAction.Continue(requestResult.getMessage());
 
-		//TODO: Avaliar como validar se o fornecedor pode ser excluído. Exemplo: o produto está referenciado em mais de um local.
+		if (localRepository.isInUse(requestResult.getData()))
+			return NextAction.Continue("O produto não pode ser removido pois está em um pedido.");
+
 		localRepository.delete(requestResult.getData().getId());
 
-		return NextAction.Continue("Fornecedor removido.");
+		return NextAction.Continue("Produto removido.");
 	}
 	
 	private List<IMenuOption> getDefaultFieldOptions(Product product) {
@@ -125,5 +127,12 @@ public class ProductCrud extends Crud<Product> {
 			return ResultWithData.failure("Produto não encontrado.");
 		
 		return ResultWithData.success(selectedProduct);
+	}
+	
+	private void addDefaultCrudOptions() {
+		
+		options.add(new MethodMenuOption("Criar", this::create));
+		options.add(new MethodMenuOption("Alterar", this::update));
+		options.add(new MethodMenuOption("Excluir", this::delete));
 	}
 }

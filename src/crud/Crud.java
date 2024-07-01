@@ -2,14 +2,11 @@ package crud;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-import consoleinterface.nextaction.NextAction;
 import menu.Menu;
-import menu.options.MethodMenuOption;
 import menu.options.interfaces.IMenuOption;
 
-public abstract class Crud<T> extends Menu {
+public abstract class Crud extends Menu {
 
 	protected Crud() {
 		super();
@@ -30,14 +27,6 @@ public abstract class Crud<T> extends Menu {
 
 	protected abstract void showDataAsTable();
 
-	protected abstract NextAction create(Scanner sc);
-
-	protected abstract NextAction update(Scanner sc);
-	
-	protected abstract NextAction updateRecord(String title, T record, Scanner sc);
-
-	protected abstract NextAction delete(Scanner sc);
-
 	@Override
 	protected void constructMenu() {
 		showTitle();
@@ -47,10 +36,4 @@ public abstract class Crud<T> extends Menu {
 		showOptions();
 	}
 
-	protected void addDefaultCrudOptions() {
-
-		options.add(new MethodMenuOption("Criar", this::create));
-		options.add(new MethodMenuOption("Alterar", this::update));
-		options.add(new MethodMenuOption("Excluir", this::delete));
-	}
 }

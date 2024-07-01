@@ -15,4 +15,8 @@ public final class DefaultMenuOptions {
 	public static MethodMenuOption exitOption() {
 		return new MethodMenuOption("Sair", (sc) -> NextAction.Exit());
 	}
+	
+	public static MethodMenuOption completeOption() {
+		return new MethodMenuOption("Concluir", (sc) -> NextAction.Exit());
+	}
 }

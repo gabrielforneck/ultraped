@@ -2,12 +2,13 @@ package application;
 
 import java.util.Scanner;
 
+import administration.administrationarea.AdministrationArea;
+import customer.customerarea.CustomerAreaLoginScreen;
 import ecommerce.EcommerceData;
 import menu.Menu;
 import menu.options.MenuOption;
 import result.Result;
 import result.ResultWithData;
-import supplier.crud.SupplierCrud;
 
 public class Program {
 	public static EcommerceData applicationData;
@@ -19,11 +20,12 @@ public class Program {
 		Scanner sc = new Scanner(System.in);
 
 		new Menu("ULTRAPED")
-			.addOptions(new MenuOption("Fornecedores", new SupplierCrud().showBackOption()))
+			.addOptions(new MenuOption("Área do cliente", new CustomerAreaLoginScreen().showBackOption()))
+			.addOptions(new MenuOption("Área interna", new AdministrationArea().showBackOption()))
 			.showExitOption()
 			.execute(sc);
 		
-		Result saveResult = applicationData.saveAll();
+		Result saveResult = applicationData.saveAllToDisk();
 		if (saveResult.isFailure())
 			System.out.println("Ocorreu um erro ao salvar os dados da aplicação: " + saveResult.getMessage());
 		

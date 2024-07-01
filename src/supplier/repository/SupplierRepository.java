@@ -5,9 +5,14 @@ import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
+import application.Program;
+import order.Order;
+import order.OrderProduct;
 import products.Product;
 import repositories.exceptions.NotFoundException;
+import result.Result;
 import supplier.Supplier;
+import supplier.repository.exceptions.IllegalOrderProductQuantityException;
 
 public class SupplierRepository {
 
@@ -103,5 +108,33 @@ public class SupplierRepository {
 			products.addAll(s.getProducts());
 		
 		return products;
+	}
+	
+	public boolean hasSomeProductInSomeOrder(Supplier s) {
+		
+		for (Order o : Program.applicationData.customerRepository.getAllOrders())
+			for (Product p : s.getProducts())
+				if (o.getAllProducts().contains(p))
+					return true;
+		
+		return false;
+	}
+	
+	public void discountStockQuantities(List<OrderProduct> orderProducts) {
+		
+		for (OrderProduct o : orderProducts) {
+			Result remResult = o.getProduct().getStock().remQuantity(o.getQuantity());
+			if (remResult.isFailure())
+				throw new IllegalOrderProductQuantityException(remResult.getMessage());
+		}
+	}
+	
+	public void sumStockQuantities(List<OrderProduct> orderProducts) {
+		
+		for (OrderProduct o : orderProducts) {
+			Result remResult = o.getProduct().getStock().addQuantity(o.getQuantity());
+			if (remResult.isFailure())
+				throw new IllegalOrderProductQuantityException(remResult.getMessage());
+		}
 	}
 }

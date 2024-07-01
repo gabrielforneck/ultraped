@@ -1,6 +1,7 @@
 package supplier.validation;
 
 import address.validation.AddressValidation;
+import application.Program;
 import result.Result;
 import supplier.Supplier;
 
@@ -52,5 +53,12 @@ public final class SupplierValidations {
 			return validationResult;
 
 		return AddressValidation.validateAll(supplier.getAddress());
+	}
+	
+	public static Result canBeDeleted(Supplier supplier) {
+		if (Program.applicationData.supplierRepository.hasSomeProductInSomeOrder(supplier))
+			return Result.failure("O fornecedor não pode ser removido pois tem produtos em pedidos.");
+		
+		return Result.success();
 	}
 }

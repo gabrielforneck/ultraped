@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.Program;
+import order.Order;
 import products.Product;
 import repositories.exceptions.NotFoundException;
 
@@ -92,6 +93,46 @@ public class ProductRepository {
 				searchResult.add(p);
 		
 		return searchResult;
+	}
+	
+	public List<Product> getByIDOrNameOrDescription(String filter) {
+		int idFilter = 0;
+		List<Product> searchResult = new ArrayList<>();
+		
+		try {
+			idFilter = Integer.parseInt(filter);
+		} catch (NumberFormatException ex) {
+			idFilter = 0;
+		}
+		
+		for (Product p : products)
+			if (p.getId() == idFilter || p.getName().toLowerCase().contains(filter.toLowerCase()) || p.getDescription().toLowerCase().contains(filter.toLowerCase()))
+				searchResult.add(p);
+		
+		return searchResult;
+	}
+	
+	public List<Product> getAllWithStock() {
+		List<Product> productsWithStock = new ArrayList<>();
+		
+		for (Product p : products)
+			if (p.getStock().getQuantity() > 0)
+				productsWithStock.add(p);
+		
+		return productsWithStock;
+	}
+	
+	public void setData(List<Product> products) {
+		this.products = products;
+	}
+	
+	public boolean isInUse(Product p) {
+		
+		for (Order o : Program.applicationData.customerRepository.getAllOrders())
+			if (o.getAllProducts().contains(p))
+				return true;
+		
+		return false;
 	}
 
 }
