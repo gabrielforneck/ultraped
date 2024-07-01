@@ -9,28 +9,28 @@ import customer.Customer;
 import repositories.exceptions.NotFoundException;
 
 public class CustomerRepository {
-	@SerializedName("costumers")
-	private List<Customer> costumers;
+	@SerializedName("customers")
+	private List<Customer> customers;
 
 	public CustomerRepository() {
-		this.costumers = new ArrayList<>();
+		this.customers = new ArrayList<>();
 	}
 	
-	public CustomerRepository(List<Customer> costumers) {
-		this.costumers = costumers;
+	public CustomerRepository(List<Customer> customers) {
+		this.customers = customers;
 	}
 
-	public void save(Customer costumer) {
-		costumer.setId(getNextID());
-		costumers.add(costumer);
+	public void save(Customer customer) {
+		customer.setId(getNextID());
+		customers.add(customer);
 	}
 
-	public void update(Customer costumer) {
-		int oldRecordIndex = getIndexByID(costumer.getId());
+	public void update(Customer customer) {
+		int oldRecordIndex = getIndexByID(customer.getId());
 		if (oldRecordIndex == -1)
 			throw new NotFoundException("Registro não encontrado.");
 
-		costumers.set(oldRecordIndex, costumer);
+		customers.set(oldRecordIndex, customer);
 	}
 
 	public void delete(int id) {
@@ -38,7 +38,7 @@ public class CustomerRepository {
 		if (recordIndex == -1)
 			throw new NotFoundException("Registro não encontrado.");
 
-		costumers.remove(recordIndex);
+		customers.remove(recordIndex);
 	}
 
 	public boolean exists(int iD) {
@@ -48,7 +48,7 @@ public class CustomerRepository {
 	public int getNextID() {
 		int max = 0;
 
-		for (Customer record : costumers)
+		for (Customer record : customers)
 			if (record.getId() > max)
 				max = record.getId();
 
@@ -57,8 +57,8 @@ public class CustomerRepository {
 
 	private int getIndexByID(int iD) {
 
-		for (int i = 0; i < costumers.size(); i++)
-			if (costumers.get(i).getId() == iD)
+		for (int i = 0; i < customers.size(); i++)
+			if (customers.get(i).getId() == iD)
 				return i;
 
 		return -1;
@@ -66,7 +66,7 @@ public class CustomerRepository {
 
 	public Customer getByID(int iD) {
 
-		for (Customer record : costumers)
+		for (Customer record : customers)
 			if (record.getId() == iD)
 				return record;
 
@@ -74,11 +74,11 @@ public class CustomerRepository {
 	}
 
 	public List<Customer> getAll() {
-		return costumers;
+		return customers;
 	}
 	
 	public int getCount() {
-		return costumers.size();
+		return customers.size();
 	}
 	
 	public List<Customer> getByName(String nameFilter) {
@@ -87,7 +87,7 @@ public class CustomerRepository {
 		
 		List<Customer> searchResult = new ArrayList<>();
 		
-		for (Customer c : costumers)
+		for (Customer c : customers)
 			if (c.getName().contains(nameFilter))
 				searchResult.add(c);
 		
@@ -96,7 +96,7 @@ public class CustomerRepository {
 	
 	public Customer getByEmail(String email) {
 
-		for (Customer c : costumers) {
+		for (Customer c : customers) {
 			if (c.getEmail().equalsIgnoreCase(email))
 				return c;
 		}

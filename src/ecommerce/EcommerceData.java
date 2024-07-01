@@ -19,8 +19,8 @@ public class EcommerceData {
 	@SerializedName("supplierRepository")
 	public SupplierRepository supplierRepository = new SupplierRepository();
 	
-	@SerializedName("costumerRepository")
-	public CustomerRepository costumerRepository = new CustomerRepository();
+	@SerializedName("customerRepository")
+	public CustomerRepository customerRepository = new CustomerRepository();
 	
 	public static ResultWithData<EcommerceData> loadAll() {
 		File f = new File(FILE_LOCATION);

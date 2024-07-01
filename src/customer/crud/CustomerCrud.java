@@ -19,21 +19,21 @@ import result.ResultWithData;
 public final class CustomerCrud {
 
 	public static Customer create(Scanner sc) {
-		Customer dummyCostumer = new Customer();
+		Customer dummyCustomer = new Customer();
 		
-		updateRecord("Novo cliente", dummyCostumer, sc);
+		updateRecord("Novo cliente", dummyCustomer, sc);
 
 		//TODO: Fazer com que a alteração seja salva em disco
-		Program.applicationData.costumerRepository.save(dummyCostumer);
+		Program.applicationData.customerRepository.save(dummyCustomer);
 
-		return dummyCostumer;
+		return dummyCustomer;
 	}
 
-	public static NextAction update(Scanner sc, Customer costumer) {
+	public static NextAction update(Scanner sc, Customer customer) {
 		
 		//Não preciso atualizar no repositório pois já estou alterando na referência.
 		//TODO: Fazer com que a alteração seja salva em disco
-		return updateRecord("Atualizar o meu cadastro", costumer, sc);
+		return updateRecord("Atualizar o meu cadastro", customer, sc);
 	}
 
 	private static NextAction updateRecord(String title, Customer record, Scanner sc) {
@@ -53,19 +53,19 @@ public final class CustomerCrud {
 		
 		//TODO: Avaliar como validar se o fornecedor pode ser excluído. Exemplo: o fornecedor tem produtos que estão em uso em algum pedido.
 		//TODO: Fazer com que a alteração seja salva em disco
-		Program.applicationData.costumerRepository.delete(c.getId());
+		Program.applicationData.customerRepository.delete(c.getId());
 
 		return NextAction.Exit();
 	}
 
-	private static List<IMenuOption> getDefaultFieldOptions(Customer costumer) {
+	private static List<IMenuOption> getDefaultFieldOptions(Customer customer) {
 		List<IMenuOption> options = new ArrayList<>();
 		
-		options.add(new StringCrudField("Nome", "Insira o nome:", costumer::setName));
-		options.add(new StringCrudField("Telefone", "Insira o telefone:", costumer::setPhone));
-		options.add(new StringCrudField("E-mail", "Insira o e-mail:", costumer::setEmail));
-		options.add(new StringCrudField("Cartão de crédito", "Insira o cartão de crédito:", costumer::setCreditCard));
-		options.add(new MethodMenuOption("Endereço", (sc) -> new AddressCrud().update(costumer.getAddress(), sc)));
+		options.add(new StringCrudField("Nome", "Insira o nome:", customer::setName));
+		options.add(new StringCrudField("Telefone", "Insira o telefone:", customer::setPhone));
+		options.add(new StringCrudField("E-mail", "Insira o e-mail:", customer::setEmail));
+		options.add(new StringCrudField("Cartão de crédito", "Insira o cartão de crédito:", customer::setCreditCard));
+		options.add(new MethodMenuOption("Endereço", (sc) -> new AddressCrud().update(customer.getAddress(), sc)));
 		
 		return options;
 	}

@@ -31,7 +31,7 @@ public class CustomerAreaLoginScreen extends Menu {
 	}
 	
 	private NextAction login(Scanner sc) {
-		ResultWithData<Customer> requestResult = requestCostumerByIDOrEmail(sc);
+		ResultWithData<Customer> requestResult = requestCustomerByIDOrEmail(sc);
 		if (requestResult.isFailure())
 			return NextAction.Continue(requestResult.getMessage());
 		
@@ -39,7 +39,7 @@ public class CustomerAreaLoginScreen extends Menu {
 		return new CustomerArea(requestResult.getData()).showBackOption().execute(sc);
 	}
 	
-	private ResultWithData<Customer> requestCostumerByIDOrEmail(Scanner sc) {
+	private ResultWithData<Customer> requestCustomerByIDOrEmail(Scanner sc) {
 		ResultWithData<String> requestResult = new StringCrudField("", "Insira o ID ou o e-mail do cliente:").requestData(sc);
 		if (requestResult.isFailure())
 			return ResultWithData.failure(requestResult.getMessage());
@@ -51,13 +51,13 @@ public class CustomerAreaLoginScreen extends Menu {
 			id = Integer.parseInt(requestResult.getData());
 		} catch (NumberFormatException ex) {
 			//O usuário não informou o ID.
-			if ((c = Program.applicationData.costumerRepository.getByEmail(requestResult.getData())) == null)
+			if ((c = Program.applicationData.customerRepository.getByEmail(requestResult.getData())) == null)
 				return ResultWithData.failure("Cliente não encontrado.");
 			
 			return ResultWithData.success(c);
 		}
 		
-		if ((c = Program.applicationData.costumerRepository.getByID(id)) == null)
+		if ((c = Program.applicationData.customerRepository.getByID(id)) == null)
 			return ResultWithData.failure("Cliente não encontrado.");
 		
 		return ResultWithData.success(c);
