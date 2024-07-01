@@ -24,6 +24,7 @@ public class SelectProductMenu extends Menu {
 		super("Selecionar produto");
 		addDefaultOptions();
 		localRepository = new ProductRepository(Program.applicationData.supplierRepository.getAllProducts());
+		localRepository.setData(localRepository.getAllWithStock());
 		super.setDetailsToShow(ProductCrud.getDefaultConsoleTable().setData(dataShown = localRepository.getAll()));
 	}
 	

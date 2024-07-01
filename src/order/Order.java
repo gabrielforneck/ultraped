@@ -135,7 +135,7 @@ public class Order {
 			total += p.getTotalValue();
 		}
 		
-		return total;
+		return total * 1.17; //ICMS
 	}
 	
 	public static ConsoleTable<Order> getDefaultConsoleTable() {

@@ -120,5 +120,9 @@ public class ProductRepository {
 		
 		return productsWithStock;
 	}
+	
+	public void setData(List<Product> products) {
+		this.products = products;
+	}
 
 }
